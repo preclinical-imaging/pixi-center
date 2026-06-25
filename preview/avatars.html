@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Avatars" subtitle="Initial avatars — sizes, color cycle, stacks" viewport="700x260" -->
+<html><head><meta charset="utf-8"><title>Avatars</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 16px; }
+  .lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 8px; }
+  .row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap;}
+  .av {
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-sans); font-weight: 600;
+    color: #fff; flex-shrink: 0;
+  }
+  .av-xs { width: 20px; height: 20px; font-size: 9px;}
+  .av-sm { width: 28px; height: 28px; font-size: 11px;}
+  .av-md { width: 36px; height: 36px; font-size: 13px;}
+  .av-lg { width: 48px; height: 48px; font-size: 16px;}
+  .stack { display: flex; }
+  .stack .av { border: 2px solid #fff; }
+  .stack .av + .av { margin-left: -8px; }
+  .label { font-size: 13px; color: var(--fg-2); }
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="lbl">Sizes — initials, navy default</div>
+    <div class="row">
+      <div class="av av-xs" style="background:#1E3C87">EH</div>
+      <div class="av av-sm" style="background:#1E3C87">EH</div>
+      <div class="av av-md" style="background:#1E3C87">EH</div>
+      <div class="av av-lg" style="background:#1E3C87">EH</div>
+      <div class="label">E. Hoshino</div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Color rotation — derived per user from a 4-color cycle</div>
+    <div class="row">
+      <div class="av av-md" style="background:#1E3C87">EH</div>
+      <div class="av av-md" style="background:#3D3F44">JP</div>
+      <div class="av av-md" style="background:#2F8E3B">RA</div>
+      <div class="av av-md" style="background:#8C6A00">MK</div>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Stack — collaborators on a study</div>
+    <div class="row">
+      <div class="stack">
+        <div class="av av-sm" style="background:#1E3C87">EH</div>
+        <div class="av av-sm" style="background:#3D3F44">JP</div>
+        <div class="av av-sm" style="background:#2F8E3B">RA</div>
+        <div class="av av-sm" style="background:#9DA1AA;color:#fff">+4</div>
+      </div>
+      <div class="label">7 collaborators</div>
+    </div>
+  </div>
+</div></body></html>

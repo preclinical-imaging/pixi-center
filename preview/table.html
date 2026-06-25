@@ -1,0 +1,39 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Data table" subtitle="Subjects table — IDs, status, tabular numerals" viewport="700x280" -->
+<html><head><meta charset="utf-8"><title>Data table</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { padding: 16px; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 13px; }
+  thead th {
+    text-align: left; padding: 8px 12px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-3); background: var(--pixi-paper); border-bottom: 1px solid var(--border-subtle);
+  }
+  tbody td {
+    padding: 10px 12px; border-bottom: 1px solid var(--border-subtle);
+    color: var(--fg-1); vertical-align: middle;
+  }
+  tbody tr:hover { background: var(--pixi-paper); }
+  .id { font-family: var(--font-mono); color: var(--fg-2); }
+  .num { font-variant-numeric: tabular-nums; text-align: right; font-family: var(--font-display); font-weight: 500; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;}
+  .dot { width: 6px; height: 6px; border-radius: 50%;}
+  .p-ok { background: #E6F4E8; color: #2F8E3B;}
+  .p-wait { background: #FFF6D6; color: #8C6A00;}
+  .p-rev { background: #E8EDF7; color: #1E3C87;}
+</style></head>
+<body><div class="card">
+<table>
+  <thead><tr>
+    <th>Subject</th><th>Cohort</th><th>Status</th><th style="text-align:right">Mass (g)</th><th style="text-align:right">Day</th>
+  </tr></thead>
+  <tbody>
+    <tr><td class="id">M-014</td><td>03 — vehicle</td><td><span class="pill p-ok"><span class="dot" style="background:#3CB44B"></span>Scanned</span></td><td class="num">22.4</td><td class="num">14</td></tr>
+    <tr><td class="id">M-015</td><td>03 — vehicle</td><td><span class="pill p-ok"><span class="dot" style="background:#3CB44B"></span>Scanned</span></td><td class="num">23.1</td><td class="num">14</td></tr>
+    <tr><td class="id">M-016</td><td>03 — vehicle</td><td><span class="pill p-wait"><span class="dot" style="background:#FFC30F"></span>Queued</span></td><td class="num">21.8</td><td class="num">14</td></tr>
+    <tr><td class="id">M-017</td><td>04 — 5 mg/kg</td><td><span class="pill p-rev"><span class="dot" style="background:#1E3C87"></span>Reviewing</span></td><td class="num">22.0</td><td class="num">14</td></tr>
+    <tr><td class="id">M-018</td><td>04 — 5 mg/kg</td><td><span class="pill p-ok"><span class="dot" style="background:#3CB44B"></span>Scanned</span></td><td class="num">22.7</td><td class="num">14</td></tr>
+  </tbody>
+</table>
+</div></body></html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- @dsCard group="Type" name="Mono &amp; numerals" subtitle="JetBrains Mono — IDs, readouts, file tags" viewport="700x280" -->
+<html><head><meta charset="utf-8"><title>Mono &amp; numerals</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; align-items: baseline; gap: 24px; }
+  .meta { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;}
+  .meta .nm { font-size: 12px; font-weight: 600; color: var(--fg-1); }
+  .meta .sub { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); }
+  .specimen { font-family: var(--font-mono); }
+  .id-large { font-size: 22px; font-weight: 500; color: var(--fg-1); letter-spacing: -0.01em; }
+  .id-small { font-size: 13px; color: var(--fg-2); }
+  .reading { font-family: var(--font-display); font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; font-size: 32px; font-weight: 600; letter-spacing: -0.01em;}
+  .pill-id { display: inline-flex; align-items: center; padding: 4px 8px; background: var(--pixi-cloud); border: 1px solid var(--border-subtle); border-radius: 4px; font-family: var(--font-mono); font-size: 12px;}
+</style></head>
+<body><div class="card">
+  <div class="row"><div class="meta"><div class="nm">Study ID</div><div class="sub">JetBrains Mono</div></div><div class="specimen id-large">PXI-2412-A</div></div>
+  <div class="row"><div class="meta"><div class="nm">Subject ID</div><div class="sub">13 / 400</div></div><div class="specimen id-small">M-018 · cohort 03 · ear-tag 4291</div></div>
+  <div class="row"><div class="meta"><div class="nm">Numeric reading</div><div class="sub">tabular-nums</div></div><div class="reading">12,478.06 <span style="font-size:18px;color:var(--fg-3);font-weight:500">MBq</span></div></div>
+  <div class="row"><div class="meta"><div class="nm">Inline tag</div><div class="sub">in body copy</div></div><div><span class="pill-id">DICOM_2026-04-12.zip</span></div></div>
+</div></body></html>

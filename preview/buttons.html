@@ -1,0 +1,55 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Buttons" subtitle="Primary, secondary, ghost, danger — 3 sizes" viewport="700x280" -->
+<html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0 14px; height: 36px;
+    font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+    border-radius: 6px; border: 1px solid transparent;
+    cursor: pointer; transition: background 120ms, color 120ms, border-color 120ms;
+  }
+  .btn-primary { background: #1E3C87; color: #fff; }
+  .btn-primary:hover { background: #15296A; }
+  .btn-secondary { background: #fff; color: #1A1B1E; border-color: #C9CCD2; }
+  .btn-secondary:hover { background: #F1F2F4; }
+  .btn-ghost { background: transparent; color: #1A1B1E; }
+  .btn-ghost:hover { background: #F1F2F4; }
+  .btn-danger { background: #fff; color: #C8362B; border-color: #F0BBB6;}
+  .btn-danger:hover { background: #FCEBE9; }
+  .btn-disabled { background: #1E3C87; color: #fff; opacity: .45; cursor: not-allowed; }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 13px; }
+  .btn-lg { height: 44px; padding: 0 18px; font-size: 15px; }
+  .lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 4px;}
+  svg { width: 14px; height: 14px; }
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="lbl">Variants — default state</div>
+    <div class="row">
+      <button class="btn btn-primary">Create study</button>
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-ghost">Skip</button>
+      <button class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Sizes</div>
+    <div class="row">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+      <button class="btn btn-primary" disabled style="opacity:.45;cursor:not-allowed">Disabled</button>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">With icon</div>
+    <div class="row">
+      <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>New cohort</button>
+      <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</button>
+    </div>
+  </div>
+</div></body></html>

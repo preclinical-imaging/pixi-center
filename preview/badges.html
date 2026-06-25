@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Badges &amp; status" subtitle="Status pills, outline counts, mono ID tags" viewport="700x240" -->
+<html><head><meta charset="utf-8"><title>Badges &amp; status</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px;}
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 22px; padding: 0 10px;
+    font-size: 12px; font-weight: 600;
+    border-radius: 999px; border: 1px solid transparent;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .b-info { background: #E8EDF7; color: #1E3C87; }
+  .b-success { background: #E6F4E8; color: #2F8E3B; }
+  .b-warn { background: #FFF6D6; color: #8C6A00; }
+  .b-danger { background: #FCEBE9; color: #C8362B; }
+  .b-neutral { background: #F1F2F4; color: #3D3F44; }
+  .b-outline { background: #fff; border-color: var(--border-default); color: var(--fg-2);}
+  .tag {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 8px;
+    background: #fff; border: 1px solid var(--border-default);
+    border-radius: 4px; font-size: 12px; color: var(--fg-2);
+    font-family: var(--font-mono);
+  }
+</style></head>
+<body><div class="card">
+  <div>
+    <div class="lbl">Status pills</div>
+    <div class="row">
+      <span class="badge b-info"><span class="dot" style="background:#1E3C87"></span>Reviewing</span>
+      <span class="badge b-success"><span class="dot" style="background:#3CB44B"></span>Complete</span>
+      <span class="badge b-warn"><span class="dot" style="background:#FFC30F"></span>In progress</span>
+      <span class="badge b-danger"><span class="dot" style="background:#C8362B"></span>Failed QC</span>
+      <span class="badge b-neutral"><span class="dot" style="background:#9DA1AA"></span>Draft</span>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">Outline / count</div>
+    <div class="row">
+      <span class="badge b-outline">12 subjects</span>
+      <span class="badge b-outline">n = 24</span>
+      <span class="badge b-outline">v 2.4</span>
+      <span class="badge b-info">PET / CT</span>
+      <span class="badge b-success">GLP</span>
+    </div>
+  </div>
+  <div>
+    <div class="lbl">ID tags (mono)</div>
+    <div class="row">
+      <span class="tag">PXI-2412-A</span>
+      <span class="tag">cohort-03</span>
+      <span class="tag">M-018</span>
+      <span class="tag">DICOM_2026-04-12.zip</span>
+    </div>
+  </div>
+</div></body></html>

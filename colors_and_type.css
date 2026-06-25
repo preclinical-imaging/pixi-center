@@ -1,0 +1,258 @@
+/* ============================================================
+   PIXI Center Design System — Colors & Type
+   ------------------------------------------------------------
+   Modern, scientific, minimal. Black/white/gray foundation
+   with logo-derived navy / green / yellow accents.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---------- Neutrals (foundation) ---------- */
+  --pixi-black:        #0A0A0B;
+  --pixi-ink:          #1A1B1E;   /* primary text */
+  --pixi-graphite:     #3D3F44;   /* secondary text */
+  --pixi-slate:        #6B6E76;   /* tertiary / labels */
+  --pixi-steel:        #9DA1AA;   /* disabled / hint */
+  --pixi-mist:         #C9CCD2;   /* dividers, subtle borders */
+  --pixi-fog:          #E4E6EA;   /* hairlines, default border */
+  --pixi-cloud:        #F1F2F4;   /* surface tint */
+  --pixi-paper:        #F7F8F9;   /* page background tint */
+  --pixi-white:        #FFFFFF;
+
+  /* ---------- Brand accents (from logo) ---------- */
+  --pixi-navy:         #1E3C87;   /* primary brand */
+  --pixi-navy-deep:    #15296A;   /* hover/pressed */
+  --pixi-navy-soft:    #E8EDF7;   /* tint surface */
+  --pixi-navy-line:    #B8C4E0;
+
+  --pixi-green:        #3CB44B;   /* accent / positive */
+  --pixi-green-deep:   #2F8E3B;
+  --pixi-green-soft:   #E6F4E8;
+
+  --pixi-yellow:       #FFC30F;   /* accent / highlight */
+  --pixi-yellow-deep:  #D9A300;
+  --pixi-yellow-soft:  #FFF6D6;
+
+  /* ---------- Semantic foreground ---------- */
+  --fg-1: var(--pixi-ink);        /* primary text */
+  --fg-2: var(--pixi-graphite);   /* secondary text */
+  --fg-3: var(--pixi-slate);      /* tertiary / muted */
+  --fg-4: var(--pixi-steel);      /* disabled */
+  --fg-inverse: var(--pixi-white);
+  --fg-link: var(--pixi-navy);
+
+  /* ---------- Semantic background ---------- */
+  --bg-page:    var(--pixi-white);
+  --bg-surface: var(--pixi-white);
+  --bg-sunken:  var(--pixi-paper);
+  --bg-tint:    var(--pixi-cloud);
+  --bg-inverse: var(--pixi-ink);
+
+  /* ---------- Borders ---------- */
+  --border-subtle: var(--pixi-fog);
+  --border-default: var(--pixi-mist);
+  --border-strong: var(--pixi-slate);
+  --border-focus:  var(--pixi-navy);
+
+  /* ---------- Status (semantic) ---------- */
+  --success:     var(--pixi-green);
+  --success-bg:  var(--pixi-green-soft);
+  --warning:     var(--pixi-yellow-deep);
+  --warning-bg:  var(--pixi-yellow-soft);
+  --info:        var(--pixi-navy);
+  --info-bg:     var(--pixi-navy-soft);
+  --danger:      #C8362B;
+  --danger-bg:   #FCEBE9;
+
+  /* ---------- Type families ---------- */
+  --font-display: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- Type scale (modular, scientific) ---------- */
+  --fs-12: 0.75rem;     /* labels, micro */
+  --fs-13: 0.8125rem;   /* meta, captions */
+  --fs-14: 0.875rem;    /* secondary body */
+  --fs-15: 0.9375rem;
+  --fs-16: 1rem;        /* body */
+  --fs-18: 1.125rem;    /* lead */
+  --fs-20: 1.25rem;     /* h5 */
+  --fs-24: 1.5rem;      /* h4 */
+  --fs-30: 1.875rem;    /* h3 */
+  --fs-38: 2.375rem;    /* h2 */
+  --fs-48: 3rem;        /* h1 */
+  --fs-64: 4rem;        /* display */
+
+  /* ---------- Line heights ---------- */
+  --lh-tight:  1.1;
+  --lh-snug:   1.25;
+  --lh-normal: 1.5;
+  --lh-loose:  1.65;
+
+  /* ---------- Letter spacing ---------- */
+  --tr-tight:  -0.02em;
+  --tr-snug:   -0.01em;
+  --tr-normal: 0;
+  --tr-wide:   0.04em;
+  --tr-eyebrow: 0.12em;  /* uppercase labels */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ---------- Radii ---------- */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-2xl: 24px;
+  --r-pill: 999px;
+
+  /* ---------- Shadow / elevation ---------- */
+  --shadow-xs: 0 1px 0 rgba(16, 24, 40, 0.04);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 2px 4px rgba(16, 24, 40, 0.05), 0 4px 12px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 8px 16px rgba(16, 24, 40, 0.06), 0 16px 40px rgba(16, 24, 40, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(30, 60, 135, 0.20);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:   120ms;
+  --dur-base:   180ms;
+  --dur-slow:   320ms;
+}
+
+/* ============================================================
+   Semantic type roles
+   ============================================================ */
+
+.pixi-display,
+.pixi-h1,
+.pixi-h2,
+.pixi-h3,
+.pixi-h4,
+.pixi-h5,
+.pixi-eyebrow {
+  font-family: var(--font-display);
+  color: var(--fg-1);
+  margin: 0;
+}
+
+.pixi-display {
+  font-size: var(--fs-64);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  font-weight: 600;
+}
+
+.pixi-h1 {
+  font-size: var(--fs-48);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  font-weight: 600;
+}
+
+.pixi-h2 {
+  font-size: var(--fs-38);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-snug);
+  font-weight: 600;
+}
+
+.pixi-h3 {
+  font-size: var(--fs-30);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-snug);
+  font-weight: 600;
+}
+
+.pixi-h4 {
+  font-size: var(--fs-24);
+  line-height: var(--lh-snug);
+  font-weight: 600;
+}
+
+.pixi-h5 {
+  font-size: var(--fs-20);
+  line-height: var(--lh-snug);
+  font-weight: 600;
+}
+
+.pixi-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.pixi-lead {
+  font-family: var(--font-sans);
+  font-size: var(--fs-18);
+  line-height: var(--lh-loose);
+  color: var(--fg-2);
+}
+
+.pixi-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  line-height: var(--lh-normal);
+  color: var(--fg-1);
+}
+
+.pixi-body-sm {
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+.pixi-caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-13);
+  line-height: var(--lh-normal);
+  color: var(--fg-3);
+}
+
+.pixi-mono,
+.pixi-code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  font-feature-settings: "liga" 0;
+}
+
+.pixi-code {
+  background: var(--pixi-cloud);
+  padding: 1px 6px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--border-subtle);
+  color: var(--pixi-ink);
+}
+
+/* ============================================================
+   Base reset for prototypes using this system
+   ============================================================ */
+
+.pixi-root {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  font-size: var(--fs-16);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

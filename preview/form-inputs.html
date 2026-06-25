@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- @dsCard group="Components" name="Form inputs" subtitle="Text, select — default, focused, error" viewport="700x320" -->
+<html><head><meta charset="utf-8"><title>Form inputs</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .label { font-size: 12px; font-weight: 600; color: var(--fg-2); }
+  .input {
+    height: 36px; padding: 0 12px; border-radius: 6px;
+    border: 1px solid var(--border-default); background: #fff;
+    font-family: var(--font-sans); font-size: 14px; color: var(--fg-1);
+    outline: none;
+  }
+  .input::placeholder { color: var(--fg-4); }
+  .input.focused { border-color: #1E3C87; box-shadow: 0 0 0 3px rgba(30,60,135,.20); }
+  .input.error { border-color: #C8362B; }
+  .help { font-size: 12px; color: var(--fg-3); }
+  .help.error { color: #C8362B; }
+  .select {
+    height: 36px; padding: 0 32px 0 12px; border-radius: 6px;
+    border: 1px solid var(--border-default); background: #fff
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6E76' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 10px center;
+    font-size: 14px; appearance: none; -webkit-appearance: none;
+  }
+</style></head>
+<body><div class="card">
+  <div class="grid">
+    <div class="field">
+      <label class="label">Study name</label>
+      <input class="input" value="GLP-1 biodistribution Q2" />
+      <div class="help">Default · filled</div>
+    </div>
+    <div class="field">
+      <label class="label">Investigator</label>
+      <input class="input focused" value="E. Hoshino" />
+      <div class="help">Focused · 3 px navy ring</div>
+    </div>
+    <div class="field">
+      <label class="label">Subjects per cohort</label>
+      <input class="input" placeholder="e.g. 8" />
+      <div class="help">Empty · placeholder</div>
+    </div>
+    <div class="field">
+      <label class="label">Dose (mg/kg)</label>
+      <input class="input error" value="-3.0" />
+      <div class="help error">Dose must be a positive number.</div>
+    </div>
+    <div class="field">
+      <label class="label">Species</label>
+      <select class="select"><option>Mus musculus</option></select>
+    </div>
+    <div class="field">
+      <label class="label">Imaging modality</label>
+      <select class="select"><option>PET / CT</option></select>
+    </div>
+  </div>
+</div></body></html>

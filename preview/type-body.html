@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- @dsCard group="Type" name="Body type" subtitle="Inter — lead, body, caption, eyebrow" viewport="700x320" -->
+<html><head><meta charset="utf-8"><title>Body type</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .card { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; align-items: baseline; gap: 24px; }
+  .meta { width: 130px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px;}
+  .meta .nm { font-size: 12px; font-weight: 600; color: var(--fg-1); }
+  .meta .sub { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); }
+  .specimen { font-family: var(--font-sans); color: var(--fg-1); }
+  .lead { font-size: 18px; line-height: 1.55; color: var(--fg-2); max-width: 420px;}
+  .body { font-size: 16px; line-height: 1.5; max-width: 420px;}
+  .body-sm { font-size: 14px; line-height: 1.5; color: var(--fg-2); max-width: 420px;}
+  .cap { font-size: 13px; color: var(--fg-3); }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); }
+</style></head>
+<body><div class="card">
+  <div class="row"><div class="meta"><div class="nm">Lead</div><div class="sub">18 / 400 / Inter</div></div><div class="specimen lead">12 subjects assigned. 3 awaiting baseline scan.</div></div>
+  <div class="row"><div class="meta"><div class="nm">Body</div><div class="sub">16 / 400</div></div><div class="specimen body">Reconstruction queued — typical wait is 4–6 minutes.</div></div>
+  <div class="row"><div class="meta"><div class="nm">Body sm</div><div class="sub">14 / 400</div></div><div class="specimen body-sm">Reviewer required before this cohort can be locked.</div></div>
+  <div class="row"><div class="meta"><div class="nm">Caption</div><div class="sub">13 / 400</div></div><div class="specimen cap">Last edited Apr 12, 2026 by E. Hoshino</div></div>
+  <div class="row"><div class="meta"><div class="nm">Eyebrow</div><div class="sub">12 / 600 / +0.12em</div></div><div class="specimen eyebrow">Study · PXI-2412-A</div></div>
+</div></body></html>

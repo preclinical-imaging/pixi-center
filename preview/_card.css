@@ -1,0 +1,29 @@
+/* Shared base for all preview cards. Each card is ~700×<varies> px. */
+@import url('../colors_and_type.css');
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--pixi-white);
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.card {
+  width: 700px;
+  padding: 24px;
+  background: var(--pixi-white);
+}
+.row { display: flex; gap: 12px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.label-xs {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-family: var(--font-sans);
+}
+.mono { font-family: var(--font-mono); }

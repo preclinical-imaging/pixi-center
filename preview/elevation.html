@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- @dsCard group="Spacing" name="Elevation &amp; shadow" subtitle="Hairline default; soft shadows for floating UI" viewport="700x200" -->
+<html><head><meta charset="utf-8"><title>Elevation</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: var(--pixi-paper); }
+  .card { background: var(--pixi-paper); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .item { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 6px; padding-bottom: 6px; }
+  .box {
+    width: 120px; height: 80px;
+    background: var(--pixi-white);
+    border-radius: 8px;
+  }
+  .nm { font-size: 12px; font-weight: 600; }
+  .px { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); text-align: center;}
+</style></head>
+<body><div class="card">
+  <div class="grid">
+    <div class="item"><div class="box" style="box-shadow: 0 1px 0 rgba(16,24,40,.04); border:1px solid var(--border-subtle)"></div><div class="nm">shadow-xs</div><div class="px">hairline · cards</div></div>
+    <div class="item"><div class="box" style="box-shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.05); border:1px solid var(--border-subtle)"></div><div class="nm">shadow-sm</div><div class="px">menus · toasts</div></div>
+    <div class="item"><div class="box" style="box-shadow: 0 2px 4px rgba(16,24,40,.05), 0 4px 12px rgba(16,24,40,.06)"></div><div class="nm">shadow-md</div><div class="px">popovers</div></div>
+    <div class="item"><div class="box" style="box-shadow: 0 8px 16px rgba(16,24,40,.06), 0 16px 40px rgba(16,24,40,.08)"></div><div class="nm">shadow-lg</div><div class="px">modals</div></div>
+  </div>
+</div></body></html>
