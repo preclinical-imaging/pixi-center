@@ -60,14 +60,14 @@ const Sidebar = ({ active, onNavigate }) => {
           <SidebarItem icon="home" label="Home" active={active === "home"} onClick={() => onNavigate("home")} />
           <SidebarItem icon="library" label="Datasets" active={active === "studies"} count={12} onClick={() => onNavigate("studies")} />
           <SidebarItem icon="layers" label="Cohort Browser" active={active === "cohorts"} onClick={() => onNavigate("cohorts")} />
-          <SidebarItem icon="activity" label="Analysis" active={active === "analysis"} onClick={() => onNavigate("analysis")} />
+//           <SidebarItem icon="activity" label="Analysis" active={active === "analysis"} onClick={() => onNavigate("analysis")} />
         </SidebarSection>
 
-        <SidebarSection title="Workspaces">
-          <SidebarItem icon="flask" label="Oncology — preclinical" active={active === "ws-onco"} onClick={() => onNavigate("ws-onco")} />
-          <SidebarItem icon="flask" label="Cardio — biodistribution" onClick={() => onNavigate("ws-cardio")} />
-          <SidebarItem icon="flask" label="Shared with me" count={4} onClick={() => onNavigate("ws-shared")} />
-        </SidebarSection>
+{/*         <SidebarSection title="Workspaces"> */}
+{/*           <SidebarItem icon="flask" label="Oncology — preclinical" active={active === "ws-onco"} onClick={() => onNavigate("ws-onco")} /> */}
+{/*           <SidebarItem icon="flask" label="Cardio — biodistribution" onClick={() => onNavigate("ws-cardio")} /> */}
+{/*           <SidebarItem icon="flask" label="Shared with me" count={4} onClick={() => onNavigate("ws-shared")} /> */}
+{/*         </SidebarSection> */}
 
 
       </div>
@@ -76,10 +76,10 @@ const Sidebar = ({ active, onNavigate }) => {
         padding: 12, borderTop: "1px solid var(--border-subtle)",
         display: "flex", alignItems: "center", gap: 10,
       }}>
-        <Avatar initials="EH" size={32} />
+        <Avatar initials="WH" size={32} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--fg-1)" }}>Eri Hoshino</div>
-          <div style={{ fontSize: 11, color: "var(--fg-3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Stanford · Imaging Core</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--fg-1)" }}>Will Horton</div>
+          <div style={{ fontSize: 11, color: "var(--fg-3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>XNAT Works · Research</div>
         </div>
         <button style={{
           background: "transparent", border: "none", padding: 4, cursor: "pointer",

@@ -14,7 +14,13 @@ const App = () => {
     setOpenSubject(null);
   };
 
-  const onOpenStudy = (s) => { setOpenStudy(s); setNav("studies"); setOpenSubject(null); };
+  const onOpenStudy = (s) => {
+      if (s.url) {
+        window.open(s.url);
+      } else {
+        setOpenStudy(s); setNav("studies"); setOpenSubject(null);
+      }
+  };
 
   // Build crumbs
   let crumbs = [{ label: "Oncology — preclinical" }];

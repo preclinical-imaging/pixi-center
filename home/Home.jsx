@@ -87,7 +87,7 @@ const Hero = ({ t }) => (
         share methods and reproduce results across institutions.
       </p>
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-        <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
+        <Button variant="primary" size="lg" icon="arrowRight" onclick="window.open('/ui_kits/web_app/index.html')">Browse datasets</Button>
         <Button variant="ghost" size="lg">Learn more</Button>
       </div>
       <div style={{
