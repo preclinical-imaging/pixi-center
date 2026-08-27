@@ -120,10 +120,10 @@ const Hero = ({ t }) => (
 // Hero visual: horizontal bar chart of the most common areas of disease
 // study across the dataset library. Driven by the Tweaks panel.
 const DISEASE_AREAS = [
-  { area: "Glioblastoma", count: 58 },
+  { area: "Neuro / Glioblastoma", count: 58 },
   { area: "Triple-negative breast cancer", count: 47 },
-  { area: "Pancreatic adenocarcinoma", count: 39 },
-  { area: "Hepatocellular carcinoma", count: 33 },
+  { area: "Diabetes", count: 39 },
+  { area: "Obesity", count: 33 },
   { area: "Prostate adenocarcinoma", count: 28 },
   { area: "Melanoma", count: 24 },
   { area: "Lymphoma", count: 19 },
