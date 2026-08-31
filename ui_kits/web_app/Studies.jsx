@@ -131,7 +131,7 @@ const FilterChip = ({ children, active, onClick }) => (
   }}>{children}</button>
 );
 
-const Studies = ({ onOpenStudy }) => {
+const Studies = ({ onOpenStudy, onSubmitDataset }) => {
   const [filter, setFilter] = React.useState("All");
   const [view, setView] = React.useState("grid");
 
@@ -152,7 +152,7 @@ const Studies = ({ onOpenStudy }) => {
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <Button variant="secondary" icon="download">Export</Button>
-          <Button variant="primary" icon="plus">Submit dataset</Button>
+          <Button variant="primary" icon="plus" onClick={onSubmitDataset}>Submit dataset</Button>
         </div>
       </div>
 

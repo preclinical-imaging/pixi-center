@@ -1,3 +1,4 @@
 .git/
 **/._*
 **/__MACOSX
+ui_kits/web_app/submissions.db

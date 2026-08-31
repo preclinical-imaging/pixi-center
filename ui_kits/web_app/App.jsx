@@ -29,12 +29,14 @@ const App = () => {
   if (nav === "imaging") crumbs = [{ label: "Imaging" }, { label: "Workbench" }];
   if (nav === "cohorts") crumbs = [{ label: "Cohort Browser" }];
   if (nav === "home") crumbs = [{ label: "Home" }];
+  if (nav === "submit") crumbs = [{ label: "Studies", to: "studies" }, { label: "Submit dataset" }];
 
   let view;
   if (nav === "imaging") view = <Workbench />;
   else if (nav === "cohorts") view = <CohortBrowser />;
+  else if (nav === "submit") view = <SubmitDataset />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} onBack={() => setOpenStudy(null)} />;
-  else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
+  else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} onSubmitDataset={() => onNavigate("submit")} />;
   else view = <HomeView onOpenStudy={onOpenStudy} />;
 
   return (
@@ -47,8 +49,8 @@ const App = () => {
         <Topbar
           crumbs={crumbs}
           showCrumbs={t.showCrumbs}
-          onNavigate={(c) => c.to && setOpenStudy(null)}
-          onNewStudy={() => alert("Submit dataset (mock)")}
+          onNavigate={(c) => { if (c.to) { setOpenStudy(null); setNav(c.to); } }}
+          onNewStudy={() => onNavigate("submit")}
         />
         <main style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
           {view}
