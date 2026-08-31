@@ -60,7 +60,6 @@ const Sidebar = ({ active, onNavigate }) => {
           <SidebarItem icon="home" label="Home" active={active === "home"} onClick={() => onNavigate("home")} />
           <SidebarItem icon="library" label="Datasets" active={active === "studies"} count={12} onClick={() => onNavigate("studies")} />
           <SidebarItem icon="layers" label="Cohort Browser" active={active === "cohorts"} onClick={() => onNavigate("cohorts")} />
-//           <SidebarItem icon="activity" label="Analysis" active={active === "analysis"} onClick={() => onNavigate("analysis")} />
         </SidebarSection>
 
 {/*         <SidebarSection title="Workspaces"> */}

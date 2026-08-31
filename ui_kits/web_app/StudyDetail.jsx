@@ -50,18 +50,14 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
             }}>{study.title}</h1>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10, color: "var(--fg-3)", fontSize: 13 }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <AvatarStack people={study.team} size={20} /> {study.team.length} collaborators
+                {study.institution}
               </span>
               <span>·</span>
               <span>Created Apr 02, 2026</span>
-              <span>·</span>
-              <span>updated {study.updated}</span>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <Button variant="secondary" icon="users">Share</Button>
-            <Button variant="secondary" icon="download">Export</Button>
-            <Button variant="primary" icon="play">Run analysis</Button>
+            <Button variant="primary" icon="folder" onclick="window.open(study.url)">View in XNAT</Button>
           </div>
         </div>
 
@@ -99,9 +95,6 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
           <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={SUBJECTS.length}>Subjects</Tab>
           <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={96}>Imaging</Tab>
-          <Tab active={tab === "files"} onClick={() => setTab("files")} count={42}>Files</Tab>
-          <Tab active={tab === "activity"} onClick={() => setTab("activity")}>Activity</Tab>
-          <Tab active={tab === "settings"} onClick={() => setTab("settings")}>Settings</Tab>
         </div>
       </div>
 
@@ -124,23 +117,63 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
   );
 };
 
+const OverviewCard = ({ eyebrow, children }) => (
+  <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
+    <Eyebrow>{eyebrow}</Eyebrow>
+    {children}
+  </div>
+);
+
 const Overview = ({ study }) => (
   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
-    <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
-      <Eyebrow>Protocol summary</Eyebrow>
-      <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
-        Three cohorts (vehicle, 5 mg/kg, 15 mg/kg) of female and male C57BL/6 mice (n = 8 per cohort)
-        receive single IV dose of compound. PET/CT imaging at baseline, day 7, and day 14.
-        Endpoint: biodistribution analysis at day 28.
-      </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
-        <KV label="Species" value="Mus musculus" />
-        <KV label="Strain" value="C57BL/6J" />
-        <KV label="Modality" value="PET / CT" />
-        <KV label="Tracer" value="89Zr-DFO-mAb" mono />
-        <KV label="Compound" value="GLP-1 RA #04" mono />
-        <KV label="Reviewer" value="J. Park" />
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <OverviewCard eyebrow="Protocol summary">
+        <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
+          Three cohorts (vehicle, 5 mg/kg, 15 mg/kg) of female and male C57BL/6 mice (n = 8 per cohort)
+          receive single IV dose of compound. PET/CT imaging at baseline, day 7, and day 14.
+          Endpoint: biodistribution analysis at day 28.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
+          <KV label="Species" value="Mus musculus" />
+          <KV label="Disease" value={study.area || ""} />
+          <KV label="Location" value={study.location || ""} />
+          <KV label="Modalities" value={study.modalities.map(m => ({m}))} mono />
+          <KV label="Tracer" value="" mono />
+          <KV label="Total Data" value={study.size || ""} mono />
+        </div>
+      </OverviewCard>
+
+      <OverviewCard eyebrow="Abstract">
+        <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)" }}>
+          {study.abstract || (
+            "Patient-derived tumor xenograft (PDX) models are widely used to study tumor heterogeneity " +
+            "and treatment response in triple-negative breast cancer. This collection provides longitudinal " +
+            "MR imaging of PDX-bearing mice alongside a deep-learning segmentation pipeline, and evaluates the " +
+            "sensitivity of derived radiomic features to the probability threshold used to define the tumor boundary."
+          )}
+        </p>
+      </OverviewCard>
+
+      <OverviewCard eyebrow="Data Citation">
+        <p style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.6, color: "var(--fg-2)", fontStyle: "italic" }}>
+          {study.dataCitation || `${study.lead || "Author, A."} (2021) ${study.title} [Data set]. PIXI Center. `}
+          {!study.dataCitation && (
+            <span style={{ fontFamily: "var(--font-mono)", fontStyle: "normal" }}>{study.doi || "10.7937/pixi.2021.example"}</span>
+          )}
+        </p>
+        <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)" }}>
+          <KV
+            label="DOI"
+            mono
+            value={
+              <a href={`https://doi.org/${study.doi || "10.7937/pixi.2021.example"}`} target="_blank" rel="noreferrer"
+                 style={{ color: "var(--pixi-navy)", textDecoration: "none" }}>
+                {study.doi || "10.7937/pixi.2021.example"}
+              </a>
+            }
+          />
+        </div>
+      </OverviewCard>
     </div>
     <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
       <Eyebrow>Recent activity</Eyebrow>

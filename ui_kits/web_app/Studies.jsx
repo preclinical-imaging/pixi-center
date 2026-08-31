@@ -4,18 +4,22 @@ const STUDIES = [
   {
       id: "Cancers2021",
       title: "Deep Learning Segmentation of Triple-Negative Breast Cancer (TNBC) Patient Derived Tumor Xenograft (PDX) and Sensitivity of Radiomic Pipeline to Tumor Probability Boundary",
-      area: "Lung Cancer",
+      area: "Breast Cancer",
+      location: "Mammary Glands"
       status: "success",
       statusLabel: "Public",
       subjects: 40,
       scans: 80,
       modalities: ["MR"],
-      day: "D 14 / 28",
+      size: "497 MB",
       lead: "KS",
       institution: "WashU",
       team: ["EH","JP","RA","MK","TC"],
       updated: "2 h ago",
-      url: "/xnat/data/projects/Cancers2021"
+      url: "/xnat/data/projects/Cancers2021",
+      abstract: "Preclinical imaging is critical in the development of translational strategies to detect diseases and monitor response to therapy. The National Cancer Institute Co-Clinical Imaging Resource Program was launched, in part, to develop best practices in preclinical imaging. In this context, the objective of this work was to develop a 1-hour, multiparametric magnetic resonance image-acquisition pipeline with triple-negative breast cancer patient-derived xenografts (PDXs). The 1-hour, image-acquisition pipeline includes T1- and T2-weighted scans, quantitative T1, T2, and apparent diffusion coefficient (ADC) parameter maps, and dynamic contrast-enhanced (DCE) time-course images. Quality-control measures used phantoms. The triple-negative breast cancer PDXs used for this study averaged 174 ± 73 μL in volume, with region of interest–averaged T1, T2, and ADC values of 1.9 ± 0.2 seconds, 62 ± 3 milliseconds, and 0.71 ± 0.06 μm2/ms (mean ± SD), respectively. Specific focus was on assessing the within-subject test–retest coefficient-of-variation (CVWS) for each of the magnetic resonance imaging metrics. Determination of PDX volume via manually drawn regions of interest is highly robust, with ∼1% CVWS. Determination of T2 is also robust with a ∼3% CVWS. Measurements of T1 and ADC are less robust with CVWS values in the 6%–11% range. Preliminary DCE test–retest time-course determinations, as quantified by area under the curve and Ktrans from 2-compartment exchange (extended Tofts) modeling, suggest that DCE is the least robust protocol, with ∼30%–40% CVWS.",
+      doi: "10.18383/j.tom.2019.00012",
+      citation: "Ge X, Quirk JD, Engelbach JA, Bretthorst GL, Li S, Shoghi KI, Garbow JR, Ackerman JJH. Test–Retest Performance of a 1-Hour Multiparametric MR Image Acquisition Pipeline With Orthotopic Triple-Negative Breast Cancer Patient-Derived Tumor Xenografts. <i>Tomography</i>. 2019; 5(3):320-331."
   },
   { id: "Mouse-Astrocytoma", title: "Mouse Astrocytoma (TCIA)", area: "Astrocytoma • Glioblastoma",
     status: "success", statusLabel: "Public",
