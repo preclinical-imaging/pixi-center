@@ -137,7 +137,7 @@ const Overview = ({ study }) => (
           <KV label="Species" value="Mus musculus" />
           <KV label="Disease" value={study.area || ""} />
           <KV label="Location" value={study.location || ""} />
-          <KV label="Modalities" value={(study.modalities || []).map(m => ({m}))} mono />
+          <KV label="Modalities" value={(study.modalities || []).join(", ")} mono />
           <KV label="Tracer" value="" mono />
           <KV label="Total Data" value={study.size || ""} mono />
         </div>
