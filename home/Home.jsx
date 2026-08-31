@@ -481,7 +481,6 @@ const HomePage = () => {
       <Hero t={t} />
       <FindSection />
       <RecentSection />
-      <ResearchAreas />
       <Footer />
 
       <TweaksPanel>

@@ -15,11 +15,11 @@ const App = () => {
   };
 
   const onOpenStudy = (s) => {
-      if (s.url) {
-        window.open(s.url);
-      } else {
+//       if (s.url) {
+//         window.open(s.url);
+//       } else {
         setOpenStudy(s); setNav("studies"); setOpenSubject(null);
-      }
+//       }
   };
 
   // Build crumbs

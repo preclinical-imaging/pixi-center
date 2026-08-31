@@ -5,7 +5,7 @@ const STUDIES = [
       id: "Cancers2021",
       title: "Deep Learning Segmentation of Triple-Negative Breast Cancer (TNBC) Patient Derived Tumor Xenograft (PDX) and Sensitivity of Radiomic Pipeline to Tumor Probability Boundary",
       area: "Breast Cancer",
-      location: "Mammary Glands"
+      location: "Mammary Glands",
       status: "success",
       statusLabel: "Public",
       subjects: 40,
