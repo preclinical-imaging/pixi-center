@@ -53,11 +53,11 @@ const Sidebar = ({ active, onNavigate }) => {
       flexShrink: 0,
     }}>
       <div style={{ padding: "16px 14px", borderBottom: "1px solid var(--border-subtle)" }}>
-        <Logo size={24} />
+        <a href="/"><Logo size={24} /></a>
       </div>
       <div style={{ flex: 1, padding: "8px 10px", overflow: "auto" }}>
         <SidebarSection>
-          <SidebarItem icon="home" label="Home" active={active === "home"} onClick={() => onNavigate("home")} />
+          <SidebarItem icon="home" label="Dashboard" active={active === "home"} onClick={() => onNavigate("home")} />
           <SidebarItem icon="library" label="Datasets" active={active === "studies"} count={12} onClick={() => onNavigate("studies")} />
           <SidebarItem icon="layers" label="Cohort Browser" active={active === "cohorts"} onClick={() => onNavigate("cohorts")} />
         </SidebarSection>

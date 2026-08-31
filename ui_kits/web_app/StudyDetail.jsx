@@ -57,7 +57,7 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <Button variant="primary" icon="folder" onclick="window.open(study.url)">View in XNAT</Button>
+            <a href={{study.url}} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in XNAT</Button></a>
           </div>
         </div>
 

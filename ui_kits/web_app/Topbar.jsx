@@ -53,19 +53,6 @@ const Topbar = ({ crumbs = [], onNavigate, onNewStudy, showCrumbs = true }) => {
         }}>⌘K</span>
       </div>
       <Button variant="primary" icon="plus" onClick={onNewStudy}>Submit dataset</Button>
-      <button style={{
-        width: 34, height: 34, borderRadius: 6,
-        border: "1px solid var(--border-subtle)", background: "#fff",
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-        cursor: "pointer", color: "var(--fg-2)", position: "relative",
-      }}>
-        <Icon name="bell" size={16} />
-        <span style={{
-          position: "absolute", top: 6, right: 6,
-          width: 6, height: 6, borderRadius: "50%",
-          background: "var(--pixi-yellow)",
-        }} />
-      </button>
     </header>
   );
 };
