@@ -30,7 +30,7 @@ const Tab = ({ children, active, onClick, count }) => (
 );
 
 const StudyDetail = ({ study, onOpenSubject, onBack }) => {
-  const [tab, setTab] = React.useState("subjects");
+  const [tab, setTab] = React.useState("overview");
 
   return (
     <div style={{ fontFamily: "var(--font-sans)" }}>

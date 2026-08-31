@@ -49,7 +49,7 @@ const TopNav = () => {
         ))}
       </nav>
       <div style={{ flex: 1 }} />
-      <Button variant="secondary" size="sm">Log in</Button>
+      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to XNAT</Button></a>
     </header>
   );
 };
@@ -87,7 +87,7 @@ const Hero = ({ t }) => (
         share methods and reproduce results across institutions.
       </p>
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-        <Button variant="primary" size="lg" icon="arrowRight" onclick="window.open('/ui_kits/web_app/index.html')">Browse datasets</Button>
+        <a href="/ui_kits/web_app/index.html"><Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button></a>
         <Button variant="ghost" size="lg">Learn more</Button>
       </div>
       <div style={{
@@ -396,7 +396,7 @@ const RecentSection = () => (
     </div>
 
     <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-      <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
+      <a href="/ui_kits/web_app/index.html"><Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button></a>
     </div>
   </section>
 );
@@ -428,8 +428,8 @@ const Footer = () => (
         </div>
         <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
           {[
-            ["Explore", ["Datasets", "Knowledge base", "Compute"]],
-            ["About", ["About PIXI Center", "Contributors", "Roadmap"]],
+            ["Explore", ["Datasets", "Knowledge base"]],
+            ["About", ["About PIXI Center", "Contributors"]],
             ["Contribute", ["Submit a dataset", "Documentation", "Contact"]],
           ].map(([title, items]) => (
             <div key={title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
