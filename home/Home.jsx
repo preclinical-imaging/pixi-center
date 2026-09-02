@@ -49,7 +49,7 @@ const TopNav = () => {
         ))}
       </nav>
       <div style={{ flex: 1 }} />
-      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to XNAT</Button></a>
+      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to PIXI</Button></a>
     </header>
   );
 };

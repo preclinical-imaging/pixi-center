@@ -11,6 +11,23 @@ const STUDIES = [
       subjects: 40,
       scans: 80,
       modalities: ["MR"],
+      resources: [
+          {
+              filename: "Cancers2021 Data Summary",
+              filepath: "/files/Cancers2021/Cancers-2021_data_summary.xlsx",
+              icon: "xls"
+          },
+          {
+              filename: "Cancers2021 Publication PDF",
+              filepath: "/files/Cancers2021/cancers-13-03795.pdf",
+              icon: "pdf"
+          },
+            {
+                filename: "Supplementary Material",
+                filepath: "/files/Cancers2021/cancers-13-03795-s001.zip",
+                icon: "zip"
+            }
+      ],
       size: "497 MB",
       lead: "KS",
       institution: "WashU",

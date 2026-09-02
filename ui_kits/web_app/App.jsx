@@ -73,7 +73,7 @@ const HomeView = ({ onOpenStudy }) => (
   <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)", maxWidth: 1100 }}>
     <Eyebrow>Workspace · Oncology — preclinical</Eyebrow>
     <h1 style={{ margin: "6px 0 24px", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
-      Welcome back, Eri.
+      Site Dashboard
     </h1>
 
     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>

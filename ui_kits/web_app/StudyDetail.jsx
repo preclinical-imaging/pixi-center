@@ -176,22 +176,25 @@ const Overview = ({ study }) => (
       </OverviewCard>
     </div>
     <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
-      <Eyebrow>Recent activity</Eyebrow>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 12 }}>
-        {[
-          ["EH","queued reconstruction for cohort 03","2 h"],
-          ["JP","added comment on M-017","yesterday"],
-          ["RA","uploaded 12 DICOM files","2 d"],
-          ["EH","locked cohort 02","Apr 24"],
-        ].map(([who, what, when], i) => (
-          <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-            <Avatar initials={who} size={24} />
-            <div style={{ flex: 1, fontSize: 13, color: "var(--fg-2)", lineHeight: 1.4 }}>
-              <span style={{ color: "var(--fg-1)", fontWeight: 600 }}>{who}</span> {what}
-              <div style={{ fontSize: 12, color: "var(--fg-3)", marginTop: 2 }}>{when} ago</div>
-            </div>
-          </div>
+      <Eyebrow>Resource files</Eyebrow>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
+        {(study.resources || []).map((file, i) => (
+          <a key={i} href={file.filepath} download
+             style={{
+               display: "flex", gap: 10, alignItems: "center",
+               padding: "8px 10px", margin: "0 -10px", borderRadius: 6,
+               color: "var(--fg-2)", textDecoration: "none",
+             }}
+             onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
+             onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+            <img src={`../../assets/file-${file.icon}.svg`} alt="" width={20} height={20} style={{ flexShrink: 0 }} />
+            <span style={{ flex: 1, fontSize: 13, color: "var(--fg-1)", lineHeight: 1.4 }}>{file.filename}</span>
+            <Icon name="download" size={14} color="var(--fg-3)" />
+          </a>
         ))}
+        {(!study.resources || study.resources.length === 0) && (
+          <div style={{ fontSize: 13, color: "var(--fg-3)" }}>No resource files.</div>
+        )}
       </div>
     </div>
   </div>
