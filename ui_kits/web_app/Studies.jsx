@@ -165,27 +165,6 @@ const STUDIES = [
         dataCitation: "",
         doi: "10.7937/K9/TCIA.2015.9P42KSE6",
         resources: []
-    },
-    {
-        id: "Mouse-Mammary",
-        title: "Mouse Mammary (TCIA)",
-        area: "Breast Cancer",
-        status: "success",
-        statusLabel: "Public",
-        subjects: 32,
-        scans: 205,
-        modalities: ["MR"],
-        day: "D 21 / 21",
-        lead: "JP",
-        institution: "National Cancer Institute",
-        team: ["JP","EH","RA"],
-        updated: "yesterday",
-        url: "/xnat/data/projects/Mouse-Mammary",
-        size: "500 MB",
-        abstract: "This collection consists of magnetic resonance images (MRI) of genetically engineered mouse models (GEMMs) of breast cancer. These images were acquired as part of a Department of Defense (DOD) Breast Cancer Research Program (BCRP) Postdoctoral Award W81XWH-12-1-0307 entitled “Investigating Ductal Carcinoma in Situ Using Noninvasive Imaging of Genetically Engineered Mouse Models A particular emphasis of this project was to study the earliest stages of breast cancer—preinvasive ductal carcinoma in situ (DCIS)—and to interrogate the underlying genetic events that influence progression into invasive disease. In particular, we focused on the role of perturbed Rb, p53 and BRCA1 functionality and how these pathways, acting alone and in combination, can influence the development and progression of DCIS. GEMMs serve as an excellent model system wherein genetic changes can be controlled and manipulated over time. In vivo MRI is a superb technique for noninvasively tracking and characterizing these microscopic early stage cancers as they develop, change and transition into lethal invasive disease.",
-        dataCitation: "",
-        doi: "10.7937/K9/TCIA.2015.9P42KSE6",
-        resources: []
     }
 ];
 
