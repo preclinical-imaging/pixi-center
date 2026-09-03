@@ -117,35 +117,69 @@ const Hero = ({ t }) => (
   </section>
 );
 
-// Hero visual: horizontal bar chart of the most common areas of disease
-// study across the dataset library. Driven by the Tweaks panel.
-const DISEASE_AREAS = [
-  { area: "Neuro / Glioblastoma", count: 58 },
-  { area: "Triple-negative breast cancer", count: 47 },
-  { area: "Diabetes", count: 39 },
-  { area: "Obesity", count: 33 },
-  { area: "Prostate adenocarcinoma", count: 28 },
-  { area: "Melanoma", count: 24 },
-  { area: "Lymphoma", count: 19 },
-  { area: "Ovarian cancer", count: 15 },
-];
+// Hero visual: horizontal bar chart of the most-studied areas of disease
+// across the dataset library. Areas come from the unique "area" values in
+// data/studies.json; each bar totals the "subjects" of every study tagged
+// to that area. Driven by the Tweaks panel.
+
+let _diseaseAreasCache = null;
+let _diseaseAreasPromise = null;
+
+function summarizeDiseaseAreas(studies) {
+  const totals = new Map();
+  for (const s of studies) {
+    if (!s.area) continue;
+    totals.set(s.area, (totals.get(s.area) || 0) + (Number(s.subjects) || 0));
+  }
+  return [...totals.entries()].map(([area, count]) => ({ area, count }));
+}
+
+function loadDiseaseAreas() {
+  if (!_diseaseAreasPromise) {
+    _diseaseAreasPromise = fetch("/data/studies.json")
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
+        return res.json();
+      })
+      .then(studies => (_diseaseAreasCache = summarizeDiseaseAreas(studies)));
+  }
+  return _diseaseAreasPromise;
+}
+
+// Fetches once and caches, same pattern as Studies.jsx's useStudies().
+const useDiseaseAreas = () => {
+  const [areas, setAreas] = React.useState(_diseaseAreasCache || []);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    if (_diseaseAreasCache) return;
+    let cancelled = false;
+    loadDiseaseAreas()
+      .then(data => { if (!cancelled) setAreas(data); })
+      .catch(err => { if (!cancelled) setError(err); });
+    return () => { cancelled = true; };
+  }, []);
+
+  return { areas, error };
+};
 
 const HeroBarChart = ({ t }) => {
   const [mounted, setMounted] = React.useState(false);
+  const { areas, error } = useDiseaseAreas();
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
   const sorted = React.useMemo(() => {
-    const out = [...DISEASE_AREAS];
+    const out = [...areas];
     return t.sortByCount
       ? out.sort((a, b) => b.count - a.count)
       : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [t.sortByCount]);
+  }, [areas, t.sortByCount]);
 
   const rows = sorted.slice(0, Math.max(3, Math.min(8, t.barCount)));
-  const max = Math.max(...DISEASE_AREAS.map(d => d.count));
+  const max = Math.max(1, ...areas.map(d => d.count));
 
   return (
     <div style={{
@@ -157,7 +191,7 @@ const HeroBarChart = ({ t }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <Eyebrow mono>Across {DISEASE_AREAS.length} disease areas</Eyebrow>
+        <Eyebrow mono>Across {areas.length} disease areas</Eyebrow>
         <h3 style={{
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
@@ -165,6 +199,12 @@ const HeroBarChart = ({ t }) => {
           Most studied areas of disease
         </h3>
       </div>
+
+      {error && (
+        <div style={{ fontSize: 13, color: "var(--danger)" }}>
+          Couldn't load disease areas — make sure the local server is running (node ui_kits/web_app/server.js).
+        </div>
+      )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {rows.map(({ area, count }, i) => {
@@ -204,7 +244,7 @@ const HeroBarChart = ({ t }) => {
         fontSize: 12, color: "var(--fg-3)", lineHeight: 1.5,
         paddingTop: 14, borderTop: "1px solid var(--border-subtle)",
       }}>
-        Bar length reflects the number of datasets tagged to each disease area.
+        Bar length reflects the number of subjects studied within each disease area.
       </div>
     </div>
   );
