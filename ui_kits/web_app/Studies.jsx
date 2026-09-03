@@ -165,6 +165,54 @@ const STUDIES = [
         dataCitation: "",
         doi: "10.7937/K9/TCIA.2015.9P42KSE6",
         resources: []
+    },
+    {
+        id: "PDMR-292921-168-R",
+        title: "Imaging characterization of a metastatic patient derived model of adenocarcinoma pancreas",
+        area: "Pancreatic Cancer",
+        status: "warn",
+        statusLabel: "Protected",
+        subjects: 19,
+        scans: 154,
+        lead: "",
+        team: [],
+        updated: "",
+        day: "",
+        modalities: ["MR","SR"],
+        institution: "National Cancer Institute",
+        url: "/xnat/data/projects/PDMR-292921-168-R",
+        size: "",
+        abstract: "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, adenocarcinoma pancreas xenograft 292921-168-R. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 mm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
+        dataCitation: "Tatum J., Kalen J., Ileva L.V., Riffle L.A., Saito K., Patel N., Jacobs P., Sanders C., James A., Difilippantonio S., Thang L., Hollingshead M.G., Phillips J., Evrard Y., Clunie D., Liu Y., Suloway C., Smith K.E., Wagner U., Freymann J.B., Kirby J., Doroshow, J. (2020). Imaging characterization of a metastatic patient derived model of adenocarcinoma pancreas: (PDMR-292921-168-R) [Dataset]. The Cancer Imaging Archive",
+        doi: "10.7937/TCIA.2020.PCAK-8Z10",
+        resources: [
+            {
+                filename: "Study Design",
+                filepath: "/files/PDMR-292921-168-R/Flow-Chart-Pancreas.png",
+                icon: "png"
+            }
+        ]
+    },
+    {
+        id: "PDMR-425362-245-T",
+        title: "Imaging characterization of a metastatic patient derived model of melanoma",
+        area: "Skin Cancer",
+        status: "warn",
+        statusLabel: "Protected",
+        subjects: 20,
+        scans: 190,
+        lead: "",
+        team: [],
+        updated: "",
+        day: "",
+        modalities: ["MR","SR"],
+        institution: "National Cancer Institute",
+        url: "/xnat/data/projects/PDMR-425362-245-T",
+        size: "",
+        abstract: "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, melanoma xenograft 425362-245-T. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 cm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
+        dataCitation: "Tatum, J. L., Kalen, J. D., Jacobs, P. M., Ileva, L. V., Riffle, L. A., Keita, S., Patel, N., Sanders, C., James, A., Difilippantonio, S., Thang, L., Hollingshead, M. G., Phillips, J., Edmondson, E., Evrard, Y., Clunie, D. A., Liu, Y., Smith, K. E., Wagner, U., … Doroshow, J. H. (2020). Imaging characterization of a metastatic patient derived model of melanoma: (PDMR-425362-245-T) [Data set]. The Cancer Imaging Archive",
+        doi: "10.7937/TCIA.2020.7YRS-7J97",
+        resources: []
     }
 ];
 
