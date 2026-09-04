@@ -30,7 +30,7 @@ const Tab = ({ children, active, onClick, count }) => (
 );
 
 const StudyDetail = ({ study, onOpenSubject, onBack }) => {
-  const [tab, setTab] = React.useState("subjects");
+  const [tab, setTab] = React.useState("overview");
 
   return (
     <div style={{ fontFamily: "var(--font-sans)" }}>
@@ -50,18 +50,14 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
             }}>{study.title}</h1>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10, color: "var(--fg-3)", fontSize: 13 }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <AvatarStack people={study.team} size={20} /> {study.team.length} collaborators
+                {study.institution}
               </span>
               <span>·</span>
               <span>Created Apr 02, 2026</span>
-              <span>·</span>
-              <span>updated {study.updated}</span>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <Button variant="secondary" icon="users">Share</Button>
-            <Button variant="secondary" icon="download">Export</Button>
-            <Button variant="primary" icon="play">Run analysis</Button>
+            <a href={study.url} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in XNAT</Button></a>
           </div>
         </div>
 
@@ -97,11 +93,8 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, borderBottom: "1px solid transparent" }}>
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
-          <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={SUBJECTS.length}>Subjects</Tab>
-          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={96}>Imaging</Tab>
-          <Tab active={tab === "files"} onClick={() => setTab("files")} count={42}>Files</Tab>
-          <Tab active={tab === "activity"} onClick={() => setTab("activity")}>Activity</Tab>
-          <Tab active={tab === "settings"} onClick={() => setTab("settings")}>Settings</Tab>
+          <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab>
+          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.scans || ""}>Imaging</Tab>
         </div>
       </div>
 
@@ -124,41 +117,84 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
   );
 };
 
+const OverviewCard = ({ eyebrow, children }) => (
+  <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
+    <Eyebrow>{eyebrow}</Eyebrow>
+    {children}
+  </div>
+);
+
 const Overview = ({ study }) => (
   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
-    <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
-      <Eyebrow>Protocol summary</Eyebrow>
-      <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
-        Three cohorts (vehicle, 5 mg/kg, 15 mg/kg) of female and male C57BL/6 mice (n = 8 per cohort)
-        receive single IV dose of compound. PET/CT imaging at baseline, day 7, and day 14.
-        Endpoint: biodistribution analysis at day 28.
-      </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
-        <KV label="Species" value="Mus musculus" />
-        <KV label="Strain" value="C57BL/6J" />
-        <KV label="Modality" value="PET / CT" />
-        <KV label="Tracer" value="89Zr-DFO-mAb" mono />
-        <KV label="Compound" value="GLP-1 RA #04" mono />
-        <KV label="Reviewer" value="J. Park" />
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <OverviewCard eyebrow="Protocol summary">
+        <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
+          Three cohorts (vehicle, 5 mg/kg, 15 mg/kg) of female and male C57BL/6 mice (n = 8 per cohort)
+          receive single IV dose of compound. PET/CT imaging at baseline, day 7, and day 14.
+          Endpoint: biodistribution analysis at day 28.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
+          <KV label="Species" value="Mus musculus" />
+          <KV label="Disease" value={study.area || ""} />
+          <KV label="Location" value={study.location || ""} />
+          <KV label="Modalities" value={(study.modalities || []).join(", ")} mono />
+          <KV label="Tracer" value="" mono />
+          <KV label="Total Data" value={study.size || ""} mono />
+        </div>
+      </OverviewCard>
+
+      <OverviewCard eyebrow="Abstract">
+        <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)" }}>
+          {study.abstract || (
+            "Patient-derived tumor xenograft (PDX) models are widely used to study tumor heterogeneity " +
+            "and treatment response in triple-negative breast cancer. This collection provides longitudinal " +
+            "MR imaging of PDX-bearing mice alongside a deep-learning segmentation pipeline, and evaluates the " +
+            "sensitivity of derived radiomic features to the probability threshold used to define the tumor boundary."
+          )}
+        </p>
+      </OverviewCard>
+
+      <OverviewCard eyebrow="Data Citation">
+        <p style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.6, color: "var(--fg-2)", fontStyle: "italic" }}>
+          {study.dataCitation || `${study.lead || "Author, A."} (2021) ${study.title} [Data set]. PIXI Center. `}
+          {!study.dataCitation && (
+            <span style={{ fontFamily: "var(--font-mono)", fontStyle: "normal" }}>{study.doi || "10.7937/pixi.2021.example"}</span>
+          )}
+        </p>
+        <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)" }}>
+          <KV
+            label="DOI"
+            mono
+            value={
+              <a href={`https://doi.org/${study.doi || "10.7937/pixi.2021.example"}`} target="_blank" rel="noreferrer"
+                 style={{ color: "var(--pixi-navy)", textDecoration: "none" }}>
+                {study.doi || "10.7937/pixi.2021.example"}
+              </a>
+            }
+          />
+        </div>
+      </OverviewCard>
     </div>
     <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
-      <Eyebrow>Recent activity</Eyebrow>
-      <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 12 }}>
-        {[
-          ["EH","queued reconstruction for cohort 03","2 h"],
-          ["JP","added comment on M-017","yesterday"],
-          ["RA","uploaded 12 DICOM files","2 d"],
-          ["EH","locked cohort 02","Apr 24"],
-        ].map(([who, what, when], i) => (
-          <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-            <Avatar initials={who} size={24} />
-            <div style={{ flex: 1, fontSize: 13, color: "var(--fg-2)", lineHeight: 1.4 }}>
-              <span style={{ color: "var(--fg-1)", fontWeight: 600 }}>{who}</span> {what}
-              <div style={{ fontSize: 12, color: "var(--fg-3)", marginTop: 2 }}>{when} ago</div>
-            </div>
-          </div>
+      <Eyebrow>Resource files</Eyebrow>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
+        {(study.resources || []).map((file, i) => (
+          <a key={i} href={file.filepath} download
+             style={{
+               display: "flex", gap: 10, alignItems: "center",
+               padding: "8px 10px", margin: "0 -10px", borderRadius: 6,
+               color: "var(--fg-2)", textDecoration: "none",
+             }}
+             onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
+             onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+            <img src={`../../assets/file-${file.icon}.svg`} alt="" width={20} height={20} style={{ flexShrink: 0 }} />
+            <span style={{ flex: 1, fontSize: 13, color: "var(--fg-1)", lineHeight: 1.4 }}>{file.filename}</span>
+            <Icon name="download" size={14} color="var(--fg-3)" />
+          </a>
         ))}
+        {(!study.resources || study.resources.length === 0) && (
+          <div style={{ fontSize: 13, color: "var(--fg-3)" }}>No resource files.</div>
+        )}
       </div>
     </div>
   </div>

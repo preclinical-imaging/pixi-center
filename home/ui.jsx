@@ -118,7 +118,7 @@ const Badge = ({ children, tone = "neutral", dot }) => {
     neutral: { bg: "var(--pixi-cloud)", color: "var(--pixi-graphite)", dot: "var(--pixi-steel)" },
     outline: { bg: "#fff", color: "var(--fg-2)", dot: "var(--pixi-steel)", border: "var(--border-default)" },
   };
-  const t = tones[tone];
+  const t = tones[tone] || tones.neutral;
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 6,

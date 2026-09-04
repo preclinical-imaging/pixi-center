@@ -1,37 +1,40 @@
 // Studies — library view. Card grid + table toggle.
+// The study list itself lives in /data/studies.json and is loaded at runtime
+// (served by server.js — see `node ui_kits/web_app/server.js`).
 
-const STUDIES = [
-  { id: "PXI-2412-A", title: "GLP-1 receptor agonist · Q2 cohort", area: "Lung Cancer",
-    status: "warn", statusLabel: "In progress",
-    subjects: 24, scans: 96, modalities: ["CT","PET","MR"], day: "D 14 / 28",
-    lead: "EH", institution: "WUSTL", team: ["EH","JP","RA","MK","TC"],
-    updated: "2 h ago" },
-  { id: "PXI-2402-B", title: "Tumor microenvironment · BALB/c", area: "Breast Cancer · TNBC",
-    status: "info", statusLabel: "Reviewing",
-    subjects: 18, scans: 72, modalities: ["PET","CT"], day: "D 21 / 21",
-    lead: "JP", institution: "MIT", team: ["JP","EH","RA"],
-    updated: "yesterday" },
-  { id: "PXI-2403-A", title: "Anti-PD1 efficacy — pilot", area: "Glioblastoma",
-    status: "success", statusLabel: "Complete",
-    subjects: 12, scans: 48, modalities: ["PET","CT"], day: "D 28 / 28",
-    lead: "RA", institution: "CAMI", team: ["RA","EH","MK"],
-    updated: "Apr 28" },
-  { id: "PXI-2407-C", title: "Cardiac fibrosis · MRI longitudinal", area: "Heart · Cardiac",
-    status: "neutral", statusLabel: "Draft",
-    subjects: 0, scans: 0, modalities: ["MR"], day: "—",
-    lead: "MK", institution: "MIT", team: ["MK"],
-    updated: "Apr 22" },
-  { id: "PXI-2410-A", title: "Gd-DTPA dosimetry · 89Zr", area: "Lymphoma",
-    status: "warn", statusLabel: "In progress",
-    subjects: 8, scans: 24, modalities: ["PET","CT"], day: "D 7 / 14",
-    lead: "TC", institution: "WUSTL", team: ["TC","EH"],
-    updated: "3 d ago" },
-  { id: "PXI-2411-D", title: "Radiolabeled antibody — biodistribution", area: "Breast Cancer",
-    status: "danger", statusLabel: "Failed QC",
-    subjects: 6, scans: 18, modalities: ["PET","CT"], day: "D 4 / 14",
-    lead: "EH", institution: "CAMI", team: ["EH","RA","JP"],
-    updated: "5 d ago" },
-];
+let _studiesCache = null;
+let _studiesPromise = null;
+
+function loadStudies() {
+  if (!_studiesPromise) {
+    _studiesPromise = fetch("/data/studies.json")
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
+        return res.json();
+      })
+      .then(data => { _studiesCache = data; return data; });
+  }
+  return _studiesPromise;
+}
+
+// Shared by any component that needs the study list (e.g. App.jsx's home
+// dashboard) — fetches once and caches, re-rendering each subscriber when
+// the data arrives.
+const useStudies = () => {
+  const [studies, setStudies] = React.useState(_studiesCache || []);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    if (_studiesCache) return;
+    let cancelled = false;
+    loadStudies()
+      .then(data => { if (!cancelled) setStudies(data); })
+      .catch(err => { if (!cancelled) setError(err); });
+    return () => { cancelled = true; };
+  }, []);
+
+  return { studies, error, loading: !_studiesCache && !error };
+};
 
 const StudyCard = ({ study, onOpen }) => {
   const [hover, setHover] = React.useState(false);
@@ -116,13 +119,14 @@ const FilterChip = ({ children, active, onClick }) => (
   }}>{children}</button>
 );
 
-const Studies = ({ onOpenStudy }) => {
+const Studies = ({ onOpenStudy, onSubmitDataset }) => {
   const [filter, setFilter] = React.useState("All");
   const [view, setView] = React.useState("grid");
+  const { studies, error } = useStudies();
 
-  const filters = ["All", "In progress", "Reviewing", "Complete", "Draft"];
-  const filtered = filter === "All" ? STUDIES :
-    STUDIES.filter(s => s.statusLabel === filter);
+  const filters = ["All", "Public", "Protected", "Private", "Draft"];
+  const filtered = filter === "All" ? studies :
+    studies.filter(s => s.statusLabel === filter);
 
   return (
     <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)" }}>
@@ -137,7 +141,7 @@ const Studies = ({ onOpenStudy }) => {
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <Button variant="secondary" icon="download">Export</Button>
-          <Button variant="primary" icon="plus">Submit dataset</Button>
+          <Button variant="primary" icon="plus" onClick={onSubmitDataset}>Submit dataset</Button>
         </div>
       </div>
 
@@ -174,7 +178,11 @@ const Studies = ({ onOpenStudy }) => {
         </div>
       </div>
 
-      {view === "grid" ? (
+      {error ? (
+        <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
+          Couldn't load studies — make sure the local server is running (node ui_kits/web_app/server.js).
+        </div>
+      ) : view === "grid" ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
           {filtered.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
         </div>
@@ -233,4 +241,4 @@ const StudiesList = ({ rows, onOpen }) => (
 
 const tdStyle = { padding: "12px 14px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
-Object.assign(window, { Studies, STUDIES });
+Object.assign(window, { Studies, useStudies });

@@ -30,15 +30,21 @@ const Topbar = ({ crumbs = [], onNavigate, onNewStudy, showCrumbs = true }) => {
     }}>
       {showCrumbs && <Crumbs items={crumbs} onNavigate={onNavigate} />}
       <div style={{ flex: 1 }} />
-      <div style={{
-        display: "flex", alignItems: "center", gap: 8,
-        height: 34, padding: "0 12px",
-        background: "var(--pixi-paper)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: 6, width: 320,
-      }}>
+      <form
+        action="/xnat/app/action/QuickSearchAction"
+        method="POST"
+        target="_blank"
+        style={{
+          display: "flex", alignItems: "center", gap: 8,
+          height: 34, padding: "0 12px",
+          background: "var(--pixi-paper)",
+          border: "1px solid var(--border-subtle)",
+          borderRadius: 6, width: 320,
+        }}
+      >
         <Icon name="search" size={16} color="var(--fg-3)" />
         <input
+          name="searchValue"
           placeholder="Search studies, subjects, files…"
           style={{
             flex: 1, border: "none", background: "transparent", outline: "none",
@@ -51,21 +57,8 @@ const Topbar = ({ crumbs = [], onNavigate, onNewStudy, showCrumbs = true }) => {
           padding: "1px 6px", borderRadius: 3,
           border: "1px solid var(--border-subtle)", background: "#fff",
         }}>⌘K</span>
-      </div>
+      </form>
       <Button variant="primary" icon="plus" onClick={onNewStudy}>Submit dataset</Button>
-      <button style={{
-        width: 34, height: 34, borderRadius: 6,
-        border: "1px solid var(--border-subtle)", background: "#fff",
-        display: "inline-flex", alignItems: "center", justifyContent: "center",
-        cursor: "pointer", color: "var(--fg-2)", position: "relative",
-      }}>
-        <Icon name="bell" size={16} />
-        <span style={{
-          position: "absolute", top: 6, right: 6,
-          width: 6, height: 6, borderRadius: "50%",
-          background: "var(--pixi-yellow)",
-        }} />
-      </button>
     </header>
   );
 };

@@ -49,103 +49,162 @@ const TopNav = () => {
         ))}
       </nav>
       <div style={{ flex: 1 }} />
-      <Button variant="secondary" size="sm">Log in</Button>
+      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to PIXI</Button></a>
     </header>
   );
 };
 
-const Hero = ({ t }) => (
-  <section style={{
-    display: "grid",
-    gridTemplateColumns: "1.05fr 1fr",
-    gap: 48,
-    alignItems: "center",
-    padding: "72px 40px 56px",
-    maxWidth: 1320, margin: "0 auto",
-  }}>
-    <div>
-      <Eyebrow mono>Preclinical research · open data</Eyebrow>
-      <h1 style={{
-        margin: "14px 0 18px",
-        fontFamily: "var(--font-display)",
-        fontSize: 56, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.05,
-        color: "var(--fg-1)",
-        textWrap: "balance",
-      }}>
-        A shared workbench for <span style={{color:"var(--pixi-navy)"}}>preclinical</span> imaging research.
-      </h1>
-      <p style={{
-        margin: "0 0 28px",
-        fontFamily: "var(--font-sans)",
-        fontSize: 18, lineHeight: 1.55,
-        color: "var(--fg-2)",
-        maxWidth: 560,
-        textWrap: "pretty",
-      }}>
-        PIXI Center hosts curated preclinical imaging datasets, compute, and a peer-to-peer
-        knowledge base — built so investigators, study directors, and core facilities can
-        share methods and reproduce results across institutions.
-      </p>
-      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-        <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
-        <Button variant="ghost" size="lg">Learn more</Button>
-      </div>
-      <div style={{
-        display: "flex", gap: 24, marginTop: 36,
-        paddingTop: 20, borderTop: "1px solid var(--border-subtle)",
-      }}>
-        {[
-          ["Datasets", "412"],
-          ["Subjects", "12,840"],
-          ["Institutions", "37"],
-        ].map(([l, v]) => (
-          <div key={l}>
-            <div style={{
-              fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600,
-              letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums",
-              color: "var(--fg-1)",
-            }}>{v}</div>
-            <div style={{
-              fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-              textTransform: "uppercase", color: "var(--fg-3)", marginTop: 2,
-            }}>{l}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-    <HeroBarChart t={t} />
-  </section>
-);
+// data/studies.json is the single source of truth for the dataset library —
+// each entry is a "dataset". Fetched once and cached for every section on
+// this page that summarizes it (hero stats, disease-area chart).
 
-// Hero visual: horizontal bar chart of the most common areas of disease
-// study across the dataset library. Driven by the Tweaks panel.
-const DISEASE_AREAS = [
-  { area: "Glioblastoma", count: 58 },
-  { area: "Triple-negative breast cancer", count: 47 },
-  { area: "Pancreatic adenocarcinoma", count: 39 },
-  { area: "Hepatocellular carcinoma", count: 33 },
-  { area: "Prostate adenocarcinoma", count: 28 },
-  { area: "Melanoma", count: 24 },
-  { area: "Lymphoma", count: 19 },
-  { area: "Ovarian cancer", count: 15 },
-];
+let _studiesCache = null;
+let _studiesPromise = null;
+
+function loadStudiesData() {
+  if (!_studiesPromise) {
+    _studiesPromise = fetch("/data/studies.json")
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
+        return res.json();
+      })
+      .then(data => (_studiesCache = data));
+  }
+  return _studiesPromise;
+}
+
+// Fetches once and caches, same pattern as Studies.jsx's useStudies().
+const useStudiesData = () => {
+  const [studies, setStudies] = React.useState(_studiesCache || []);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    if (_studiesCache) return;
+    let cancelled = false;
+    loadStudiesData()
+      .then(data => { if (!cancelled) setStudies(data); })
+      .catch(err => { if (!cancelled) setError(err); });
+    return () => { cancelled = true; };
+  }, []);
+
+  return { studies, error };
+};
+
+const Hero = ({ t }) => {
+  const { studies } = useStudiesData();
+  const stats = React.useMemo(() => {
+    const institutions = new Set(studies.map(s => s.institution).filter(Boolean));
+    const sum = (key) => studies.reduce((total, s) => total + (Number(s[key]) || 0), 0);
+    return {
+      datasets: studies.length,
+      subjects: sum("subjects"),
+      scans: sum("scans"),
+      institutions: institutions.size,
+    };
+  }, [studies]);
+
+  return (
+    <section style={{
+      display: "grid",
+      gridTemplateColumns: "1.05fr 1fr",
+      gap: 48,
+      alignItems: "center",
+      padding: "72px 40px 56px",
+      maxWidth: 1320, margin: "0 auto",
+    }}>
+      <div>
+        <Eyebrow mono>Preclinical research · open data</Eyebrow>
+        <h1 style={{
+          margin: "14px 0 18px",
+          fontFamily: "var(--font-display)",
+          fontSize: 56, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.05,
+          color: "var(--fg-1)",
+          textWrap: "balance",
+        }}>
+          A shared workbench for <span style={{color:"var(--pixi-navy)"}}>preclinical</span> imaging research.
+        </h1>
+        <p style={{
+          margin: "0 0 28px",
+          fontFamily: "var(--font-sans)",
+          fontSize: 18, lineHeight: 1.55,
+          color: "var(--fg-2)",
+          maxWidth: 560,
+          textWrap: "pretty",
+        }}>
+          PIXI Center hosts curated preclinical imaging datasets, compute, and a peer-to-peer
+          knowledge base — built so investigators, study directors, and core facilities can
+          share methods and reproduce results across institutions.
+        </p>
+        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <a href="/ui_kits/web_app/index.html"><Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button></a>
+          <Button variant="ghost" size="lg">Learn more</Button>
+        </div>
+        <div style={{
+          display: "flex", gap: 24, marginTop: 36,
+          paddingTop: 20, borderTop: "1px solid var(--border-subtle)",
+        }}>
+          {[
+            ["Datasets", stats.datasets],
+            ["Subjects", stats.subjects],
+            ["Scans", stats.scans],
+            ["Institutions", stats.institutions],
+          ].map(([l, v]) => (
+            <div key={l}>
+              <div style={{
+                fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 600,
+                letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums",
+                color: "var(--fg-1)",
+              }}>{v.toLocaleString()}</div>
+              <div style={{
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
+                textTransform: "uppercase", color: "var(--fg-3)", marginTop: 2,
+              }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <HeroBarChart t={t} />
+    </section>
+  );
+};
+
+// Hero visual: horizontal bar chart of the most-studied areas of disease
+// across the dataset library. Areas come from the unique "area" values in
+// data/studies.json; each bar totals the "subjects" of every study tagged
+// to that area. Driven by the Tweaks panel.
+
+function summarizeDiseaseAreas(studies) {
+  const totals = new Map();
+  for (const s of studies) {
+    if (!s.area) continue;
+    totals.set(s.area, (totals.get(s.area) || 0) + (Number(s.subjects) || 0));
+  }
+  return [...totals.entries()].map(([area, count]) => ({ area, count }));
+}
+
+const useDiseaseAreas = () => {
+  const { studies, error } = useStudiesData();
+  const areas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
+  return { areas, error };
+};
 
 const HeroBarChart = ({ t }) => {
   const [mounted, setMounted] = React.useState(false);
+  const { areas, error } = useDiseaseAreas();
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
   const sorted = React.useMemo(() => {
-    const out = [...DISEASE_AREAS];
+    const out = [...areas];
     return t.sortByCount
       ? out.sort((a, b) => b.count - a.count)
       : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [t.sortByCount]);
+  }, [areas, t.sortByCount]);
 
   const rows = sorted.slice(0, Math.max(3, Math.min(8, t.barCount)));
-  const max = Math.max(...DISEASE_AREAS.map(d => d.count));
+  const max = Math.max(1, ...areas.map(d => d.count));
 
   return (
     <div style={{
@@ -157,7 +216,7 @@ const HeroBarChart = ({ t }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <Eyebrow mono>Across {DISEASE_AREAS.length} disease areas</Eyebrow>
+        <Eyebrow mono>Across {areas.length} disease areas</Eyebrow>
         <h3 style={{
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
@@ -165,6 +224,12 @@ const HeroBarChart = ({ t }) => {
           Most studied areas of disease
         </h3>
       </div>
+
+      {error && (
+        <div style={{ fontSize: 13, color: "var(--danger)" }}>
+          Couldn't load disease areas — make sure the local server is running (node ui_kits/web_app/server.js).
+        </div>
+      )}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {rows.map(({ area, count }, i) => {
@@ -204,7 +269,7 @@ const HeroBarChart = ({ t }) => {
         fontSize: 12, color: "var(--fg-3)", lineHeight: 1.5,
         paddingTop: 14, borderTop: "1px solid var(--border-subtle)",
       }}>
-        Bar length reflects the number of datasets tagged to each disease area.
+        Bar length reflects the number of subjects studied within each disease area.
       </div>
     </div>
   );
@@ -281,30 +346,13 @@ const FindSection = () => (
 );
 
 // ---------- Section 2: Recent datasets ----------
-
-const RECENT = [
-  { id: "PXI-2412-A", title: "GLP-1 receptor agonist · Q2 cohort", area: "Cardio · biodistribution",
-    status: "warn", statusLabel: "In progress",
-    subjects: 24, scans: 96, modalities: ["CT","PET","MR"],
-    institution: "WUSTL", updated: "2 h ago" },
-  { id: "PXI-2402-B", title: "Tumor microenvironment · BALB/c", area: "Oncology · preclinical",
-    status: "info", statusLabel: "Reviewing",
-    subjects: 18, scans: 72, modalities: ["PET","CT"],
-    institution: "MIT", updated: "yesterday" },
-  { id: "PXI-2403-A", title: "Anti-PD1 efficacy — pilot", area: "Oncology · preclinical",
-    status: "success", statusLabel: "Complete",
-    subjects: 12, scans: 48, modalities: ["PET","CT"],
-    institution: "CAMI", updated: "Apr 28" },
-  { id: "PXI-2410-A", title: "89Zr-DFO antibody dosimetry", area: "Imaging · methods",
-    status: "warn", statusLabel: "In progress",
-    subjects: 8, scans: 24, modalities: ["PET","CT"],
-    institution: "WUSTL", updated: "3 d ago" },
-];
+// Cards show the first four datasets listed in data/studies.json.
 
 const DatasetCard = ({ s }) => {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href="#" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+    <a href={`../ui_kits/web_app/index.html#study/${encodeURIComponent(s.id)}`}
+       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{
          textDecoration: "none", color: "inherit",
          display: "flex", flexDirection: "column", gap: 14,
@@ -370,155 +418,43 @@ const DatasetCard = ({ s }) => {
   );
 };
 
-const RecentSection = () => (
-  <section style={{
-    padding: "32px 40px 72px", maxWidth: 1320, margin: "0 auto",
-  }}>
-    <div style={{
-      display: "flex", alignItems: "flex-end", justifyContent: "space-between",
-      gap: 24, marginBottom: 24, flexWrap: "wrap",
-    }}>
-      <div style={{ flex: "1 1 auto", minWidth: 0 }}>
-        <Eyebrow>Studies · recent</Eyebrow>
-        <h2 style={{
-          margin: "8px 0 0", fontFamily: "var(--font-display)",
-          fontSize: 38, fontWeight: 600, letterSpacing: "-0.015em",
-          color: "var(--fg-1)", whiteSpace: "nowrap",
-        }}>Recent datasets</h2>
-      </div>
-      <div style={{ fontSize: 14, color: "var(--fg-3)", maxWidth: 380, flex: "0 1 380px" }}>
-        A live slice of the Studies library. Sign in to see datasets shared with your institution.
-      </div>
-    </div>
-
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-      {RECENT.map(s => <DatasetCard key={s.id} s={s} />)}
-    </div>
-
-    <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-      <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
-    </div>
-  </section>
-);
-
-// ---------- Section 3: Areas of research (word cloud) ----------
-
-const TERMS = [
-  { t: "Triple-negative breast cancer", w: 5 },
-  { t: "Glioblastoma", w: 6 },
-  { t: "Pancreatic adenocarcinoma", w: 4 },
-  { t: "Hepatocellular carcinoma", w: 5 },
-  { t: "Tumor microenvironment", w: 6 },
-  { t: "Immuno-oncology", w: 5 },
-  { t: "Anti-PD1", w: 3 },
-  { t: "CAR-T", w: 4 },
-  { t: "Radiotheranostics", w: 4 },
-  { t: "89Zr immunoPET", w: 5 },
-  { t: "Biodistribution", w: 6 },
-  { t: "Pharmacokinetics", w: 4 },
-  { t: "Tumor-bearing mice", w: 3 },
-  { t: "Patient-derived xenografts", w: 4 },
-  { t: "Metastasis", w: 5 },
-  { t: "Apoptosis imaging", w: 3 },
-  { t: "Hypoxia", w: 3 },
-  { t: "Angiogenesis", w: 4 },
-  { t: "Lymphoma", w: 3 },
-  { t: "Prostate adenocarcinoma", w: 4 },
-  { t: "Theranostic pairs", w: 3 },
-  { t: "Melanoma", w: 3 },
-  { t: "Ovarian cancer", w: 3 },
-];
-
-// Sizes mapped from weight 1–6 → fontSize / weight / color tier.
-const termStyle = (w) => {
-  const sizes = { 6: 36, 5: 28, 4: 22, 3: 17, 2: 14, 1: 12 };
-  const weights = { 6: 700, 5: 700, 4: 600, 3: 500, 2: 500, 1: 500 };
-  // 3 color tiers — navy / ink / slate — assigned semi-randomly by weight
-  const colors = {
-    6: "var(--pixi-navy)",
-    5: "var(--fg-1)",
-    4: "var(--fg-1)",
-    3: "var(--fg-2)",
-    2: "var(--fg-3)",
-    1: "var(--fg-3)",
-  };
-  return {
-    fontFamily: "var(--font-display)",
-    fontSize: sizes[w] || 16,
-    fontWeight: weights[w] || 500,
-    color: colors[w] || "var(--fg-2)",
-    letterSpacing: w >= 5 ? "-0.015em" : "-0.005em",
-    lineHeight: 1,
-    cursor: "pointer",
-    textDecoration: "none",
-    transition: "color 120ms",
-    whiteSpace: "nowrap",
-  };
-};
-
-const ResearchAreas = () => {
-  // Stable shuffle so weights interleave visually
-  const ordered = React.useMemo(() => {
-    const out = [...TERMS];
-    // simple deterministic shuffle by index parity
-    return out
-      .map((x, i) => ({ x, k: ((i * 9301 + 49297) % 233280) / 233280 }))
-      .sort((a, b) => a.k - b.k)
-      .map(o => o.x);
-  }, []);
+const RecentSection = () => {
+  const { studies } = useStudiesData();
+  const recent = studies.slice(0, 4);
 
   return (
     <section style={{
-      background: "var(--pixi-paper)",
-      borderTop: "1px solid var(--border-subtle)",
-      borderBottom: "1px solid var(--border-subtle)",
+      padding: "32px 40px 72px", maxWidth: 1320, margin: "0 auto",
     }}>
-      <div style={{ padding: "72px 40px", maxWidth: 1320, margin: "0 auto" }}>
-        <div style={{ marginBottom: 28 }}>
-          <Eyebrow>Topics in the library</Eyebrow>
+      <div style={{
+        display: "flex", alignItems: "flex-end", justifyContent: "space-between",
+        gap: 24, marginBottom: 24, flexWrap: "wrap",
+      }}>
+        <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+          <Eyebrow>Studies · recent</Eyebrow>
           <h2 style={{
             margin: "8px 0 0", fontFamily: "var(--font-display)",
             fontSize: 38, fontWeight: 600, letterSpacing: "-0.015em",
-            color: "var(--fg-1)",
-          }}>Areas of research</h2>
-          <p style={{
-            margin: "10px 0 0", fontSize: 15, color: "var(--fg-2)",
-            maxWidth: 620, lineHeight: 1.55,
-          }}>
-            A snapshot of cancer-research topics represented across the dataset library.
-            Term size reflects the number of contributing studies.
-          </p>
+            color: "var(--fg-1)", whiteSpace: "nowrap",
+          }}>Recent datasets</h2>
         </div>
+        <div style={{ fontSize: 14, color: "var(--fg-3)", maxWidth: 380, flex: "0 1 380px" }}>
+          A live slice of the Studies library. Sign in to see datasets shared with your institution.
+        </div>
+      </div>
 
-        <div style={{
-          display: "flex", flexWrap: "wrap",
-          alignItems: "baseline", justifyContent: "center",
-          gap: "18px 28px",
-          padding: "32px 16px",
-          background: "#fff",
-          border: "1px solid var(--border-subtle)",
-          borderRadius: 12,
-          textAlign: "center",
-        }}>
-          {ordered.map(({ t, w }) => (
-            <a key={t} href="#"
-               style={termStyle(w)}
-               onMouseEnter={e => e.currentTarget.style.color = "var(--pixi-navy)"}
-               onMouseLeave={e => {
-                 const colors = {
-                   6: "var(--pixi-navy)", 5: "var(--fg-1)", 4: "var(--fg-1)",
-                   3: "var(--fg-2)", 2: "var(--fg-3)", 1: "var(--fg-3)",
-                 };
-                 e.currentTarget.style.color = colors[w];
-               }}>
-              {t}
-            </a>
-          ))}
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+        {recent.map(s => <DatasetCard key={s.id} s={s} />)}
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
+        <a href="/ui_kits/web_app/index.html"><Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button></a>
       </div>
     </section>
   );
 };
+
+
 
 // ---------- Footer ----------
 
@@ -545,8 +481,8 @@ const Footer = () => (
         </div>
         <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
           {[
-            ["Explore", ["Datasets", "Knowledge base", "Compute"]],
-            ["About", ["About PIXI Center", "Contributors", "Roadmap"]],
+            ["Explore", ["Datasets", "Knowledge base"]],
+            ["About", ["About PIXI Center", "Contributors"]],
             ["Contribute", ["Submit a dataset", "Documentation", "Contact"]],
           ].map(([title, items]) => (
             <div key={title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -598,7 +534,6 @@ const HomePage = () => {
       <Hero t={t} />
       <FindSection />
       <RecentSection />
-      <ResearchAreas />
       <Footer />
 
       <TweaksPanel>
