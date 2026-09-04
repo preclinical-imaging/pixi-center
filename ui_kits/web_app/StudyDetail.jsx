@@ -93,8 +93,8 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, borderBottom: "1px solid transparent" }}>
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
-          <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={SUBJECTS.length}>Subjects</Tab>
-          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={96}>Imaging</Tab>
+          <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab>
+          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.scans || ""}>Imaging</Tab>
         </div>
       </div>
 

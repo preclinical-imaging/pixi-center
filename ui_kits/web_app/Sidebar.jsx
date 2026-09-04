@@ -44,6 +44,7 @@ const SidebarSection = ({ title, children }) => (
 );
 
 const Sidebar = ({ active, onNavigate }) => {
+  const { studies } = useStudies();
   return (
     <aside style={{
       width: 240, height: "100%",
@@ -58,17 +59,9 @@ const Sidebar = ({ active, onNavigate }) => {
       <div style={{ flex: 1, padding: "8px 10px", overflow: "auto" }}>
         <SidebarSection>
           <SidebarItem icon="home" label="Dashboard" active={active === "home"} onClick={() => onNavigate("home")} />
-          <SidebarItem icon="library" label="Datasets" active={active === "studies"} count={12} onClick={() => onNavigate("studies")} />
+          <SidebarItem icon="library" label="Datasets" active={active === "studies"} count={studies.length} onClick={() => onNavigate("studies")} />
           <SidebarItem icon="layers" label="Cohort Browser" active={active === "cohorts"} onClick={() => onNavigate("cohorts")} />
         </SidebarSection>
-
-{/*         <SidebarSection title="Workspaces"> */}
-{/*           <SidebarItem icon="flask" label="Oncology — preclinical" active={active === "ws-onco"} onClick={() => onNavigate("ws-onco")} /> */}
-{/*           <SidebarItem icon="flask" label="Cardio — biodistribution" onClick={() => onNavigate("ws-cardio")} /> */}
-{/*           <SidebarItem icon="flask" label="Shared with me" count={4} onClick={() => onNavigate("ws-shared")} /> */}
-{/*         </SidebarSection> */}
-
-
       </div>
 
 {/*       <div style={{ */}

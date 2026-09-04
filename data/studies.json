@@ -1,4 +1,4 @@
-[
+  [
   {
     "id": "Cancers2021",
     "title": "Deep Learning Segmentation of Triple-Negative Breast Cancer (TNBC) Patient Derived Tumor Xenograft (PDX) and Sensitivity of Radiomic Pipeline to Tumor Probability Boundary",
@@ -216,7 +216,7 @@
       "MR",
       "SR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-292921-168-R",
     "size": "",
     "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, adenocarcinoma pancreas xenograft 292921-168-R. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 mm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
@@ -246,7 +246,7 @@
       "MR",
       "SR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-425362-245-T",
     "size": "",
     "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, melanoma xenograft 425362-245-T. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 cm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
@@ -270,7 +270,7 @@
       "MR",
       "SR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-521955-158-R4",
     "size": "",
     "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, adenocarcinoma pancreas xenograft 521955-158-R4. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 mm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
@@ -294,7 +294,7 @@
       "MR",
       "SR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-833975-119-R",
     "size": "",
     "abstract": "Characterization of tissue using in vivo non-invasive imaging is the foundation of Radiology and is clinically used for detection and measurement of disease burden in oncology. With the migration of imaging to digital media the possibility for advanced mathematically based imaging biomarkers was realized. As part of this endeavor, researchers have developed various algorithms using neural networks, and classification techniques to improve tissue characterization (morphological changes). However, large datasets are a requirement in this research endeavor in part due to the genomic heterogeneity of tumors in the same histologic classification – many tumors from different patients are required to have enough with the same genomic characteristics to adequately evaluate the range of imaging variability for a specific genomic pattern. Pre-clinical animal models of patient derived xenografts may be an important resource by providing collections with a more homogenous tumor genome across the collection with companion extensive tumor genomic characterization available, allowing determination of the variability of imaging characteristics for that pattern in different individuals. This dataset of a patient derived xenograft model adenocarcinoma pancreas PDMR: 833975-119-R can be used for training algorithms for evaluating variations in tissue texture with respect to tumor growth and regrowth after surgical resection. In this study we performed a detailed imaging characterization (workflow below) of this model, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 mm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
@@ -318,7 +318,7 @@
       "MR",
       "SR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-997537-175-T",
     "size": "",
     "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require multiple timed cohorts with animal sacrifice and extensive pathological examination. We identified and characterized a patient derived xenograft model with metastatic potential, adenocarcinoma colon xenograft 997537-175-T. In this study we performed a detailed imaging characterization (workflow below) of this model, which develops spontaneous lung metastases, details are provided in the attached standard operating procedures. Tumors in half of the mice were resected in the range 200-300 mm3 size; tumors in the other half were allowed to grow until it was necessary to euthanize them because of tumor size.",
@@ -341,7 +341,7 @@
     "modalities": [
       "MR"
     ],
-    "institution": "National Cancer Institute",
+    "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-BL0293-F563",
     "size": "",
     "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require animal sacrifice and extensive pathological examination. We recently identified and characterized a patient derived xenograft model with metastatic potential, bladder xenograft BL0293-F563, developed by Jackson Laboratories and the University of California at Davis. In this study we performed a detailed imaging characterization of this model, which develops spontaneous liver and bone metastases. Using non-contrast T2 weighted MRI, hepatic metastases were demonstrated in over 70% of animals at 52 days post tumor implantation without resection of the xenograft and in 100% of animals at day 52 following resection of the xenograft. T2w turbo spin echo (T2wTSE) sequence was applied in the coronal view with a repetition time (TR) 5333ms, echo time (TE) 65ms, with an in-plane pixel of 0.180 × 0.180 mm2. A Spectral Presaturation with Inversion Recovery (SPIR) sequence (Philips Healthcare, Best, The Netherlands) was used to suppress the fat component and assist in distinguishing fat from cystic mass and tumor tissue. In a group of animals receiving one cycle of effective chemotherapy ([Temozolomide; (50 mg/kg; PO, QDx5)] plus [(veliparib, a poly (ADP-ribose) polymerase inhibitor) (7.75 mg/kg; PO; BIDx7)]), no animals demonstrated metastasis by imaging. The imaging characteristics of this model, which is available from the National Cancer Institute Patient-Derived Models Repository (https://pdmr.cancer.gov/), is highly favorable for preclinical research studies of metastatic disease when used in conjunction with non-contrast T2 weighted MRI.",
