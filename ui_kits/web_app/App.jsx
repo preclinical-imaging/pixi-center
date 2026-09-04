@@ -1,6 +1,7 @@
 // App shell — wires sidebar + topbar + view + inspector
 
 const App = () => {
+  const { studies } = useStudies();
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
   const [nav, setNav] = React.useState(
     () => (typeof location !== "undefined" && location.hash === "#cohorts") ? "cohorts" : "studies"
@@ -21,6 +22,16 @@ const App = () => {
         setOpenStudy(s); setNav("studies"); setOpenSubject(null);
 //       }
   };
+
+  // Deep-link support: the public Home page's "Recent datasets" cards link
+  // here as index.html#study/<id> — open that study's detail view once the
+  // study list has loaded.
+  React.useEffect(() => {
+    const match = typeof location !== "undefined" && location.hash.match(/^#study\/(.+)$/);
+    if (!match || !studies.length) return;
+    const study = studies.find(s => s.id === decodeURIComponent(match[1]));
+    if (study) onOpenStudy(study);
+  }, [studies]);
 
   // Build crumbs
   let crumbs = [{ label: "Oncology — preclinical" }];

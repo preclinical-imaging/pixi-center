@@ -351,7 +351,8 @@ const FindSection = () => (
 const DatasetCard = ({ s }) => {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href="#" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+    <a href={`../ui_kits/web_app/index.html#study/${encodeURIComponent(s.id)}`}
+       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{
          textDecoration: "none", color: "inherit",
          display: "flex", flexDirection: "column", gap: 14,
