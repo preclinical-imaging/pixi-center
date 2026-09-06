@@ -95,13 +95,14 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
           <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab>
           <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.scans || ""}>Imaging</Tab>
+          <Tab active={tab === "terms"} onClick={() => setTab("terms")}>Data Use Agreement</Tab>
         </div>
       </div>
 
       {/* Body */}
       <div style={{ padding: "20px 32px" }}>
-        {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />}
         {tab === "overview" && <Overview study={study} />}
+        {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />}
         {tab !== "subjects" && tab !== "overview" && (
           <div style={{
             padding: 60, textAlign: "center", background: "#fff",
@@ -112,6 +113,7 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
             <div style={{ fontSize: 13, marginTop: 4 }}>Tab content not part of this kit.</div>
           </div>
         )}
+        {tab === "terms" && <Terms>}
       </div>
     </div>
   );
@@ -198,6 +200,40 @@ const Overview = ({ study }) => (
       </div>
     </div>
   </div>
+);
+
+const Terms = ({ study }) => (
+    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <OverviewCard eyebrow="Terms Of Use">
+            <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
+              This dataset is being made available by PIXI Center and the institution named in the dataset abstract.
+              Please use the Data Citation below and reference the <a href="/about/data-use-terms.html">CIRP Resource
+              Sharing Policy</a>.
+            </p>
+          </OverviewCard>
+          <OverviewCard eyebrow="Data Citation">
+              <p style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.6, color: "var(--fg-2)", fontStyle: "italic" }}>
+                {study.dataCitation || `${study.lead || "Author, A."} (2021) ${study.title} [Data set]. PIXI Center. `}
+                {!study.dataCitation && (
+                  <span style={{ fontFamily: "var(--font-mono)", fontStyle: "normal" }}>{study.doi || "10.7937/pixi.2021.example"}</span>
+                )}
+              </p>
+              <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)" }}>
+                <KV
+                  label="DOI"
+                  mono
+                  value={
+                    <a href={`https://doi.org/${study.doi || "10.7937/pixi.2021.example"}`} target="_blank" rel="noreferrer"
+                       style={{ color: "var(--pixi-navy)", textDecoration: "none" }}>
+                      {study.doi || "10.7937/pixi.2021.example"}
+                    </a>
+                  }
+                />
+              </div>
+            </OverviewCard>
+        </div>
+    </div>
 );
 
 const KV = ({ label, value, mono }) => (
