@@ -90,8 +90,9 @@ const Contributing = () => (
     <p style={proseP}>
       The goal of PIXI Center is to support the aggregation of published preclinical
       datasets, making them widely available for public research consumption. Datasets
-      are attributed to their source institution and made available under a singular data
-      usage agreement. Datasets are tagged and filterable by modality, tracers and
+      are attributed to their source institution and made available under a
+      singular <a href="data-use-terms.html" style={{ color: "var(--pixi-navy)" }}>data
+      usage agreement</a>. Datasets are tagged and filterable by modality, tracers and
       sequences, areas of disease study, and counts of preclinical subjects, image
       sessions, and scans.
     </p>
