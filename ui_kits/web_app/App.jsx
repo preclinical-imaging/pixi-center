@@ -3,9 +3,12 @@
 const App = () => {
   const { studies } = useStudies();
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
-  const [nav, setNav] = React.useState(
-    () => (typeof location !== "undefined" && location.hash === "#cohorts") ? "cohorts" : "studies"
-  );
+  const [nav, setNav] = React.useState(() => {
+    if (typeof location === "undefined") return "studies";
+    if (location.hash === "#cohorts") return "cohorts";
+    if (location.hash === "#submit") return "submit";
+    return "studies";
+  });
   const [openStudy, setOpenStudy] = React.useState(null);
   const [openSubject, setOpenSubject] = React.useState(null);
 

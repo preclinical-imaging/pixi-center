@@ -68,6 +68,9 @@ const Mission = () => (
       analytics to support the complexity and growing demands in preclinical cancer
       imaging which will ultimately support translational oncologic precision medicine.
     </p>
+    <a href="../ui_kits/web_app/index.html">
+      <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
+    </a>
   </section>
 );
 
@@ -116,8 +119,8 @@ const Contributing = () => (
       Both methods of contributing begin with filling out an application to submit your
       dataset.
     </p>
-    <a href="../ui_kits/web_app/index.html">
-      <Button variant="primary" size="lg" icon="arrowRight">Browse datasets</Button>
+    <a href="../ui_kits/web_app/index.html#submit">
+      <Button variant="primary" size="lg" icon="arrowRight">Submit a dataset</Button>
     </a>
   </section>
 );
