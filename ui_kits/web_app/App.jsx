@@ -1,14 +1,20 @@
 // App shell — wires sidebar + topbar + view + inspector
 
+// Maps a #hash to a nav section — shared by the initial page load and the
+// hashchange listener below, so a link that only changes the hash (no full
+// page reload — e.g. the address bar, or back/forward) still navigates.
+function navFromHash(hash) {
+  if (hash === "#cohorts") return "cohorts";
+  if (hash === "#submit") return "submit";
+  return "studies";
+}
+
 const App = () => {
   const { studies } = useStudies();
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
-  const [nav, setNav] = React.useState(() => {
-    if (typeof location === "undefined") return "studies";
-    if (location.hash === "#cohorts") return "cohorts";
-    if (location.hash === "#submit") return "submit";
-    return "studies";
-  });
+  const [nav, setNav] = React.useState(
+    () => (typeof location !== "undefined") ? navFromHash(location.hash) : "studies"
+  );
   const [openStudy, setOpenStudy] = React.useState(null);
   const [openSubject, setOpenSubject] = React.useState(null);
 
@@ -35,6 +41,20 @@ const App = () => {
     const study = studies.find(s => s.id === decodeURIComponent(match[1]));
     if (study) onOpenStudy(study);
   }, [studies]);
+
+  // A #hash-only change (address bar edit, back/forward, an in-page link)
+  // doesn't reload the document, so it wouldn't otherwise reach the nav
+  // state set up above on mount — listen for it explicitly.
+  React.useEffect(() => {
+    const onHashChange = () => {
+      if (/^#study\//.test(location.hash)) return; // handled by the effect above
+      setOpenStudy(null);
+      setOpenSubject(null);
+      setNav(navFromHash(location.hash));
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   // Build crumbs
   let crumbs = [{ label: "Oncology — preclinical" }];
