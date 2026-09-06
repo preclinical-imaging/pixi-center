@@ -61,7 +61,7 @@ const Mission = () => (
       enables centralized learning to apply AI pipelines, taking advantage of the
       computational environment in PIXI.
     </p>
-    <p style={{ ...proseP, marginBottom: 0 }}>
+    <p style={{ ...proseP, marginBottom: 32 }}>
       Overall, the next development of PIXI is expected to have a profound impact on
       management of preclinical imaging datasets and associated correlative data (e.g.,
       -OMICS, spatial) as well as advanced needs in computational preclinical imaging and
