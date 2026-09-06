@@ -326,27 +326,50 @@
     "doi": "10.7937/TCIA.2020.BRY9-4N29",
     "resources": []
   },
-  {
-    "id": "PDMR-BL0293-F563",
-    "title": "Imaging characterization of a metastatic patient derived model of bladder cancer",
-    "area": "Bladder Cancer",
-    "status": "success",
-    "statusLabel": "Public",
-    "subjects": 19,
-    "scans": 131,
-    "lead": "",
-    "team": [],
-    "updated": "",
-    "day": "",
-    "modalities": [
-      "MR"
-    ],
-    "institution": "Frederick National Laboratory for Cancer Research",
-    "url": "/xnat/data/projects/PDMR-BL0293-F563",
-    "size": "",
-    "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require animal sacrifice and extensive pathological examination. We recently identified and characterized a patient derived xenograft model with metastatic potential, bladder xenograft BL0293-F563, developed by Jackson Laboratories and the University of California at Davis. In this study we performed a detailed imaging characterization of this model, which develops spontaneous liver and bone metastases. Using non-contrast T2 weighted MRI, hepatic metastases were demonstrated in over 70% of animals at 52 days post tumor implantation without resection of the xenograft and in 100% of animals at day 52 following resection of the xenograft. T2w turbo spin echo (T2wTSE) sequence was applied in the coronal view with a repetition time (TR) 5333ms, echo time (TE) 65ms, with an in-plane pixel of 0.180 × 0.180 mm2. A Spectral Presaturation with Inversion Recovery (SPIR) sequence (Philips Healthcare, Best, The Netherlands) was used to suppress the fat component and assist in distinguishing fat from cystic mass and tumor tissue. In a group of animals receiving one cycle of effective chemotherapy ([Temozolomide; (50 mg/kg; PO, QDx5)] plus [(veliparib, a poly (ADP-ribose) polymerase inhibitor) (7.75 mg/kg; PO; BIDx7)]), no animals demonstrated metastasis by imaging. The imaging characteristics of this model, which is available from the National Cancer Institute Patient-Derived Models Repository (https://pdmr.cancer.gov/), is highly favorable for preclinical research studies of metastatic disease when used in conjunction with non-contrast T2 weighted MRI.",
-    "dataCitation": "Tatum, J. L., Kalen, J. D., Jacobs, P. M., Ileva, L. V., Riffle, L. A., Keita, S., Patel, N., Sanders, C., James, A., Difilippantonio, S., Thang, L., Hollingshead, M. G., Phillips, J., Edmondson, E., Evrard, Y., Clunie, D. A., Liu, Y., Smith, K. E., Wagner, U., … Doroshow, J. H. (2020). Imaging characterization of a metastatic patient derived model of melanoma: (PDMR-425362-245-T) [Data set]. The Cancer Imaging Archive",
-    "doi": "10.7937/TCIA.2020.BRY9-4N29",
-    "resources": []
-  }
-]
+    {
+      "id": "PDMR-BL0293-F563",
+      "title": "Imaging characterization of a metastatic patient derived model of bladder cancer",
+      "area": "Bladder Cancer",
+      "status": "success",
+      "statusLabel": "Public",
+      "subjects": 19,
+      "scans": 131,
+      "lead": "",
+      "team": [],
+      "updated": "",
+      "day": "",
+      "modalities": [
+        "MR"
+      ],
+      "institution": "Frederick National Laboratory for Cancer Research",
+      "url": "/xnat/data/projects/PDMR-BL0293-F563",
+      "size": "",
+      "abstract": "Pre-clinical animal models of spontaneous metastatic cancer are infrequent; the few that exist are resource intensive because determination of the presence of metastatic disease, metastatic burden, and response to therapy normally require animal sacrifice and extensive pathological examination. We recently identified and characterized a patient derived xenograft model with metastatic potential, bladder xenograft BL0293-F563, developed by Jackson Laboratories and the University of California at Davis. In this study we performed a detailed imaging characterization of this model, which develops spontaneous liver and bone metastases. Using non-contrast T2 weighted MRI, hepatic metastases were demonstrated in over 70% of animals at 52 days post tumor implantation without resection of the xenograft and in 100% of animals at day 52 following resection of the xenograft. T2w turbo spin echo (T2wTSE) sequence was applied in the coronal view with a repetition time (TR) 5333ms, echo time (TE) 65ms, with an in-plane pixel of 0.180 × 0.180 mm2. A Spectral Presaturation with Inversion Recovery (SPIR) sequence (Philips Healthcare, Best, The Netherlands) was used to suppress the fat component and assist in distinguishing fat from cystic mass and tumor tissue. In a group of animals receiving one cycle of effective chemotherapy ([Temozolomide; (50 mg/kg; PO, QDx5)] plus [(veliparib, a poly (ADP-ribose) polymerase inhibitor) (7.75 mg/kg; PO; BIDx7)]), no animals demonstrated metastasis by imaging. The imaging characteristics of this model, which is available from the National Cancer Institute Patient-Derived Models Repository (https://pdmr.cancer.gov/), is highly favorable for preclinical research studies of metastatic disease when used in conjunction with non-contrast T2 weighted MRI.",
+      "dataCitation": "Tatum, J. L., Kalen, J. D., Jacobs, P. M., Ileva, L. V., Riffle, L. A., Keita, S., Patel, N., Sanders, C., James, A., Difilippantonio, S., Thang, L., Hollingshead, M. G., Phillips, J., Edmondson, E., Evrard, Y., Clunie, D. A., Liu, Y., Smith, K. E., Wagner, U., … Doroshow, J. H. (2020). Imaging characterization of a metastatic patient derived model of melanoma: (PDMR-425362-245-T) [Data set]. The Cancer Imaging Archive",
+      "doi": "10.7937/TCIA.2020.BRY9-4N29",
+      "resources": []
+    },
+    {
+      "id": "DukeU24",
+      "title": "The Duke Preclinical Research Resources for Quantitative Imaging Biomarkers",
+      "area": "Lung Cancer",
+      "status": "warn",
+      "statusLabel": "Protected",
+      "subjects": 13,
+      "scans": 10,
+      "lead": "",
+      "team": [],
+      "updated": "",
+      "day": "",
+      "modalities": [
+        "CT"
+      ],
+      "institution": "Duke",
+      "url": "/xnat/data/projects/DukeU24",
+      "size": "",
+      "abstract": "We are developing imaging methods for a co-clinical trial investigating synergy between immunotherapy and radiotherapy. We perform longitudinal micro-computed tomography (micro-CT) of mice to detect lung metastasis after treatment. This work explores deep learning (DL) as a fast approach for automated lung nodule detection. We used data from control mice both with and without primary lung tumors. To augment the number of training sets, we have simulated data using real augmented tumors inserted into micro-CT scans. We employed a convolutional neural network (CNN), trained with four competing types of training data: (1) simulated only, (2) real only, (3) simulated and real, and (4) pretraining on simulated followed with real data. We evaluated our model performance using precision and recall curves, as well as receiver operating curves (ROC) and their area under the curve (AUC). The AUC appears to be almost identical (0.76–0.77) for all four cases. However, the combination of real and synthetic data was shown to improve precision by 8%. Smaller tumors have lower rates of detection than larger ones, with networks trained on real data showing better performance. Our work suggests that DL is a promising approach for fast and relatively accurate detection of lung tumors in mice.",
+      "dataCitation": "Holbrook, M.D.; Clark, D.P.; Patel, R.; Qi, Y.; Bassil, A.M.; Mowery, Y.M.; Badea, C.T. Detection of Lung Nodules in Micro-CT Imaging Using Deep Learning. Tomography 2021, 7, 358-372",
+      "doi": "10.3390/tomography7030032",
+      "resources": []
+    }
+  ]

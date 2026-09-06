@@ -140,7 +140,6 @@ const Studies = ({ onOpenStudy, onSubmitDataset }) => {
           }}>Datasets</h1>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Button variant="secondary" icon="download">Export</Button>
           <Button variant="primary" icon="plus" onClick={onSubmitDataset}>Submit dataset</Button>
         </div>
       </div>
