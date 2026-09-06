@@ -103,7 +103,8 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
       <div style={{ padding: "20px 32px" }}>
         {tab === "overview" && <Overview study={study} />}
         {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />}
-        {tab !== "subjects" && tab !== "overview" && (
+        {tab === "terms" && <Terms study={study} />}
+        {tab !== "subjects" && tab !== "overview" && tab !== "terms" && (
           <div style={{
             padding: 60, textAlign: "center", background: "#fff",
             border: "1px solid var(--border-subtle)", borderRadius: 8, color: "var(--fg-3)",
@@ -113,7 +114,6 @@ const StudyDetail = ({ study, onOpenSubject, onBack }) => {
             <div style={{ fontSize: 13, marginTop: 4 }}>Tab content not part of this kit.</div>
           </div>
         )}
-        {tab === "terms" && <Terms>}
       </div>
     </div>
   );
