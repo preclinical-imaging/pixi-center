@@ -101,6 +101,20 @@ const App = () => {
 
 const HomeView = ({ onOpenStudy }) => {
   const { studies } = useStudies();
+
+  // Same counts, computed the same way, as the public home page's hero
+  // stats (see home/Home.jsx's Hero component).
+  const stats = React.useMemo(() => {
+    const institutions = new Set(studies.map(s => s.institution).filter(Boolean));
+    const sum = (key) => studies.reduce((total, s) => total + (Number(s[key]) || 0), 0);
+    return {
+      datasets: studies.length,
+      subjects: sum("subjects"),
+      scans: sum("scans"),
+      institutions: institutions.size,
+    };
+  }, [studies]);
+
   return (
     <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)", maxWidth: 1100 }}>
       <Eyebrow>Workspace · Oncology — preclinical</Eyebrow>
@@ -110,16 +124,16 @@ const HomeView = ({ onOpenStudy }) => {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
         {[
-          ["Active studies", "8", "var(--pixi-navy)"],
-          ["Subjects in flight", "146", "var(--fg-1)"],
-          ["Awaiting review", "12", "#8C6A00"],
-          ["Failed QC", "2", "var(--danger)"],
-        ].map(([l, v, c]) => (
+          ["Datasets", stats.datasets],
+          ["Subjects", stats.subjects],
+          ["Scans", stats.scans],
+          ["Institutions", stats.institutions],
+        ].map(([l, v]) => (
           <div key={l} style={{
             background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
           }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 6 }}>{l}</div>
-            <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: c, fontVariantNumeric: "tabular-nums" }}>{v}</div>
+            <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{v.toLocaleString()}</div>
           </div>
         ))}
       </div>
