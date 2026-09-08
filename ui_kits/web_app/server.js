@@ -11,10 +11,11 @@
 // POST /api/submissions persists a row of the "Submit a dataset" form
 // (see ../../submit-dataset/SubmitDataset.jsx) into submissions.db, in a
 // `submissions` table created on first run, then emails the submission
-// details to the form's "Contact Email" via a local SMTP relay (see "Email"
-// section below). This server's static file root is the repo root (see
-// ROOT below), so it serves that top-level page too, same-origin with this
-// endpoint regardless of which page the fetch comes from.
+// details to the form's "Contact Email" (cc'd to SUBMISSION_CC below) via a
+// local SMTP relay (see "Email" section below). This server's static file
+// root is the repo root (see ROOT below), so it serves that top-level page
+// too, same-origin with this endpoint regardless of which page the fetch
+// comes from.
 
 const http = require("node:http");
 const fs = require("node:fs");
@@ -102,6 +103,9 @@ function insertSubmission(body) {
 const SMTP_HOST = process.env.SMTP_HOST || "localhost";
 const SMTP_PORT = Number(process.env.SMTP_PORT) || 25;
 const EMAIL_FROM = process.env.EMAIL_FROM || "no-reply@pixi-center.local";
+// CC'd on every submission confirmation so PIXI Center staff see new
+// proposals as they come in, not just the submitting contact.
+const SUBMISSION_CC = process.env.SUBMISSION_CC || "info@pixi.org";
 
 // Field order/labels mirror the form in SubmitDataset.jsx.
 const FIELD_LABELS = {
@@ -147,10 +151,11 @@ function describeError(err) {
   return String(err);
 }
 
-// Minimal SMTP client: connect, EHLO, MAIL FROM, RCPT TO, DATA, QUIT.
-// Resolves once the message has been accepted by the relay; rejects on any
-// SMTP error response, socket error, or 10s timeout.
-function sendEmail({ to, subject, text }) {
+// Minimal SMTP client: connect, EHLO, MAIL FROM, RCPT TO (once per envelope
+// recipient — `to` and, if given, `cc`), DATA, QUIT. Resolves once the
+// message has been accepted by the relay; rejects on any SMTP error
+// response, socket error, or 10s timeout.
+function sendEmail({ to, cc, subject, text }) {
   return new Promise((resolve, reject) => {
     const socket = net.createConnection({ host: SMTP_HOST, port: SMTP_PORT });
     let buffer = "";
@@ -195,14 +200,21 @@ function sendEmail({ to, subject, text }) {
       await expect(250);
       socket.write(`MAIL FROM:<${EMAIL_FROM}>\r\n`);
       await expect(250);
-      socket.write(`RCPT TO:<${to}>\r\n`);
-      await expect(250);
+
+      // One RCPT TO per envelope recipient — the Cc header alone wouldn't
+      // deliver anything, the relay only sends to addresses named here.
+      const recipients = [to, ...(cc && cc !== to ? [cc] : [])];
+      for (const addr of recipients) {
+        socket.write(`RCPT TO:<${addr}>\r\n`);
+        await expect(250);
+      }
       socket.write(`DATA\r\n`);
       await expect(354);
 
       const message =
         `From: PIXI Center <${EMAIL_FROM}>\r\n` +
         `To: <${to}>\r\n` +
+        (cc ? `Cc: <${cc}>\r\n` : "") +
         `Subject: ${subject}\r\n` +
         `Content-Type: text/plain; charset=utf-8\r\n\r\n` +
         text.replace(/\r?\n/g, "\r\n").replace(/^\./gm, "..") + // dot-stuffing
@@ -283,7 +295,7 @@ const server = http.createServer(async (req, res) => {
       if (body.contactEmail) {
         try {
           const { subject, text } = formatSubmissionEmail(body, result);
-          await sendEmail({ to: body.contactEmail, subject, text });
+          await sendEmail({ to: body.contactEmail, cc: SUBMISSION_CC, subject, text });
           emailSent = true;
         } catch (err) {
           emailError = err.message;
