@@ -19,7 +19,7 @@ const Crumbs = ({ items, onNavigate }) => (
   </nav>
 );
 
-const Topbar = ({ crumbs = [], onNavigate, onNewStudy, showCrumbs = true }) => {
+const Topbar = ({ crumbs = [], onNavigate, showCrumbs = true }) => {
   return (
     <header style={{
       height: 56, flexShrink: 0,
@@ -58,7 +58,7 @@ const Topbar = ({ crumbs = [], onNavigate, onNewStudy, showCrumbs = true }) => {
           border: "1px solid var(--border-subtle)", background: "#fff",
         }}>⌘K</span>
       </form>
-      <Button variant="primary" icon="plus" onClick={onNewStudy}>Submit dataset</Button>
+      <a href="/submit-dataset/index.html"><Button variant="primary" icon="plus">Submit dataset</Button></a>
     </header>
   );
 };

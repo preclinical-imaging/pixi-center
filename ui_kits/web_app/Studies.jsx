@@ -119,7 +119,7 @@ const FilterChip = ({ children, active, onClick }) => (
   }}>{children}</button>
 );
 
-const Studies = ({ onOpenStudy, onSubmitDataset }) => {
+const Studies = ({ onOpenStudy }) => {
   const [filter, setFilter] = React.useState("All");
   const [view, setView] = React.useState("grid");
   const { studies, error } = useStudies();
@@ -140,7 +140,7 @@ const Studies = ({ onOpenStudy, onSubmitDataset }) => {
           }}>Datasets</h1>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <Button variant="primary" icon="plus" onClick={onSubmitDataset}>Submit dataset</Button>
+          <a href="/submit-dataset/index.html"><Button variant="primary" icon="plus">Submit dataset</Button></a>
         </div>
       </div>
 

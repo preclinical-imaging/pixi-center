@@ -9,9 +9,12 @@
 // Then:  open http://localhost:8787/ui_kits/web_app/index.html
 //
 // POST /api/submissions persists a row of the "Submit a dataset" form
-// (see SubmitDataset.jsx) into submissions.db, in a `submissions` table
-// created on first run, then emails the submission details to the form's
-// "Contact Email" via a local SMTP relay (see "Email" section below).
+// (see ../../submit-dataset/SubmitDataset.jsx) into submissions.db, in a
+// `submissions` table created on first run, then emails the submission
+// details to the form's "Contact Email" via a local SMTP relay (see "Email"
+// section below). This server's static file root is the repo root (see
+// ROOT below), so it serves that top-level page too, same-origin with this
+// endpoint regardless of which page the fetch comes from.
 
 const http = require("node:http");
 const fs = require("node:fs");

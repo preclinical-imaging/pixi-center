@@ -5,7 +5,6 @@
 // page reload — e.g. the address bar, or back/forward) still navigates.
 function navFromHash(hash) {
   if (hash === "#cohorts") return "cohorts";
-  if (hash === "#submit") return "submit";
   return "studies";
 }
 
@@ -63,16 +62,12 @@ const App = () => {
   if (nav === "imaging") crumbs = [{ label: "Imaging" }, { label: "Workbench" }];
   if (nav === "cohorts") crumbs = [{ label: "Cohort Browser" }];
   if (nav === "home") crumbs = [{ label: "Home" }];
-  if (nav === "submit") crumbs = [{ label: "Studies", to: "studies" }, { label: "Submit dataset" }];
-  if (nav === "submit-thanks") crumbs = [{ label: "Studies", to: "studies" }, { label: "Submission received" }];
 
   let view;
   if (nav === "imaging") view = <Workbench />;
   else if (nav === "cohorts") view = <CohortBrowser />;
-  else if (nav === "submit") view = <SubmitDataset onSubmitted={() => onNavigate("submit-thanks")} />;
-  else if (nav === "submit-thanks") view = <SubmitDatasetThanks onBack={() => onNavigate("studies")} />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} onBack={() => setOpenStudy(null)} />;
-  else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} onSubmitDataset={() => onNavigate("submit")} />;
+  else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
   else view = <HomeView onOpenStudy={onOpenStudy} />;
 
   return (
@@ -86,7 +81,6 @@ const App = () => {
           crumbs={crumbs}
           showCrumbs={t.showCrumbs}
           onNavigate={(c) => { if (c.to) { setOpenStudy(null); setNav(c.to); } }}
-          onNewStudy={() => onNavigate("submit")}
         />
         <main style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
           {view}

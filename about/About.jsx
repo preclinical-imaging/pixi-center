@@ -120,7 +120,7 @@ const Contributing = () => (
       Both methods of contributing begin with filling out an application to submit your
       dataset.
     </p>
-    <a href="../ui_kits/web_app/index.html#submit">
+    <a href="../submit-dataset/index.html">
       <Button variant="primary" size="lg" icon="arrowRight">Submit a dataset</Button>
     </a>
   </section>
