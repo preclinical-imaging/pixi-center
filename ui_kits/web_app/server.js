@@ -16,12 +16,18 @@
 // root is the repo root (see ROOT below), so it serves that top-level page
 // too, same-origin with this endpoint regardless of which page the fetch
 // comes from.
+//
+// GET /api/captcha + POST /api/contact back the Contact page's form (see
+// ../../contact/Contact.jsx) — no persistence, just a spam-resistant email
+// to CONTACT_TO below (see "Contact form captcha" section for how the
+// captcha works).
 
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 const net = require("node:net");
 const os = require("node:os");
+const crypto = require("node:crypto");
 const { DatabaseSync } = require("node:sqlite");
 
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -106,6 +112,8 @@ const EMAIL_FROM = process.env.EMAIL_FROM || "no-reply@pixi-center.local";
 // CC'd on every submission confirmation so PIXI Center staff see new
 // proposals as they come in, not just the submitting contact.
 const SUBMISSION_CC = process.env.SUBMISSION_CC || "info@pixi.org";
+// Every Contact page message (../../contact/Contact.jsx) is emailed here.
+const CONTACT_TO = process.env.CONTACT_TO || "will@xnatworks.io";
 
 // Field order/labels mirror the form in SubmitDataset.jsx.
 const FIELD_LABELS = {
@@ -142,6 +150,64 @@ function formatSubmissionEmail(body, result) {
   return { subject, text };
 }
 
+// Field order/labels mirror the form in ../../contact/Contact.jsx.
+const CONTACT_FIELD_LABELS = {
+  name: "Name",
+  email: "Email",
+  institution: "Institution",
+  position: "Position",
+  message: "Message",
+};
+
+function formatContactEmail(body) {
+  const lines = ["name", "email", "institution", "position", "message"].map(
+    (f) => `${CONTACT_FIELD_LABELS[f]}: ${body[f] || "—"}`
+  );
+  const subject = `PIXI Center contact form: ${body.name || "(no name)"}`;
+  const text =
+    `New message from the PIXI Center contact form.\n\n` +
+    lines.join("\n") + "\n";
+  return { subject, text };
+}
+
+// --- Contact form captcha ---------------------------------------------------
+//
+// A self-contained arithmetic challenge — no external service or API key,
+// matching this file's no-external-dependencies approach. GET /api/captcha
+// mints a challenge and stores its answer server-side (never sent to the
+// client); POST /api/contact must echo back the id and the correct answer.
+// Challenges are one-time-use (deleted on verification, matched or not) and
+// expire after CAPTCHA_TTL_MS so a stale tab can't replay an old answer.
+
+const CAPTCHA_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const captchas = new Map(); // id -> { answer, expires }
+
+function mintCaptcha() {
+  const a = 1 + Math.floor(Math.random() * 9);
+  const b = 1 + Math.floor(Math.random() * 9);
+  const id = crypto.randomUUID();
+  captchas.set(id, { answer: a + b, expires: Date.now() + CAPTCHA_TTL_MS });
+  return { id, question: `${a} + ${b}` };
+}
+
+// Verifies and consumes a challenge in one step (a challenge is single-use
+// whether or not the answer was right, so a bot can't brute-force it).
+function checkCaptcha(id, answer) {
+  const entry = id && captchas.get(id);
+  if (entry) captchas.delete(id);
+  if (!entry) return "Verification expired — please try again.";
+  if (Date.now() > entry.expires) return "Verification expired — please try again.";
+  if (Number(answer) !== entry.answer) return "That answer doesn't look right — please try again.";
+  return null; // no error
+}
+
+// Expired-but-unconsumed challenges (an abandoned page load) would otherwise
+// sit in memory forever; sweep them out periodically.
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, entry] of captchas) if (now > entry.expires) captchas.delete(id);
+}, CAPTCHA_TTL_MS).unref();
+
 // Node reports a refused/unreachable connection as an AggregateError whose
 // own .message is empty (the useful text is nested in .errors[]) — pull out
 // something readable regardless of which shape a socket error takes.
@@ -155,7 +221,7 @@ function describeError(err) {
 // recipient — `to` and, if given, `cc`), DATA, QUIT. Resolves once the
 // message has been accepted by the relay; rejects on any SMTP error
 // response, socket error, or 10s timeout.
-function sendEmail({ to, cc, subject, text }) {
+function sendEmail({ to, cc, replyTo, subject, text }) {
   return new Promise((resolve, reject) => {
     const socket = net.createConnection({ host: SMTP_HOST, port: SMTP_PORT });
     let buffer = "";
@@ -215,6 +281,7 @@ function sendEmail({ to, cc, subject, text }) {
         `From: PIXI Center <${EMAIL_FROM}>\r\n` +
         `To: <${to}>\r\n` +
         (cc ? `Cc: <${cc}>\r\n` : "") +
+        (replyTo ? `Reply-To: <${replyTo}>\r\n` : "") +
         `Subject: ${subject}\r\n` +
         `Content-Type: text/plain; charset=utf-8\r\n\r\n` +
         text.replace(/\r?\n/g, "\r\n").replace(/^\./gm, "..") + // dot-stuffing
@@ -311,6 +378,49 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: err.message }));
     }
+    return;
+  }
+  if (req.method === "POST" && req.url === "/api/contact") {
+    try {
+      const body = await readJsonBody(req);
+
+      // `company` is a honeypot field: hidden from real visitors by CSS, so
+      // only a bot filling in every field would populate it. Report success
+      // without actually sending mail, so the bot has no signal it was caught.
+      if (body.company) {
+        res.writeHead(201, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ ok: true }));
+        return;
+      }
+
+      const captchaError = checkCaptcha(body.captchaId, body.captchaAnswer);
+      if (captchaError) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: captchaError }));
+        return;
+      }
+
+      if (!body.name || !body.email || !body.message) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Name, email, and message are required." }));
+        return;
+      }
+
+      const { subject, text } = formatContactEmail(body);
+      await sendEmail({ to: CONTACT_TO, subject, text, replyTo: body.email });
+
+      res.writeHead(201, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: true }));
+    } catch (err) {
+      console.error(`Failed to send contact message: ${err.message}`);
+      res.writeHead(502, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Couldn't send this message right now — please try again shortly." }));
+    }
+    return;
+  }
+  if (req.method === "GET" && req.url === "/api/captcha") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(mintCaptcha()));
     return;
   }
   if (req.method === "GET") {
