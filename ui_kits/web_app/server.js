@@ -113,7 +113,7 @@ const EMAIL_FROM = process.env.EMAIL_FROM || "no-reply@pixi-center.local";
 // proposals as they come in, not just the submitting contact.
 const SUBMISSION_CC = process.env.SUBMISSION_CC || "info@pixi.org";
 // Every Contact page message (../../contact/Contact.jsx) is emailed here.
-const CONTACT_TO = process.env.CONTACT_TO || "will@xnatworks.io";
+const CONTACT_TO = process.env.CONTACT_TO || "info@pixi.org";
 
 // Field order/labels mirror the form in SubmitDataset.jsx.
 const FIELD_LABELS = {

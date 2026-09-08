@@ -8,7 +8,7 @@
 // is the repo root, so this page and that endpoint are same-origin
 // regardless of which top-level page the fetch comes from). Every
 // submission is emailed to CONTACT_TO (server-side), currently
-// will@xnatworks.io.
+// info@xnatworks.io.
 //
 // Spam prevention is two layers, both server-verified (see server.js's
 // "Contact form captcha" section):
