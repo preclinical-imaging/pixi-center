@@ -9,7 +9,7 @@
 const FACET_DEFS = [
   { key: "modalities",  label: "Modality", multi: true },
   { key: "area",        label: "Disease Area" },
-  { key: "scanner",     label: "Scanner" },
+  { key: "scanner",     label: "Scanner", multi: true },
   { key: "institution", label: "Institution" },
 ];
 
@@ -17,8 +17,14 @@ const FACET_DEFS = [
 // fresh Set on every render for facets nothing is selected in.
 const EMPTY_SET = new Set();
 
+// data/studies.json isn't fully consistent about whether a "multi" field
+// (modalities, scanner) is an array or a bare string — normalize to an
+// array of strings so facet building/matching/rendering can treat every
+// record the same way.
+const asList = (v) => Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []);
+
 const cohortHas = (cohort, facet, opt) =>
-  facet.multi ? (cohort[facet.key] || []).includes(opt) : cohort[facet.key] === opt;
+  facet.multi ? asList(cohort[facet.key]).includes(opt) : cohort[facet.key] === opt;
 
 // Distinct, sorted values for each facet key across the loaded datasets.
 // Facets whose key is absent/blank everywhere drop out entirely.
@@ -27,7 +33,7 @@ function buildFacets(studies) {
     const values = new Set();
     for (const s of studies) {
       const v = s[def.key];
-      if (def.multi) (v || []).forEach(x => x && values.add(x));
+      if (def.multi) asList(v).forEach(x => values.add(x));
       else if (v) values.add(v);
     }
     return { ...def, options: [...values].sort((a, b) => a.localeCompare(b)) };
@@ -241,8 +247,10 @@ const CohortBrowser = () => {
                         </div>
                       </td>
                       <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.area}</td>
-                      <td style={cbCellStyle}><ModTags mods={c.modalities || []} /></td>
-                      <td style={{ ...cbCellStyle, color: c.scanner ? "var(--fg-2)" : "var(--fg-4)" }}>{c.scanner || "—"}</td>
+                      <td style={cbCellStyle}><ModTags mods={asList(c.modalities)} /></td>
+                      <td style={{ ...cbCellStyle, color: asList(c.scanner).length ? "var(--fg-2)" : "var(--fg-4)" }}>
+                        {asList(c.scanner).join(", ") || "—"}
+                      </td>
                       <td style={cbCellStyle}>
                         <span style={{
                           display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
