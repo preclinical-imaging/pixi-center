@@ -140,7 +140,11 @@ const Overview = ({ study }) => (
           <KV label="Disease" value={study.area || ""} />
           <KV label="Location" value={study.location || ""} />
           <KV label="Modalities" value={(study.modalities || []).join(", ")} mono />
-          <KV label="Tracer" value="" mono />
+          {(study.sequences || []).length > 0 ? (
+            <KV label="Sequences" value={study.sequences.join(", ")} mono />
+          ) : (
+            <KV label="Tracer" value={study.tracer || ""} mono />
+          )}
           <KV label="Total Data" value={study.size || ""} mono />
         </div>
       </OverviewCard>
