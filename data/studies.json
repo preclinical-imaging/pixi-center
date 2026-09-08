@@ -8,9 +8,11 @@
     "statusLabel": "Public",
     "subjects": 40,
     "scans": 80,
+    "scanner": ["MR Solutions 7T"],
     "modalities": [
       "MR"
     ],
+    "sequences": ["T1w","T2w"],
     "size": "497 MB",
     "lead": "KS",
     "institution": "WashU",
@@ -21,7 +23,7 @@
       "MK",
       "TC"
     ],
-    "updated": "2 h ago",
+    "updated": "2021-07-26",
     "url": "/xnat/data/projects/Cancers2021",
     "abstract": "Preclinical imaging is critical in the development of translational strategies to detect diseases and monitor response to therapy. The National Cancer Institute Co-Clinical Imaging Resource Program was launched, in part, to develop best practices in preclinical imaging. In this context, the objective of this work was to develop a 1-hour, multiparametric magnetic resonance image-acquisition pipeline with triple-negative breast cancer patient-derived xenografts (PDXs). The 1-hour, image-acquisition pipeline includes T1- and T2-weighted scans, quantitative T1, T2, and apparent diffusion coefficient (ADC) parameter maps, and dynamic contrast-enhanced (DCE) time-course images. Quality-control measures used phantoms. The triple-negative breast cancer PDXs used for this study averaged 174 ± 73 μL in volume, with region of interest–averaged T1, T2, and ADC values of 1.9 ± 0.2 seconds, 62 ± 3 milliseconds, and 0.71 ± 0.06 μm2/ms (mean ± SD), respectively. Specific focus was on assessing the within-subject test–retest coefficient-of-variation (CVWS) for each of the magnetic resonance imaging metrics. Determination of PDX volume via manually drawn regions of interest is highly robust, with ∼1% CVWS. Determination of T2 is also robust with a ∼3% CVWS. Measurements of T1 and ADC are less robust with CVWS values in the 6%–11% range. Preliminary DCE test–retest time-course determinations, as quantified by area under the curve and Ktrans from 2-compartment exchange (extended Tofts) modeling, suggest that DCE is the least robust protocol, with ∼30%–40% CVWS.",
     "dataCitation": "Ge X, Quirk JD, Engelbach JA, Bretthorst GL, Li S, Shoghi KI, Garbow JR, Ackerman JJH. Test–Retest Performance of a 1-Hour Multiparametric MR Image Acquisition Pipeline With Orthotopic Triple-Negative Breast Cancer Patient-Derived Tumor Xenografts. <i>Tomography</i>. 2019; 5(3):320-331.",
@@ -52,10 +54,12 @@
     "statusLabel": "Protected",
     "subjects": 69,
     "scans": 138,
+    "scanner": ["microPET Focus 220","Inveon"],
     "modalities": [
       "PET",
       "CT"
     ],
+    "tracer": "FDG",
     "day": "D 4 / 14",
     "lead": "EH",
     "institution": "WashU",
@@ -64,7 +68,7 @@
       "RA",
       "JP"
     ],
-    "updated": "5 d ago",
+    "updated": "2020-06-01",
     "size": "38.9 GB",
     "abstract": "Numerous recent works highlight the limited utility of established tumor cell lines in recapitulating the heterogeneity of tumors in patients. More realistic preclinical cancer models are thought to be provided by transplantable, patient-derived xenografts (PDXs). The inter- and intratumor heterogeneity of PDXs, however, presents several challenges in developing optimal quantitative pipelines to assess response to therapy. The objective of this work was to develop and optimize image metrics for 18F-FDG PET to assess response to combination docetaxel and carboplatin therapy in a co-clinical trial involving triple-negative breast cancer PDXs. We characterized the reproducibility of standardized uptake value (SUV) metrics to assess response to therapy, and we optimized a preclinical PERCIST paradigm to complement clinical standards. Considerations in this effort included variability in tumor growth rate and tumor size, solid tumors versus tumor heterogeneity and a necrotic phenotype, and optimal selection of tumor slices versus whole tumor.",
     "dataCitation": "Madhusudan A. Savaikar, Timothy Whitehead, Sudipta Roy, Lori Strong, Nicole Fettig, Tina Prmeau, Jingqin Luo, Shunqiang Li, Richard L. Wahl and Kooresh I. Shoghi. Journal of Nuclear Medicine June 2020, 61 (6) 842-849;",
@@ -96,10 +100,12 @@
     "statusLabel": "Protected",
     "subjects": 30,
     "scans": 60,
+    "scanner": ["MR Solutions 7T"],
     "modalities": [
       "PET",
       "CT"
     ],
+    "sequences": ["T1w","T2w"],
     "size": "497 MB",
     "day": "D 4 / 14",
     "lead": "EH",
@@ -135,11 +141,14 @@
     "statusLabel": "Protected",
     "subjects": 13,
     "scans": 26,
+    "scanner": ["Agilent/Varian"],
     "modalities": [
       "MR"
     ],
+    "sequences": ["T1w", "T2w"],
     "size": "1.2 GB",
     "institution": "WashU",
+    "updated": "2019-07-09",
     "abstract": "Preclinical imaging is critical in the development of translational strategies to detect diseases and monitor response to therapy. The National Cancer Institute Co-Clinical Imaging Resource Program was launched, in part, to develop best practices in preclinical imaging. In this context, the objective of this work was to develop a 1-hour, multiparametric magnetic resonance image-acquisition pipeline with triple-negative breast cancer patient-derived xenografts (PDXs). The 1-hour, image-acquisition pipeline includes T1- and T2-weighted scans, quantitative T1, T2, and apparent diffusion coefficient (ADC) parameter maps, and dynamic contrast-enhanced (DCE) time-course images. Quality-control measures used phantoms. The triple-negative breast cancer PDXs used for this study averaged 174  73 L in volume, with region of interest–averaged T1, T2, and ADC values of 1.9  0.2 seconds, 62  3 milliseconds, and 0.71  0.06 m2/ms (mean SD), respectively. Specific focus was on assessing the within-subject test–retest coefficient-of-variation (CVWS) for each of the magnetic resonance imaging metrics. Determination of PDX volume via manually drawn regions of interest is highly robust, with 1% CVWS. Determination of T2 is also robust with a 3% CVWS. Measurements of T1 and ADC are less robust with CVWS values in the 6%–11% range. Preliminary DCE test–retest time-course determinations, as quantified by area under the curve and Ktrans from 2-compartment exchange (extended Tofts) modeling, suggest that DCE is the least robust protocol, with 30%–40% CVWS",
     "dataCitation": "",
     "url": "/xnat/data/projects/Tomo2019",
@@ -148,16 +157,17 @@
   },
   {
     "id": "Mouse-Astrocytoma",
-    "title": "Mouse Astrocytoma (TCIA)",
+    "title": "Mouse-Astrocytoma: Mouse GBM Pilot Collection (NBIA)",
     "area": "Brain Cancer / Glioma",
     "status": "success",
     "statusLabel": "Public",
     "subjects": 48,
     "scans": 284,
+    "scanner": ["Philips Intera Achieva"],
     "modalities": [
       "MR"
     ],
-    "day": "D 21 / 21",
+    "sequences": ["T1w","T2w"],
     "lead": "JP",
     "institution": "National Cancer Institute",
     "team": [
@@ -165,26 +175,33 @@
       "EH",
       "RA"
     ],
-    "updated": "yesterday",
+    "updated": "2017-03-21",
     "url": "/xnat/data/projects/Mouse-Astrocytoma",
     "size": "500 MB",
     "abstract": "This collection consists of magnetic resonance images (MRI) of genetically engineered mouse models (GEMMs) of high grade astrocytoma, including glioblastoma multiforme (GBM). In these GEMMs, the most commonly disregulated networks in GBM -- RB, KRAS and/or PI3K signaling -- are perturbed at the genetic level. These genetic aberrations induce development of high grade astrocytoma in the mouse with properties similar to that of human disease. MRI was used to perform a qualitative and quantitative phenotypic characterization of the different genotypes and molecular subtypes. Additionally, mouse MRI images were compared human GBM imaging parameters using the VASARI lexicon. The MRI data contained herein includes anatomic T2 weighted images and dynamic contrast enhanced MRI.",
     "dataCitation": "",
     "doi": "10.7937/K9TCIA.2017.SGW7CAQW",
-    "resources": []
+    "resources": [
+      {
+        "filename": "Dataset Collection Protocol",
+        "filepath": "/files/Mouse-Astrocytoma/Sunny_jansen_NBIA_mouseGBM_update_ICR_508.ppt",
+        "icon": "ppt"
+      }
+    ]
   },
   {
     "id": "Mouse-Mammary",
-    "title": "Mouse Mammary (TCIA)",
+    "title": "Mouse-Mammary: Investigating Ductal Carcinoma in Situ Using Noninvasive Imaging of Genetically Engineered Mouse Models",
     "area": "Breast Cancer",
     "status": "success",
     "statusLabel": "Public",
     "subjects": 32,
     "scans": 205,
+    "scanner": ["Philips Intera Achieva"],
     "modalities": [
       "MR"
     ],
-    "day": "D 21 / 21",
+    "sequences": ["T1w","T2w"],
     "lead": "JP",
     "institution": "National Cancer Institute",
     "team": [
@@ -192,13 +209,19 @@
       "EH",
       "RA"
     ],
-    "updated": "yesterday",
+    "updated": "2015-03-08",
     "url": "/xnat/data/projects/Mouse-Mammary",
     "size": "500 MB",
     "abstract": "This collection consists of magnetic resonance images (MRI) of genetically engineered mouse models (GEMMs) of breast cancer. These images were acquired as part of a Department of Defense (DOD) Breast Cancer Research Program (BCRP) Postdoctoral Award W81XWH-12-1-0307 entitled “Investigating Ductal Carcinoma in Situ Using Noninvasive Imaging of Genetically Engineered Mouse Models A particular emphasis of this project was to study the earliest stages of breast cancer—preinvasive ductal carcinoma in situ (DCIS)—and to interrogate the underlying genetic events that influence progression into invasive disease. In particular, we focused on the role of perturbed Rb, p53 and BRCA1 functionality and how these pathways, acting alone and in combination, can influence the development and progression of DCIS. GEMMs serve as an excellent model system wherein genetic changes can be controlled and manipulated over time. In vivo MRI is a superb technique for noninvasively tracking and characterizing these microscopic early stage cancers as they develop, change and transition into lethal invasive disease.",
     "dataCitation": "",
     "doi": "10.7937/K9/TCIA.2015.9P42KSE6",
-    "resources": []
+    "resources": [
+      {
+        "filename": "Dataset Collection Protocol",
+        "filepath": "/files/Mouse-Astrocytoma/Sunny_jansen_NBIA_mouseGBM_update_ICR_508.ppt",
+        "icon": "ppt"
+      }
+    ]
   },
   {
     "id": "PDMR-292921-168-R",
@@ -208,10 +231,10 @@
     "statusLabel": "Public",
     "subjects": 19,
     "scans": 154,
+    "scanner": ["Phillips MR"],
     "lead": "",
     "team": [],
-    "updated": "",
-    "day": "",
+    "updated": "2020-03-23",
     "modalities": [
       "MR",
       "SR"
@@ -238,14 +261,15 @@
     "statusLabel": "Public",
     "subjects": 20,
     "scans": 190,
+    "scanner": ["Phillips MR"],
     "lead": "",
     "team": [],
-    "updated": "",
-    "day": "",
+    "updated": "2021-02-17",
     "modalities": [
       "MR",
       "SR"
     ],
+    "sequences": ["T1w","T2w"],
     "institution": "Frederick National Laboratory for Cancer Research",
     "url": "/xnat/data/projects/PDMR-425362-245-T",
     "size": "",
@@ -262,10 +286,11 @@
     "statusLabel": "Public",
     "subjects": 20,
     "scans": 264,
+    "scanner": [],
+    "sequences": [],
     "lead": "",
     "team": [],
-    "updated": "",
-    "day": "",
+    "updated": "2022-08-17",
     "modalities": [
       "MR",
       "SR"
@@ -286,10 +311,10 @@
     "statusLabel": "Public",
     "subjects": 20,
     "scans": 264,
+    "scanner": [],
     "lead": "",
     "team": [],
-    "updated": "",
-    "day": "",
+    "updated": "2010-10-05",
     "modalities": [
       "MR",
       "SR"
@@ -310,9 +335,10 @@
     "statusLabel": "Public",
     "subjects": 20,
     "scans": 264,
+    "scanner": ["Phillips MR"],
     "lead": "",
     "team": [],
-    "updated": "",
+    "updated": "2020-05-22",
     "day": "",
     "modalities": [
       "MR",
@@ -334,6 +360,8 @@
       "statusLabel": "Public",
       "subjects": 19,
       "scans": 131,
+      "scanner": ["Phillips MR Scanner"],
+      "sequences": ["T1w","T2w","T2wTSE"],
       "lead": "",
       "team": [],
       "updated": "",
@@ -357,10 +385,10 @@
       "statusLabel": "Protected",
       "subjects": 13,
       "scans": 10,
+      "scanner": "micro-CT",
       "lead": "",
       "team": [],
-      "updated": "",
-      "day": "",
+      "updated": "2021-07-23",
       "modalities": [
         "CT"
       ],
