@@ -378,7 +378,12 @@ const DatasetCard = ({ s }) => {
 
 const RecentSection = () => {
   const { studies } = useStudiesData();
-  const recent = studies.slice(0, 4);
+  // Most recently updated first — study.updated is an ISO "YYYY-MM-DD"
+  // string, so a plain descending string compare sorts it chronologically.
+  const recent = React.useMemo(
+    () => [...studies].sort((a, b) => (b.updated || "").localeCompare(a.updated || "")).slice(0, 4),
+    [studies]
+  );
 
   return (
     <section style={{

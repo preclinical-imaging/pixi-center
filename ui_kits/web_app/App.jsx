@@ -68,7 +68,7 @@ const App = () => {
   else if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} onBack={() => setOpenStudy(null)} />;
   else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
-  else view = <HomeView onOpenStudy={onOpenStudy} />;
+  else view = <HomeView onOpenStudy={onOpenStudy} onNavigate={onNavigate} />;
 
   return (
     <div className="pixi-root" style={{
@@ -323,7 +323,7 @@ const ScansByModalityChart = ({ studies }) => {
   );
 };
 
-const HomeView = ({ onOpenStudy }) => {
+const HomeView = ({ onOpenStudy, onNavigate }) => {
   const { studies } = useStudies();
 
   // Same counts, computed the same way, as the public home page's hero
@@ -338,6 +338,13 @@ const HomeView = ({ onOpenStudy }) => {
       institutions: institutions.size,
     };
   }, [studies]);
+
+  // Most recently updated first — study.updated is an ISO "YYYY-MM-DD"
+  // string, so a plain descending string compare sorts it chronologically.
+  const recentStudies = React.useMemo(
+    () => [...studies].sort((a, b) => (b.updated || "").localeCompare(a.updated || "")).slice(0, 4),
+    [studies]
+  );
 
   return (
     <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)", maxWidth: 1100 }}>
@@ -373,10 +380,10 @@ const HomeView = ({ onOpenStudy }) => {
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
         <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Recent studies</h2>
-        <Button variant="ghost" size="sm" icon="arrowRight">View all</Button>
+        <Button variant="ghost" size="sm" icon="arrowRight" onClick={() => onNavigate("studies")}>View all</Button>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-        {studies.slice(0, 4).map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
+        {recentStudies.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
       </div>
     </div>
   );
