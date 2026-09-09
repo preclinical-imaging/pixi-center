@@ -107,7 +107,6 @@
     ],
     "sequences": ["T1w","T2w"],
     "size": "497 MB",
-    "day": "D 4 / 14",
     "lead": "EH",
     "institution": "WashU",
     "team": [
@@ -115,7 +114,7 @@
       "RA",
       "JP"
     ],
-    "updated": "5 d ago",
+    "updated": "2020-08-03",
     "abstract": "Radiomics analyses has been proposed to interrogate the biology of tumour as well as to predict/assess response to therapy in vivo. The objective of this work was to assess the sensitivity of radiomics features to noise, resolution, and tumour volume in the context of a co-clinical trial.",
     "dataCitation": "Sudipta Roy, Timothy D. Whitehead, James D. Quirk, Amber Salter, Foluso O. Ademuyiwa, Shunqiang Li, Hongyu An, Kooresh I. Shoghi, Optimal co-clinical radiomics: Sensitivity of radiomic features to tumour volume, image noise and resolution in co-clinical T1-weighted and T2-weighted magnetic resonance imaging, eBioMedicine, Volume 59, 2020",
     "url": "/xnat/data/projects/EBM2020",
