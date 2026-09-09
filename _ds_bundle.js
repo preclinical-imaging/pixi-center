@@ -1653,9 +1653,13 @@ const App = () => {
     setOpenSubject(null);
   };
   const onOpenStudy = s => {
-    setOpenStudy(s);
-    setNav("studies");
-    setOpenSubject(null);
+      if (s.url) {
+          window.location.replace(s.url);
+      } else {
+        setOpenStudy(s);
+        setNav("studies");
+        setOpenSubject(null);
+      }
   };
 
   // Build crumbs

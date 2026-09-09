@@ -1,32 +1,44 @@
-// CohortBrowser — faceted browse over all available preclinical cohorts.
+// CohortBrowser — faceted browse over all available preclinical datasets.
 // Left rail = filter facets; main = selectable results table + selection bar.
+//
+// Rows come from data/studies.json via useStudies() (defined in Studies.jsx),
+// the same source the Datasets and home pages use. Facet options are derived
+// from whatever is actually in that file rather than hardcoded, so a facet
+// with no values in the data simply doesn't render.
 
-const COHORTS = [
-  { id: "PXI-2402-B", title: "Tumor microenvironment · BALB/c",      disease: "Breast Cancer", modalities: ["PET","CT"],     scanner: "Mediso", institution: "MIT",   subjects: 18 },
-  { id: "PXI-2403-A", title: "Anti-PD1 efficacy — pilot",            disease: "Lung Cancer",   modalities: ["PET","CT"],     scanner: "Inveon", institution: "CAMI",  subjects: 12 },
-  { id: "PXI-2410-A", title: "89Zr-DFO antibody dosimetry",          disease: "Lymphoma",      modalities: ["PET","CT"],     scanner: "Bruker", institution: "WUSTL", subjects: 8  },
-  { id: "PXI-2411-D", title: "Radiolabeled antibody · biodistribution", disease: "Ovarian Cancer", modalities: ["PET","CT"], scanner: "Mediso", institution: "CAMI",  subjects: 6  },
-  { id: "PXI-2415-A", title: "Glioma BLI longitudinal",              disease: "Brain Cancer",  modalities: ["BLI","MR"],     scanner: "Bruker", institution: "WUSTL", subjects: 20 },
-  { id: "PXI-2418-C", title: "Orthotopic lung · SPECT",              disease: "Lung Cancer",   modalities: ["SPECT","CT"],   scanner: "Mediso", institution: "Torino", subjects: 14 },
-  { id: "PXI-2420-B", title: "Breast PDX · MR series",               disease: "Breast Cancer", modalities: ["MR"],           scanner: "Bruker", institution: "MIT",   subjects: 16 },
-  { id: "PXI-2421-A", title: "Brain metastasis · dynamic PET",       disease: "Brain Cancer",  modalities: ["PET","CT"],     scanner: "Inveon", institution: "WUSTL", subjects: 10 },
-  { id: "PXI-2424-D", title: "Lymphoma · Inveon survey",             disease: "Lymphoma",      modalities: ["Inveon","CT"],  scanner: "Inveon", institution: "CAMI",  subjects: 9  },
-  { id: "PXI-2427-A", title: "Ovarian · bioluminescence",            disease: "Ovarian Cancer", modalities: ["BLI"],         scanner: "Bruker", institution: "Torino", subjects: 11 },
-  { id: "PXI-2430-B", title: "Lung · multiparametric MR",            disease: "Lung Cancer",   modalities: ["MR","CT"],      scanner: "Bruker", institution: "WUSTL", subjects: 13 },
-  { id: "PXI-2433-C", title: "Breast · SPECT perfusion",             disease: "Breast Cancer", modalities: ["SPECT","CT"],   scanner: "Mediso", institution: "MIT",   subjects: 7  },
-  { id: "PXI-2436-A", title: "Glioblastoma · PET/MR",                disease: "Brain Cancer",  modalities: ["PET","MR"],     scanner: "Mediso", institution: "Torino", subjects: 15 },
-  { id: "PXI-2439-B", title: "Lymphoma · theranostic pair",          disease: "Lymphoma",      modalities: ["SPECT","PET"],  scanner: "Bruker", institution: "CAMI",  subjects: 5  },
+const FACET_DEFS = [
+  { key: "modalities",  label: "Modality", multi: true },
+  { key: "area",        label: "Disease Area" },
+  { key: "scanner",     label: "Scanner", multi: true },
+  { key: "institution", label: "Institution" },
 ];
 
-const FACETS = [
-  { key: "modalities",  label: "Modality",     options: ["CT","PET","MR","SPECT","Inveon","BLI"], multi: true },
-  { key: "disease",     label: "Disease Area", options: ["Lung Cancer","Breast Cancer","Brain Cancer","Lymphoma","Ovarian Cancer"] },
-  { key: "scanner",     label: "Scanner",      options: ["Bruker","Mediso","Inveon"] },
-  { key: "institution", label: "Institution",  options: ["WUSTL","MIT","CAMI","Torino"] },
-];
+// Shared empty selection — a stable identity so selFor() doesn't hand back a
+// fresh Set on every render for facets nothing is selected in.
+const EMPTY_SET = new Set();
+
+// data/studies.json isn't fully consistent about whether a "multi" field
+// (modalities, scanner) is an array or a bare string — normalize to an
+// array of strings so facet building/matching/rendering can treat every
+// record the same way.
+const asList = (v) => Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []);
 
 const cohortHas = (cohort, facet, opt) =>
-  facet.multi ? cohort[facet.key].includes(opt) : cohort[facet.key] === opt;
+  facet.multi ? asList(cohort[facet.key]).includes(opt) : cohort[facet.key] === opt;
+
+// Distinct, sorted values for each facet key across the loaded datasets.
+// Facets whose key is absent/blank everywhere drop out entirely.
+function buildFacets(studies) {
+  return FACET_DEFS.map(def => {
+    const values = new Set();
+    for (const s of studies) {
+      const v = s[def.key];
+      if (def.multi) asList(v).forEach(x => values.add(x));
+      else if (v) values.add(v);
+    }
+    return { ...def, options: [...values].sort((a, b) => a.localeCompare(b)) };
+  }).filter(f => f.options.length > 0);
+}
 
 const ModTags = ({ mods }) => (
   <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
@@ -82,40 +94,43 @@ const FacetSection = ({ facet, selected, onToggle, counts }) => (
 );
 
 const CohortBrowser = () => {
-  const [sel, setSel] = React.useState(() => {
-    const o = {}; FACETS.forEach(f => o[f.key] = new Set()); return o;
-  });
+  const { studies, error } = useStudies();
+  const [sel, setSel] = React.useState({});
   const [picked, setPicked] = React.useState(() => new Set());
 
+  const facets = React.useMemo(() => buildFacets(studies), [studies]);
+
+  // sel is keyed by facet; read through this helper so a facet that only
+  // appears once the data loads still has a Set to work with.
+  const selFor = (key) => sel[key] || EMPTY_SET;
+
   const toggle = (key, opt) => setSel(prev => {
-    const next = { ...prev, [key]: new Set(prev[key]) };
+    const next = { ...prev, [key]: new Set(prev[key] || []) };
     next[key].has(opt) ? next[key].delete(opt) : next[key].add(opt);
     return next;
   });
 
-  const clearAll = () => setSel(() => {
-    const o = {}; FACETS.forEach(f => o[f.key] = new Set()); return o;
-  });
+  const clearAll = () => setSel({});
 
-  const activeCount = FACETS.reduce((n, f) => n + sel[f.key].size, 0);
+  const activeCount = facets.reduce((n, f) => n + selFor(f.key).size, 0);
 
-  // Filtered cohorts: AND across categories, OR within a category.
-  const filtered = COHORTS.filter(c =>
-    FACETS.every(f => {
-      const s = sel[f.key];
+  // Filtered datasets: AND across categories, OR within a category.
+  const filtered = studies.filter(c =>
+    facets.every(f => {
+      const s = selFor(f.key);
       if (s.size === 0) return true;
       return [...s].some(opt => cohortHas(c, f, opt));
     })
   );
 
-  // Counts per option (over full dataset).
+  // Counts per option (over the full dataset list).
   const counts = React.useMemo(() => {
     const out = {};
-    FACETS.forEach(f => f.options.forEach(opt => {
-      out[opt] = COHORTS.filter(c => cohortHas(c, f, opt)).length;
+    facets.forEach(f => f.options.forEach(opt => {
+      out[opt] = studies.filter(c => cohortHas(c, f, opt)).length;
     }));
     return out;
-  }, []);
+  }, [studies, facets]);
 
   const allShownPicked = filtered.length > 0 && filtered.every(c => picked.has(c.id));
   const someShownPicked = filtered.some(c => picked.has(c.id));
@@ -132,8 +147,8 @@ const CohortBrowser = () => {
     return next;
   });
 
-  const pickedCohorts = COHORTS.filter(c => picked.has(c.id));
-  const pickedSubjects = pickedCohorts.reduce((n, c) => n + c.subjects, 0);
+  const pickedCohorts = studies.filter(c => picked.has(c.id));
+  const pickedSubjects = pickedCohorts.reduce((n, c) => n + (Number(c.subjects) || 0), 0);
 
   return (
     <div style={{ display: "flex", height: "100%", fontFamily: "var(--font-sans)" }}>
@@ -155,8 +170,8 @@ const CohortBrowser = () => {
           }}>Clear all</button>
         </div>
         <div style={{ flex: 1, overflow: "auto", padding: "16px 14px", display: "flex", flexDirection: "column", gap: 22 }}>
-          {FACETS.map(f => (
-            <FacetSection key={f.key} facet={f} selected={sel[f.key]} onToggle={toggle} counts={counts} />
+          {facets.map(f => (
+            <FacetSection key={f.key} facet={f} selected={selFor(f.key)} onToggle={toggle} counts={counts} />
           ))}
         </div>
       </div>
@@ -169,7 +184,7 @@ const CohortBrowser = () => {
             Cohort Browser
           </h1>
           <p style={{ margin: "8px 0 0", fontSize: 14, color: "var(--fg-2)", maxWidth: 620, lineHeight: 1.5 }}>
-            Filter the preclinical library by modality, disease area, scanner, and institution, then select the cohorts you want to pull into a working set.
+            Filter the preclinical library by modality, disease area, scanner, and institution, then select the datasets you want to pull into a working set.
           </p>
 
           {/* Result toolbar + active chips */}
@@ -178,13 +193,13 @@ const CohortBrowser = () => {
             padding: "18px 0 14px",
           }}>
             <span style={{ fontSize: 13, fontWeight: 600 }}>
-              {filtered.length} cohort{filtered.length === 1 ? "" : "s"}
+              {filtered.length} dataset{filtered.length === 1 ? "" : "s"}
             </span>
             <span style={{ fontSize: 13, color: "var(--fg-3)" }}>
-              · {filtered.reduce((n, c) => n + c.subjects, 0)} subjects
+              · {filtered.reduce((n, c) => n + (Number(c.subjects) || 0), 0)} subjects
             </span>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginLeft: 4 }}>
-              {FACETS.flatMap(f => [...sel[f.key]].map(opt => (
+              {facets.flatMap(f => [...selFor(f.key)].map(opt => (
                 <button key={f.key + opt} onClick={() => toggle(f.key, opt)} style={{
                   display: "inline-flex", alignItems: "center", gap: 6, height: 24, padding: "0 6px 0 10px",
                   borderRadius: 999, border: "1px solid var(--pixi-navy-line)",
@@ -210,7 +225,7 @@ const CohortBrowser = () => {
                       <Check checked={allShownPicked} indeterminate={someShownPicked && !allShownPicked} />
                     </button>
                   </th>
-                  {["Cohort","Disease area","Modalities","Scanner","Institution","Subjects"].map((h, i) => (
+                  {["Dataset","Disease area","Modalities","Scanner","Institution","Subjects"].map((h, i) => (
                     <th key={h} style={{ ...cbHeadStyle, textAlign: i === 5 ? "right" : "left", paddingRight: i === 5 ? 16 : 14 }}>{h}</th>
                   ))}
                 </tr>
@@ -231,9 +246,11 @@ const CohortBrowser = () => {
                           <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{c.title}</span>
                         </div>
                       </td>
-                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.disease}</td>
-                      <td style={cbCellStyle}><ModTags mods={c.modalities} /></td>
-                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.scanner}</td>
+                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.area}</td>
+                      <td style={cbCellStyle}><ModTags mods={asList(c.modalities)} /></td>
+                      <td style={{ ...cbCellStyle, color: asList(c.scanner).length ? "var(--fg-2)" : "var(--fg-4)" }}>
+                        {asList(c.scanner).join(", ") || "—"}
+                      </td>
                       <td style={cbCellStyle}>
                         <span style={{
                           display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
@@ -247,9 +264,17 @@ const CohortBrowser = () => {
                 })}
                 {filtered.length === 0 && (
                   <tr><td colSpan={7} style={{ padding: 48, textAlign: "center", color: "var(--fg-3)" }}>
-                    <Icon name="search" size={24} color="var(--pixi-mist)" />
-                    <div style={{ marginTop: 10, fontWeight: 600, color: "var(--fg-2)" }}>No cohorts match these filters</div>
-                    <div style={{ fontSize: 13, marginTop: 4 }}>Remove a filter to widen the search.</div>
+                    {error ? (
+                      <div style={{ fontWeight: 600, color: "var(--danger)" }}>
+                        Couldn't load datasets — make sure the local server is running (node ui_kits/web_app/server.js).
+                      </div>
+                    ) : (
+                      <React.Fragment>
+                        <Icon name="search" size={24} color="var(--pixi-mist)" />
+                        <div style={{ marginTop: 10, fontWeight: 600, color: "var(--fg-2)" }}>No datasets match these filters</div>
+                        <div style={{ fontSize: 13, marginTop: 4 }}>Remove a filter to widen the search.</div>
+                      </React.Fragment>
+                    )}
                   </td></tr>
                 )}
               </tbody>
@@ -266,7 +291,7 @@ const CohortBrowser = () => {
             display: "flex", alignItems: "center", gap: 16, padding: "12px 16px",
           }}>
             <span style={{ fontSize: 13, fontWeight: 600 }}>
-              {picked.size} cohort{picked.size === 1 ? "" : "s"} selected
+              {picked.size} dataset{picked.size === 1 ? "" : "s"} selected
             </span>
             <span style={{ fontSize: 13, color: "rgba(255,255,255,.6)" }}>· {pickedSubjects} subjects</span>
             <div style={{ flex: 1 }} />
@@ -275,7 +300,7 @@ const CohortBrowser = () => {
               background: "transparent", border: "1px solid rgba(255,255,255,.22)", color: "#fff",
               fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 500,
             }}>Clear</button>
-            <button onClick={() => alert(`Added ${picked.size} cohorts (${pickedSubjects} subjects) to working set (mock)`)} style={{
+            <button onClick={() => alert(`Added ${picked.size} datasets (${pickedSubjects} subjects) to working set (mock)`)} style={{
               height: 34, padding: "0 16px", borderRadius: 6, cursor: "pointer",
               background: "var(--pixi-green)", border: "1px solid transparent", color: "#fff",
               fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600,
@@ -298,4 +323,4 @@ const cbHeadStyle = {
 };
 const cbCellStyle = { padding: "12px 14px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
-Object.assign(window, { CohortBrowser, COHORTS });
+Object.assign(window, { CohortBrowser });

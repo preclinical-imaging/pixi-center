@@ -118,7 +118,7 @@ const Badge = ({ children, tone = "neutral", dot }) => {
     neutral: { bg: "var(--pixi-cloud)", color: "var(--pixi-graphite)", dot: "var(--pixi-steel)" },
     outline: { bg: "#fff", color: "var(--fg-2)", dot: "var(--pixi-steel)", border: "var(--border-default)" },
   };
-  const t = tones[tone];
+  const t = tones[tone] || tones.neutral;
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 6,
@@ -168,17 +168,25 @@ const AvatarStack = ({ people, max = 4, size = 24 }) => {
   );
 };
 
+// --- FieldLabel (shared label row: text + required asterisk) ---
+const FieldLabel = ({ children, required }) => (
+  <span style={{ fontSize: 12, fontWeight: 600, color: "var(--fg-2)" }}>
+    {children}{required && <span style={{ color: "var(--danger)" }}> *</span>}
+  </span>
+);
+
 // --- Field (text input + label) ---
-const Field = ({ label, value, onChange, placeholder, error, type = "text" }) => {
+const Field = ({ label, value, onChange, placeholder, error, type = "text", required }) => {
   const [focus, setFocus] = React.useState(false);
   return (
     <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      <span style={{ fontSize: 12, fontWeight: 600, color: "var(--fg-2)" }}>{label}</span>
+      <FieldLabel required={required}>{label}</FieldLabel>
       <input
         type={type}
         value={value || ""}
         onChange={(e) => onChange?.(e.target.value)}
         placeholder={placeholder}
+        required={required}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         style={{
@@ -195,6 +203,192 @@ const Field = ({ label, value, onChange, placeholder, error, type = "text" }) =>
   );
 };
 
+// --- TextArea (multi-line + label) ---
+const TextArea = ({ label, value, onChange, placeholder, error, required, rows = 4, helper }) => {
+  const [focus, setFocus] = React.useState(false);
+  return (
+    <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <FieldLabel required={required}>{label}</FieldLabel>
+      <textarea
+        value={value || ""}
+        onChange={(e) => onChange?.(e.target.value)}
+        placeholder={placeholder}
+        rows={rows}
+        required={required}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        style={{
+          padding: "10px 12px", borderRadius: 6, resize: "vertical",
+          border: `1px solid ${error ? "var(--danger)" : focus ? "var(--pixi-navy)" : "var(--border-default)"}`,
+          boxShadow: focus ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
+          background: "#fff",
+          fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--fg-1)",
+          outline: "none", lineHeight: 1.5,
+        }}
+      />
+      {helper && !error && <span style={{ fontSize: 12, color: "var(--fg-3)" }}>{helper}</span>}
+      {error && <span style={{ fontSize: 12, color: "var(--danger)" }}>{error}</span>}
+    </label>
+  );
+};
+
+// --- Select (native single-select + label) ---
+const Select = ({ label, value, onChange, options, placeholder = "Select…", error, required }) => {
+  const [focus, setFocus] = React.useState(false);
+  return (
+    <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+      <FieldLabel required={required}>{label}</FieldLabel>
+      <div style={{ position: "relative" }}>
+        <select
+          value={value || ""}
+          onChange={(e) => onChange?.(e.target.value)}
+          required={required}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          style={{
+            width: "100%", height: 36, padding: "0 32px 0 12px", borderRadius: 6,
+            border: `1px solid ${error ? "var(--danger)" : focus ? "var(--pixi-navy)" : "var(--border-default)"}`,
+            boxShadow: focus ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
+            background: "#fff", appearance: "none",
+            fontFamily: "var(--font-sans)", fontSize: 14,
+            color: value ? "var(--fg-1)" : "var(--fg-3)",
+            outline: "none", cursor: "pointer",
+          }}
+        >
+          <option value="" disabled>{placeholder}</option>
+          {options.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+        <div style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
+          <Icon name="chevronDown" size={14} color="var(--fg-3)" />
+        </div>
+      </div>
+      {error && <span style={{ fontSize: 12, color: "var(--danger)" }}>{error}</span>}
+    </label>
+  );
+};
+
+// --- MultiSelect (searchable, chip-based multi-select + label) ---
+const MultiSelect = ({ label, value = [], onChange, options, placeholder = "Choose options", error, required, helper }) => {
+  const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+  const rootRef = React.useRef(null);
+  const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const onDocClick = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  const filtered = options.filter(o =>
+    !value.includes(o) && o.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const add = (o) => {
+    onChange?.([...value, o]);
+    setQuery("");
+    inputRef.current?.focus();
+  };
+  const remove = (o) => onChange?.(value.filter(v => v !== o));
+
+  return (
+    <div ref={rootRef} style={{ display: "flex", flexDirection: "column", gap: 6, position: "relative" }}>
+      <FieldLabel required={required}>{label}</FieldLabel>
+      <div
+        onClick={() => { setOpen(true); inputRef.current?.focus(); }}
+        style={{
+          display: "flex", flexWrap: "wrap", alignItems: "center", gap: 6,
+          minHeight: 36, padding: "5px 8px", borderRadius: 6, cursor: "text",
+          border: `1px solid ${error ? "var(--danger)" : open ? "var(--pixi-navy)" : "var(--border-default)"}`,
+          boxShadow: open ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
+          background: "#fff",
+        }}
+      >
+        {value.map(v => (
+          <span key={v} style={{
+            display: "inline-flex", alignItems: "center", gap: 5,
+            fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500,
+            color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
+            borderRadius: 5, padding: "3px 6px 3px 9px", lineHeight: 1.4,
+          }}>
+            {v}
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); remove(v); }}
+              style={{
+                display: "inline-flex", border: "none", background: "transparent",
+                color: "var(--pixi-navy)", cursor: "pointer", padding: 1, borderRadius: 3,
+              }}
+            >
+              <Icon name="close" size={11} />
+            </button>
+          </span>
+        ))}
+        <input
+          ref={inputRef}
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+          onFocus={() => setOpen(true)}
+          placeholder={value.length ? "" : placeholder}
+          style={{
+            flex: 1, minWidth: 80, border: "none", outline: "none", background: "transparent",
+            fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--fg-1)", height: 24,
+          }}
+        />
+      </div>
+      {helper && !error && <span style={{ fontSize: 12, color: "var(--fg-3)" }}>{helper}</span>}
+      {error && <span style={{ fontSize: 12, color: "var(--danger)" }}>{error}</span>}
+      {open && (
+        <div style={{
+          position: "absolute", top: "100%", left: 0, right: 0, marginTop: 4, zIndex: 20,
+          background: "#fff", border: "1px solid var(--border-default)", borderRadius: 8,
+          boxShadow: "var(--shadow-sm, 0 4px 16px rgba(20,24,32,.12))",
+          maxHeight: 260, overflowY: "auto", padding: 4,
+        }}>
+          {filtered.length === 0 && (
+            <div style={{ padding: "10px 12px", fontSize: 13, color: "var(--fg-3)" }}>No matches</div>
+          )}
+          {filtered.map(o => (
+            <div
+              key={o}
+              onClick={() => add(o)}
+              style={{
+                padding: "8px 10px", borderRadius: 5, cursor: "pointer",
+                fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--fg-1)",
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-cloud)"}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+            >
+              {o}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- Callout (info note bar) ---
+const Callout = ({ children, tone = "info" }) => {
+  const tones = {
+    info: { bg: "var(--info-bg)", color: "var(--fg-2)" },
+  };
+  const t = tones[tone] || tones.info;
+  return (
+    <div style={{
+      display: "flex", gap: 10, alignItems: "flex-start",
+      background: t.bg, color: t.color,
+      borderRadius: 8, padding: "12px 14px",
+      fontFamily: "var(--font-sans)", fontSize: 13, lineHeight: 1.5,
+    }}>
+      <span style={{ flexShrink: 0, marginTop: 1 }}>💡</span>
+      <span>{children}</span>
+    </div>
+  );
+};
+
 // --- Eyebrow / label ---
 const Eyebrow = ({ children, mono }) => (
   <div style={{
@@ -205,4 +399,4 @@ const Eyebrow = ({ children, mono }) => (
   }}>{children}</div>
 );
 
-Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, Eyebrow });
+Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow });
