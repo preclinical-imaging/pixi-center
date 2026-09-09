@@ -382,14 +382,14 @@
       "area": "Lung Cancer",
       "status": "warn",
       "statusLabel": "Protected",
-      "subjects": 13,
-      "scans": 10,
+      "subjects": 51,
+      "scans": 125,
       "scanner": "micro-CT",
       "lead": "",
       "team": [],
       "updated": "2021-07-23",
       "modalities": [
-        "CT"
+        "CT","MR"
       ],
       "institution": "Duke",
       "url": "/xnat/data/projects/DukeU24",
