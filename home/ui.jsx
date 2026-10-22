@@ -15,7 +15,7 @@ const PixiMark = ({ size = 28 }) => (
 
 const Logo = ({ size = 28, showWordmark = true }) => (
   <img
-    src={(window.__resources && window.__resources.logoWide) || "../assets/pixi-logo-wide.png"}
+    src={(window.__resources && window.__resources.logoWide) || "/assets/pixi-logo-wide.png"}
     alt="PIXI Center"
     style={{ height: size, width: "auto", display: "block" }}
   />

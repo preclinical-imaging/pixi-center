@@ -22,7 +22,6 @@ A high-fidelity, click-thru recreation of the PIXI Center collaborative web app 
 | `StudyDetail.jsx` | Single-study page (subjects table, sidebar tabs) |
 | `Workbench.jsx` | Imaging workbench placeholder |
 | `Inspector.jsx` | Right drawer panel for subject metadata |
-| `ui.jsx` | Shared primitives: Button, Badge, Avatar, Icon, Field, TextArea, Select, MultiSelect, Callout |
 | `SubmitDataset.jsx` | Dataset proposal form (Contact / Publication Details / Data Collection Details) |
 | `server.js` | Static file server + `POST /api/submissions`, persisted to `submissions.db` via SQLite |
 
