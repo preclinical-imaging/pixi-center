@@ -46,22 +46,6 @@ const EMPTY_FORM = {
   subjects: "", scans: "", diskSpace: "",
 };
 
-const FormSection = ({ title, children }) => (
-  <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 24, marginBottom: 16 }}>
-    <h2 style={{
-      margin: 0, fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
-      letterSpacing: "-0.01em", color: "var(--fg-1)",
-    }}>{title}</h2>
-    <div style={{ display: "flex", flexDirection: "column", gap: 18, marginTop: 16 }}>
-      {children}
-    </div>
-  </div>
-);
-
-const Row = ({ children, cols = 3 }) => (
-  <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
-);
-
 const SubmitDatasetForm = ({ onSubmitted }) => {
   const [form, setForm] = React.useState(EMPTY_FORM);
   const [submitting, setSubmitting] = React.useState(false);
@@ -100,7 +84,7 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
         Propose a new dataset for inclusion in the PIXI Center library. Fields marked with an asterisk (*) are required.
       </p>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <FormSection title="Contact">
           <Row cols={3}>
             <Field label="Contact Name" required value={form.contactName} onChange={set("contactName")} placeholder="Jane Doe" />

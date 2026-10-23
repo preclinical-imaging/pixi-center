@@ -399,4 +399,22 @@ const Eyebrow = ({ children, mono }) => (
   }}>{children}</div>
 );
 
-Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow });
+const FormSection = ({ title, children }) => (
+  <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 24 }}>
+    {title && (
+      <h2 style={{
+        margin: "0 0 16px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
+        letterSpacing: "-0.01em", color: "var(--fg-1)",
+      }}>{title}</h2>
+    )}
+    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      {children}
+    </div>
+  </div>
+);
+
+const Row = ({ children, cols}) => (
+  <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
+);
+
+Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow, FormSection, Row});

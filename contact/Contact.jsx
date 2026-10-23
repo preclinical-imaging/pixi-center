@@ -19,24 +19,6 @@
 //      present in the DOM; a bot that fills in every field trips it, and
 //      the server silently drops the message without erroring the request.
 
-const FormSection = ({ title, children }) => (
-  <div style={{ background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 24 }}>
-    {title && (
-      <h2 style={{
-        margin: "0 0 16px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
-        letterSpacing: "-0.01em", color: "var(--fg-1)",
-      }}>{title}</h2>
-    )}
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-      {children}
-    </div>
-  </div>
-);
-
-const Row = ({ children, cols = 2 }) => (
-  <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
-);
-
 const EMPTY_FORM = { name: "", email: "", institution: "", position: "", message: "" };
 
 // Loads a fresh arithmetic challenge from the server. Returns { id, question }
