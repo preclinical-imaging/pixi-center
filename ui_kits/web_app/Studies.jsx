@@ -124,7 +124,7 @@ const Studies = ({ onOpenStudy }) => {
   const [view, setView] = React.useState("grid");
   const { studies, error } = useStudies();
 
-  const filters = ["All", "Public", "Protected", "Private", "Draft"];
+  const filters = ["All", "Public", "Protected", "Draft"];
   const filtered = filter === "All" ? studies :
     studies.filter(s => s.statusLabel === filter);
 
