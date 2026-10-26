@@ -234,7 +234,6 @@ const HeroBarChart = ({ t }) => {
 };
 
 // ---------- Section 1: What can I find ----------
-
 const FindCard = ({ icon, title, body }) => {
   const [hover, setHover] = React.useState(false);
   return (
@@ -305,7 +304,6 @@ const FindSection = () => (
 
 // ---------- Section 2: Recent datasets ----------
 // Cards show the first four datasets listed in data/studies.json.
-
 const DatasetCard = ({ s }) => {
   const [hover, setHover] = React.useState(false);
   return (
@@ -417,10 +415,7 @@ const RecentSection = () => {
   );
 };
 
-
-
 // ---------- Page ----------
-
 const HomePage = () => {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   return (

@@ -63,23 +63,6 @@ const Sidebar = ({ active, onNavigate }) => {
           <SidebarItem icon="layers" label="Cohort Browser" active={active === "cohorts"} onClick={() => onNavigate("cohorts")} />
         </SidebarSection>
       </div>
-
-{/*       <div style={{ */}
-{/*         padding: 12, borderTop: "1px solid var(--border-subtle)", */}
-{/*         display: "flex", alignItems: "center", gap: 10, */}
-{/*       }}> */}
-{/*         <Avatar initials="WH" size={32} /> */}
-{/*         <div style={{ flex: 1, minWidth: 0 }}> */}
-{/*           <div style={{ fontSize: 13, fontWeight: 600, color: "var(--fg-1)" }}>Will Horton</div> */}
-{/*           <div style={{ fontSize: 11, color: "var(--fg-3)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>XNAT Works · Research</div> */}
-{/*         </div> */}
-{/*         <button style={{ */}
-{/*           background: "transparent", border: "none", padding: 4, cursor: "pointer", */}
-{/*           color: "var(--fg-3)", display: "inline-flex", borderRadius: 4, */}
-{/*         }}> */}
-{/*           <Icon name="settings" size={16} /> */}
-{/*         </button> */}
-{/*       </div> */}
     </aside>
   );
 };
