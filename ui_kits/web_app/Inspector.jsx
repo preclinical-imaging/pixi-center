@@ -60,7 +60,6 @@ const Inspector = ({ subject, onClose }) => {
               fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--pixi-steel)",
             }}>slice 124 / 248 · 0.4 mm</div>
           </div>
-          <Button variant="secondary" size="sm" icon="image">Open in workbench</Button>
         </Section>
 
         <Section title="Notes">

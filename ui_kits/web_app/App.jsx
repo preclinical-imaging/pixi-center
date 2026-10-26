@@ -59,13 +59,11 @@ const App = () => {
   let crumbs = [{ label: "Oncology — preclinical" }];
   if (nav === "studies" && !openStudy) crumbs.push({ label: "Studies" });
   if (openStudy) crumbs.push({ label: "Studies", to: "studies" }, { label: openStudy.id });
-  if (nav === "imaging") crumbs = [{ label: "Imaging" }, { label: "Workbench" }];
   if (nav === "cohorts") crumbs = [{ label: "Cohort Browser" }];
   if (nav === "home") crumbs = [{ label: "Home" }];
 
   let view;
-  if (nav === "imaging") view = <Workbench />;
-  else if (nav === "cohorts") view = <CohortBrowser />;
+  if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} onBack={() => setOpenStudy(null)} />;
   else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
   else view = <HomeView onOpenStudy={onOpenStudy} onNavigate={onNavigate} />;
