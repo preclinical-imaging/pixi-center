@@ -413,7 +413,7 @@ const FormSection = ({ title, children }) => (
   </div>
 );
 
-const Row = ({ children, cols}) => (
+const Row = ({ children, cols = 2}) => (
   <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
 );
 

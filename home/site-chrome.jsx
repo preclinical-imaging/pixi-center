@@ -70,7 +70,7 @@ const Footer = () => (
         </div>
         <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
           {[
-            ["Explore", [["Datasets", "../ui_kits/web_app/index.html"], ["Knowledge base", "#"]]],
+            ["Explore", [["Datasets", "../ui_kits/web_app/index.html"]]],
             ["About", [["About PIXI Center", "../about/index.html"], ["Data Use Agreement", "../about/data-use-terms.html"]]],
             ["Contribute", [["Submit a dataset", "../submit-dataset/index.html"], ["Documentation", "#"], ["Contact", "../contact/index.html"]]],
           ].map(([title, items]) => (

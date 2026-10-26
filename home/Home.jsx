@@ -222,13 +222,6 @@ const HeroBarChart = ({ t }) => {
           );
         })}
       </div>
-
-      <div style={{
-        fontSize: 12, color: "var(--fg-3)", lineHeight: 1.5,
-        paddingTop: 14, borderTop: "1px solid var(--border-subtle)",
-      }}>
-        Bar length reflects the number of subjects studied within each disease area.
-      </div>
     </div>
   );
 };
