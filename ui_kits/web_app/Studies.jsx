@@ -188,6 +188,7 @@ const Studies = ({ onOpenStudy }) => {
       ) : (
         <StudiesList rows={filtered} onOpen={onOpenStudy} />
       )}
+      <Footer />
     </div>
   );
 };

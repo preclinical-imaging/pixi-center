@@ -385,6 +385,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
         {recentStudies.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -310,6 +310,7 @@ const CohortBrowser = () => {
             </button>
           </div>
         )}
+        <Footer />
       </div>
     </div>
   );
