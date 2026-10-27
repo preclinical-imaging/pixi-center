@@ -139,9 +139,6 @@ const Studies = ({ onOpenStudy }) => {
             letterSpacing: "-0.01em",
           }}>Datasets</h1>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <a href="/submit-dataset/index.html"><Button variant="primary" icon="plus">Submit dataset</Button></a>
-        </div>
       </div>
 
       <div style={{
