@@ -280,6 +280,9 @@ const CohortBrowser = () => {
               </tbody>
             </table>
           </div>
+          <div style={{ margin: "32px -32px 0" }}>
+            <Footer />
+          </div>
         </div>
 
         {/* Selection action bar */}
@@ -310,7 +313,6 @@ const CohortBrowser = () => {
             </button>
           </div>
         )}
-        <Footer />
       </div>
     </div>
   );

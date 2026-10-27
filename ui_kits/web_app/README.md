@@ -2,8 +2,6 @@
 
 A high-fidelity, click-thru recreation of the PIXI Center collaborative web app for preclinical researchers. Built using the tokens in `../../colors_and_type.css`.
 
-> **Inferred from product description.** No codebase or Figma was provided, so the surface choices below are educated guesses for a preclinical-research collaboration tool. Treat this as a *draft* of the visual language, not a faithful recreation.
-
 ## Surfaces
 
 - **Studies** — list / library of all studies the user has access to (default landing).

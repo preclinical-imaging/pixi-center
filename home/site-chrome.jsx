@@ -59,7 +59,7 @@ const Footer = () => (
         alignItems: "flex-start", gap: 32, flexWrap: "wrap",
         paddingBottom: 24, borderBottom: "1px solid var(--border-subtle)",
       }}>
-        <div style={{ maxWidth: 420 }}>
+        <div style={{ flex: "1 1 240px", maxWidth: 420 }}>
           <Logo size={22} />
           <p style={{
             margin: "12px 0 0", fontSize: 13, color: "var(--fg-3)", lineHeight: 1.55,
@@ -68,7 +68,7 @@ const Footer = () => (
             preclinical imaging core facilities.
           </p>
         </div>
-        <div style={{ display: "flex", gap: 56, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "24px 56px", flexWrap: "wrap", flex: "0 0 auto", maxWidth: "100%", marginLeft: "auto", justifyContent: "flex-end" }}>
           {[
             ["Explore", [["Datasets", "/ui_kits/web_app/index.html"]]],
             ["About", [["About PIXI Center", "/about/index.html"], ["Data Use Agreement", "/about/data-use-terms.html"]]],
