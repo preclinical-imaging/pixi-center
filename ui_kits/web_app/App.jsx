@@ -334,42 +334,44 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   );
 
   return (
-    <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)", maxWidth: 1100 }}>
-      <h1 style={{ margin: "6px 0 24px", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
-        Site Dashboard
-      </h1>
+    <div style={{ fontFamily: "var(--font-sans)" }}>
+      <div style={{ padding: "24px 40px", maxWidth: 1320, margin: "0 auto" }}>
+        <h1 style={{ margin: "6px 0 24px", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
+          Site Dashboard
+        </h1>
 
-      <section style={{ marginBottom: 40 }}>
-        <h2 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Data Snapshot</h2>
+        <section style={{ marginBottom: 40 }}>
+          <h2 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Data Snapshot</h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
-          {[
-            ["Institutions", stats.institutions],
-            ["Datasets", stats.datasets],
-            ["Subjects", stats.subjects],
-            ["Scans", stats.scans],
-          ].map(([l, v]) => (
-            <div key={l} style={{
-              background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
-            }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 6 }}>{l}</div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{v.toLocaleString()}</div>
-            </div>
-          ))}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
+            {[
+              ["Institutions", stats.institutions],
+              ["Datasets", stats.datasets],
+              ["Subjects", stats.subjects],
+              ["Scans", stats.scans],
+            ].map(([l, v]) => (
+              <div key={l} style={{
+                background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
+              }}>
+                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 6 }}>{l}</div>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{v.toLocaleString()}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <DiseaseAreaChart studies={studies} />
+            <ScansByModalityChart studies={studies} />
+          </div>
+        </section>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Recent studies</h2>
+          <Button variant="ghost" size="sm" icon="arrowRight" onClick={() => onNavigate("studies")}>View all</Button>
         </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-          <DiseaseAreaChart studies={studies} />
-          <ScansByModalityChart studies={studies} />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+          {recentStudies.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
         </div>
-      </section>
-
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-        <h2 style={{ margin: 0, fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Recent studies</h2>
-        <Button variant="ghost" size="sm" icon="arrowRight" onClick={() => onNavigate("studies")}>View all</Button>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-        {recentStudies.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
       </div>
       <Footer />
     </div>

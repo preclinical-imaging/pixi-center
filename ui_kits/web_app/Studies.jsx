@@ -129,61 +129,63 @@ const Studies = ({ onOpenStudy }) => {
     studies.filter(s => s.statusLabel === filter);
 
   return (
-    <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)" }}>
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
-        <div>
-          <h1 style={{
-            margin: "6px 0 0",
-            fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600,
-            letterSpacing: "-0.01em",
-          }}>Datasets</h1>
-        </div>
-      </div>
-
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        gap: 12, padding: "16px 0", borderBottom: "1px solid var(--border-subtle)",
-        marginBottom: 20,
-      }}>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {filters.map(f => (
-            <FilterChip key={f} active={filter === f} onClick={() => setFilter(f)}>{f}</FilterChip>
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          <div style={{
-            display: "inline-flex", borderRadius: 6,
-            border: "1px solid var(--border-subtle)", overflow: "hidden",
-          }}>
-            <button onClick={() => setView("grid")} style={{
-              width: 32, height: 28, border: "none", cursor: "pointer",
-              background: view === "grid" ? "var(--pixi-cloud)" : "#fff",
-              color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-            }}><Icon name="grid" size={14} /></button>
-            <button onClick={() => setView("list")} style={{
-              width: 32, height: 28, border: "none", cursor: "pointer",
-              borderLeft: "1px solid var(--border-subtle)",
-              background: view === "list" ? "var(--pixi-cloud)" : "#fff",
-              color: view === "list" ? "var(--pixi-ink)" : "var(--fg-3)",
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-            }}><Icon name="list" size={14} /></button>
+    <div style={{ fontFamily: "var(--font-sans)" }}>
+      <div style={{ padding: "24px 32px"}}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
+          <div>
+            <h1 style={{
+              margin: "6px 0 0",
+              fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600,
+              letterSpacing: "-0.01em",
+            }}>Datasets</h1>
           </div>
-          <Button variant="secondary" icon="sliders" size="md">Filters</Button>
         </div>
-      </div>
 
-      {error ? (
-        <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
-          Couldn't load studies — make sure the local server is running (node ui_kits/web_app/server.js).
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          gap: 12, padding: "16px 0", borderBottom: "1px solid var(--border-subtle)",
+          marginBottom: 20,
+        }}>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {filters.map(f => (
+              <FilterChip key={f} active={filter === f} onClick={() => setFilter(f)}>{f}</FilterChip>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{
+              display: "inline-flex", borderRadius: 6,
+              border: "1px solid var(--border-subtle)", overflow: "hidden",
+            }}>
+              <button onClick={() => setView("grid")} style={{
+                width: 32, height: 28, border: "none", cursor: "pointer",
+                background: view === "grid" ? "var(--pixi-cloud)" : "#fff",
+                color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+              }}><Icon name="grid" size={14} /></button>
+              <button onClick={() => setView("list")} style={{
+                width: 32, height: 28, border: "none", cursor: "pointer",
+                borderLeft: "1px solid var(--border-subtle)",
+                background: view === "list" ? "var(--pixi-cloud)" : "#fff",
+                color: view === "list" ? "var(--pixi-ink)" : "var(--fg-3)",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+              }}><Icon name="list" size={14} /></button>
+            </div>
+            <Button variant="secondary" icon="sliders" size="md">Filters</Button>
+          </div>
         </div>
-      ) : view === "grid" ? (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-          {filtered.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
-        </div>
-      ) : (
-        <StudiesList rows={filtered} onOpen={onOpenStudy} />
-      )}
+
+        {error ? (
+          <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
+            Couldn't load studies — make sure the local server is running (node ui_kits/web_app/server.js).
+          </div>
+        ) : view === "grid" ? (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+            {filtered.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
+          </div>
+        ) : (
+          <StudiesList rows={filtered} onOpen={onOpenStudy} />
+        )}
+      </div>
       <Footer />
     </div>
   );
