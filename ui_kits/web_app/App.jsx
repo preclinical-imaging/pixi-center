@@ -233,7 +233,7 @@ const ScansByModalityChart = ({ modalities }) => {
   }, [modalities]);
 
   const total = pieChartSlices.reduce((sum, d) => sum + d.count, 0);
-  const size = 200, cx = size / 2, cy = size / 2, rOuter = 92, rInner = 56;
+  const size = 400, cx = size / 2, cy = size / 2, rOuter = 148, rInner = 86;
 
   return (
     <div style={{
@@ -270,7 +270,7 @@ const ScansByModalityChart = ({ modalities }) => {
           }}>Scans</text>
         </svg>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "1 1 140px", minWidth: 140 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "1 1 64px", minWidth: 64 }}>
           {pieChartSlices.map(s => (
             <div key={s.modality} style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0 }} />
