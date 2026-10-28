@@ -1,5 +1,5 @@
 // Home page for PIXI Center — public-facing.
-// Uses tokens from ../../colors_and_type.css and primitives from ui.jsx.
+// Uses tokens from /colors_and_type.css and primitives from ui.jsx.
 
 // ---------- Tweakable controls ----------
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
@@ -9,8 +9,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "showValues": true
 }/*EDITMODE-END*/;
 
-// TopNav and Footer live in site-chrome.jsx, shared with the other
-// top-level public pages (see ../about/About.jsx).
+// TopNav and Footer live in site-chrome.jsx, shared with the other pages
 
 // data/studies.json is the single source of truth for the dataset library —
 // each entry is a "dataset". Fetched once and cached for every section on
@@ -48,16 +47,16 @@ const useStudiesData = () => {
   return { studies, error };
 };
 
-const Hero = ({ t }) => {
+const Hero = ({ tweaks }) => {
   const { studies } = useStudiesData();
   const stats = React.useMemo(() => {
-    const institutions = new Set(studies.map(s => s.institution).filter(Boolean));
-    const sum = (key) => studies.reduce((total, s) => total + (Number(s[key]) || 0), 0);
+    const institutions = new Set(studies.map(study => study.institution).filter(Boolean));
+    const sum = (key) => studies.reduce((total, study) => total + (Number(study[key]) || 0), 0);
     return {
+      institutions: institutions.size,
       datasets: studies.length,
       subjects: sum("subjects"),
       scans: sum("scans"),
-      institutions: institutions.size,
     };
   }, [studies]);
 
@@ -102,10 +101,10 @@ const Hero = ({ t }) => {
           paddingTop: 20, borderTop: "1px solid var(--border-subtle)",
         }}>
           {[
+            ["Institutions", stats.institutions],
             ["Datasets", stats.datasets],
             ["Subjects", stats.subjects],
             ["Scans", stats.scans],
-            ["Institutions", stats.institutions],
           ].map(([l, v]) => (
             <div key={l}>
               <div style={{
@@ -121,7 +120,7 @@ const Hero = ({ t }) => {
           ))}
         </div>
       </div>
-      <HeroBarChart t={t} />
+      <HeroBarChart tweaks={tweaks} />
     </section>
   );
 };
@@ -133,36 +132,36 @@ const Hero = ({ t }) => {
 
 function summarizeDiseaseAreas(studies) {
   const totals = new Map();
-  for (const s of studies) {
-    if (!s.area) continue;
-    totals.set(s.area, (totals.get(s.area) || 0) + (Number(s.subjects) || 0));
+  for (const study of studies) {
+    if (!study.area) continue;
+    totals.set(study.area, (totals.get(study.area) || 0) + (Number(study.subjects) || 0));
   }
   return [...totals.entries()].map(([area, count]) => ({ area, count }));
 }
 
 const useDiseaseAreas = () => {
   const { studies, error } = useStudiesData();
-  const areas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
-  return { areas, error };
+  const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
+  return { diseaseAreas: diseaseAreas, error };
 };
 
-const HeroBarChart = ({ t }) => {
+const HeroBarChart = ({ tweaks }) => {
   const [mounted, setMounted] = React.useState(false);
-  const { areas, error } = useDiseaseAreas();
+  const { diseaseAreas: diseaseAreas, error } = useDiseaseAreas();
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
   const sorted = React.useMemo(() => {
-    const out = [...areas];
-    return t.sortByCount
+    const out = [...diseaseAreas];
+    return tweaks.sortByCount
       ? out.sort((a, b) => b.count - a.count)
       : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [areas, t.sortByCount]);
+  }, [diseaseAreas, tweaks.sortByCount]);
 
-  const rows = sorted.slice(0, Math.max(3, Math.min(8, t.barCount)));
-  const max = Math.max(1, ...areas.map(d => d.count));
+  const rows = sorted.slice(0, Math.max(3, Math.min(8, tweaks.barCount)));
+  const max = Math.max(1, ...diseaseAreas.map(d => d.count));
 
   return (
     <div style={{
@@ -174,7 +173,7 @@ const HeroBarChart = ({ t }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <Eyebrow mono>Across {areas.length} disease areas</Eyebrow>
+        <Eyebrow mono>Across {diseaseAreas.length} disease areas</Eyebrow>
         <h3 style={{
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
@@ -202,7 +201,7 @@ const HeroBarChart = ({ t }) => {
                   color: "var(--fg-1)", lineHeight: 1.2, minWidth: 0,
                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                 }}>{area}</span>
-                {t.showValues && (
+                {tweaks.showValues && (
                   <span style={{
                     fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500,
                     color: "var(--fg-3)", fontVariantNumeric: "tabular-nums", flexShrink: 0,
@@ -213,7 +212,7 @@ const HeroBarChart = ({ t }) => {
                 height: 9, borderRadius: 999, background: "var(--pixi-cloud)", overflow: "hidden",
               }}>
                 <div style={{
-                  height: "100%", borderRadius: 999, background: t.barColor,
+                  height: "100%", borderRadius: 999, background: tweaks.barColor,
                   width: mounted ? `${pct}%` : "0%",
                   transition: `width 720ms var(--ease-out) ${i * 70}ms`,
                 }} />
@@ -297,10 +296,10 @@ const FindSection = () => (
 
 // ---------- Section 2: Recent datasets ----------
 // Cards show the first four datasets listed in data/studies.json.
-const DatasetCard = ({ s }) => {
+const DatasetCard = ({ study }) => {
   const [hover, setHover] = React.useState(false);
   return (
-    <a href={`../ui_kits/web_app/index.html#studies/${encodeURIComponent(s.id)}`}
+    <a href={`../ui_kits/web_app/index.html#studies/${encodeURIComponent(study.id)}`}
        onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
        style={{
          textDecoration: "none", color: "inherit",
@@ -314,15 +313,15 @@ const DatasetCard = ({ s }) => {
        }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-          <Eyebrow mono>{s.id}</Eyebrow>
-          <Badge tone={s.status} dot>{s.statusLabel}</Badge>
+          <Eyebrow mono>{study.id}</Eyebrow>
+          <Badge tone={study.status} dot>{study.statusLabel}</Badge>
         </div>
         <div>
           <div style={{
             fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", lineHeight: 1.25, color: "var(--fg-1)",
-          }}>{s.title}</div>
-          <div style={{ fontSize: 12, color: "var(--fg-3)", marginTop: 4 }}>{s.area}</div>
+          }}>{study.title}</div>
+          <div style={{ fontSize: 12, color: "var(--fg-3)", marginTop: 4 }}>{study.area}</div>
         </div>
       </div>
       <div style={{
@@ -333,19 +332,19 @@ const DatasetCard = ({ s }) => {
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Subjects</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
-            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{s.subjects}</div>
+            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</div>
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Scans</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
-            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{s.scans}</div>
+            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.scans}</div>
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 4 }}>Modalities</div>
           <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-            {s.modalities.map(m => (
+            {study.modalities.map(m => (
               <span key={m} style={{
                 fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500,
                 color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
@@ -360,8 +359,8 @@ const DatasetCard = ({ s }) => {
           display: "inline-flex", alignItems: "center", height: 22, padding: "0 8px",
           fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
           color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-        }}>{s.institution}</span>
-        <span style={{ fontSize: 12, color: "var(--fg-3)" }}>updated {s.updated}</span>
+        }}>{study.institution}</span>
+        <span style={{ fontSize: 12, color: "var(--fg-3)" }}>updated {study.updated}</span>
       </div>
     </a>
   );
@@ -398,7 +397,7 @@ const RecentSection = () => {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-        {recent.map(s => <DatasetCard key={s.id} s={s} />)}
+        {recent.map(study => <DatasetCard key={study.id} study={study} />)}
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
@@ -410,26 +409,26 @@ const RecentSection = () => {
 
 // ---------- Page ----------
 const HomePage = () => {
-  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   return (
     <div className="pixi-root" data-screen-label="PIXI Center home">
       <TopNav />
-      <Hero t={t} />
+      <Hero tweaks={tweaks} />
       <FindSection />
       <RecentSection />
       <Footer />
 
       <TweaksPanel>
         <TweakSection label="Disease-area chart" />
-        <TweakColor label="Bar color" value={t.barColor}
+        <TweakColor label="Bar color" value={tweaks.barColor}
                     options={["#1E3C87", "#3CB44B", "#D9A300", "#3D3F44"]}
                     onChange={(v) => setTweak("barColor", v)} />
-        <TweakSlider label="Areas shown" value={t.barCount} min={3} max={8} unit=" rows"
+        <TweakSlider label="Areas shown" value={tweaks.barCount} min={3} max={8} unit=" rows"
                      onChange={(v) => setTweak("barCount", v)} />
-        <TweakRadio label="Order" value={t.sortByCount ? "count" : "az"}
+        <TweakRadio label="Order" value={tweaks.sortByCount ? "count" : "az"}
                     options={["count", "az"]}
                     onChange={(v) => setTweak("sortByCount", v === "count")} />
-        <TweakToggle label="Show counts" value={t.showValues}
+        <TweakToggle label="Show counts" value={tweaks.showValues}
                      onChange={(v) => setTweak("showValues", v)} />
       </TweaksPanel>
     </div>

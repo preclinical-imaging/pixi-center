@@ -322,8 +322,8 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   // Same counts, computed the same way, as the public home page's hero
   // stats (see home/Home.jsx's Hero component).
   const stats = React.useMemo(() => {
-    const institutions = new Set(studies.map(s => s.institution).filter(Boolean));
-    const sum = (key) => studies.reduce((total, s) => total + (Number(s[key]) || 0), 0);
+    const institutions = new Set(studies.map(study => study.institution).filter(Boolean));
+    const sum = (key) => studies.reduce((total, study) => total + (Number(study[key]) || 0), 0);
     return {
       institutions: institutions.size,
       datasets: studies.length,
