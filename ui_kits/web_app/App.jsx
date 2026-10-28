@@ -18,19 +18,14 @@ const App = () => {
   const [openStudy, setOpenStudy] = React.useState(null);
   const [openSubject, setOpenSubject] = React.useState(null);
 
-  const onNavigate = (n) => {
-    setNav(n);
-    setOpenStudy(null);
+  const showView = (nav, study = null) => {
+    setNav(nav);
+    setOpenStudy(study);
     setOpenSubject(null);
   };
 
-  const onOpenStudy = (s) => {
-//       if (s.url) {
-//         window.open(s.url);
-//       } else {
-        setOpenStudy(s); setNav("studies"); setOpenSubject(null);
-//       }
-  };
+  const onNavigate  = (n) => { history.pushState(null, "", n === "home" ? location.pathname : "#" + n); showView(n); };
+  const onOpenStudy = (s) => { history.pushState(null, "", "#studies/" + encodeURIComponent(s.id)); showView("studies", s); };
 
   // Deep-link support: the public Home page's "Recent datasets" cards link
   // here as index.html#study/<id> — open that study's detail view once the
