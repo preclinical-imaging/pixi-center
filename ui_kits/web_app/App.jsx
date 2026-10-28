@@ -1,10 +1,10 @@
 // App shell — wires sidebar + topbar + view + inspector
 
+const STUDY_HASH = /^#studies\/(.+)$/;
+
 // Maps a #hash to a nav section — shared by the initial page load and the
 // hashchange listener below, so a link that only changes the hash (no full
 // page reload — e.g. the address bar, or back/forward) still navigates.
-const STUDY_HASH = /^#studies\/(.+)$/;
-
 function navFromHash(hash) {
   if (hash === "#cohorts") return "cohorts";
   if (hash === "#studies" || STUDY_HASH.test(hash)) return "studies";
@@ -13,6 +13,10 @@ function navFromHash(hash) {
 
 const App = () => {
   const { studies } = useStudies();
+
+  const studiesRef = React.useRef(studies);
+  studiesRef.current = studies;
+
   const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
   const [nav, setNav] = React.useState(
     () => (typeof location !== "undefined") ? navFromHash(location.hash) : "studies"
@@ -44,7 +48,12 @@ const App = () => {
   // state set up above on mount — listen for it explicitly.
   React.useEffect(() => {
     const onHashChange = () => {
-      if (/^#studies\//.test(location.hash)) return; // handled by the effect above
+      const match = location.hash.match(STUDY_HASH);
+      if (match) {
+        const studyReference = studiesRef.current.find(x => x.id === decodeURIComponent(match[1]));
+        if (studyReference) showView("studies", studyReference);
+        return;
+      }
       setOpenStudy(null);
       setOpenSubject(null);
       setNav(navFromHash(location.hash));
@@ -62,7 +71,7 @@ const App = () => {
 
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
-  else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} onBack={() => setOpenStudy(null)} />;
+  else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
   else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
   else view = <HomeView onOpenStudy={onOpenStudy} onNavigate={onNavigate} />;
 

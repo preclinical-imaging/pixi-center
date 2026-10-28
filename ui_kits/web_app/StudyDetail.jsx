@@ -29,7 +29,7 @@ const Tab = ({ children, active, onClick, count }) => (
   </button>
 );
 
-const StudyDetail = ({ study, onOpenSubject, onBack }) => {
+const StudyDetail = ({ study, onOpenSubject }) => {
   const [tab, setTab] = React.useState("overview");
 
   return (
