@@ -31,7 +31,7 @@ const App = () => {
   // here as index.html#study/<id> — open that study's detail view once the
   // study list has loaded.
   React.useEffect(() => {
-    const match = typeof location !== "undefined" && location.hash.match(/^#study\/(.+)$/);
+    const match = typeof location !== "undefined" && location.hash.match(/^#studies\/(.+)$/);
     if (!match || !studies.length) return;
     const study = studies.find(s => s.id === decodeURIComponent(match[1]));
     if (study) onOpenStudy(study);
@@ -42,7 +42,7 @@ const App = () => {
   // state set up above on mount — listen for it explicitly.
   React.useEffect(() => {
     const onHashChange = () => {
-      if (/^#study\//.test(location.hash)) return; // handled by the effect above
+      if (/^#studies\//.test(location.hash)) return; // handled by the effect above
       setOpenStudy(null);
       setOpenSubject(null);
       setNav(navFromHash(location.hash));
