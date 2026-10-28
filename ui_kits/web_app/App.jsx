@@ -61,13 +61,6 @@ const App = () => {
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
-  // Build crumbs
-  let crumbs = [];
-  if (nav === "studies" && !openStudy) crumbs.push({ label: "Studies" });
-  if (openStudy) crumbs.push({ label: "Studies", to: "studies" }, { label: openStudy.id });
-  if (nav === "cohorts") crumbs = [{ label: "Cohort Browser" }];
-  if (nav === "home") crumbs = [{ label: "Home" }];
-
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
@@ -292,13 +285,6 @@ const ScansByModalityChart = ({ modalities }) => {
           ))}
         </div>
       </div>
-
-      <div style={{
-        fontSize: 12, color: "var(--fg-3)", lineHeight: 1.5,
-        paddingTop: 14, borderTop: "1px solid var(--border-subtle)",
-      }}>
-        Scans are split evenly across a study's listed modalities when more than one is recorded.
-      </div>
     </div>
   );
 };
@@ -324,8 +310,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
     };
   }, [studies]);
 
-  // Most recently updated first — study.updated is an ISO "YYYY-MM-DD"
-  // string, so a plain descending string compare sorts it chronologically.
+  // Most recently updated first
   const recentStudies = React.useMemo(
     () => [...studies].sort((a, b) => (b.updated || "").localeCompare(a.updated || "")).slice(0, 4),
     [studies]
