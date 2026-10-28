@@ -3,9 +3,11 @@
 // Maps a #hash to a nav section — shared by the initial page load and the
 // hashchange listener below, so a link that only changes the hash (no full
 // page reload — e.g. the address bar, or back/forward) still navigates.
+const STUDY_HASH = /^#studies\/(.+)$/;
+
 function navFromHash(hash) {
   if (hash === "#cohorts") return "cohorts";
-  else if (hash === "#studies") return "studies";
+  if (hash === "#studies" || STUDY_HASH.test(hash)) return "studies";
   return "home";
 }
 
