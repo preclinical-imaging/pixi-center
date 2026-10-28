@@ -43,6 +43,28 @@ const TopNav = () => {
         ))}
       </nav>
       <div style={{ flex: 1 }} />
+      <form
+        action="/xnat/app/action/QuickSearchAction"
+        method="POST"
+        target="_blank"
+        style={{
+          display: "flex", alignItems: "center", gap: 8,
+          height: 34, padding: "0 12px",
+          background: "var(--pixi-paper)",
+          border: "1px solid var(--border-subtle)",
+          borderRadius: 6, width: 320,
+        }}
+      >
+        <Icon name="search" size={16} color="var(--fg-3)" />
+        <input
+          name="searchValue"
+          placeholder="Search XNAT for studies, subjects, files…"
+          style={{
+            flex: 1, border: "none", background: "transparent", outline: "none",
+            fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--fg-1)",
+          }}
+        />
+      </form>
       <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to PIXI</Button></a>
     </header>
   );
