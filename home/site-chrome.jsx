@@ -3,9 +3,10 @@
 // Loaded before each page's own <Page>.jsx (see index.html files).
 
 const NAV = [
-  { label: "Datasets", href: "../ui_kits/web_app/index.html" },
-  { label: "Cohort Browser", href: "../ui_kits/web_app/index.html#cohorts" },
-  { label: "About", href: "../about/index.html" },
+  { label: "Dashboard", href: "/ui_kits/web_app/index.html#"},
+  { label: "Datasets", href: "/ui_kits/web_app/index.html#studies" },
+  { label: "Cohort Browser", href: "/ui_kits/web_app/index.html#cohorts" },
+  { label: "About", href: "/about/index.html" },
 ];
 
 const TopNav = () => {
@@ -20,7 +21,7 @@ const TopNav = () => {
       display: "flex", alignItems: "center",
       padding: "0 40px", gap: 32,
     }}>
-      <a href="../home/index.html" style={{ textDecoration: "none", display: "inline-flex" }}>
+      <a href="/home/index.html" style={{ textDecoration: "none", display: "inline-flex" }}>
         <Logo size={26} />
       </a>
       <nav style={{ display: "flex", gap: 4, marginLeft: 16 }}>

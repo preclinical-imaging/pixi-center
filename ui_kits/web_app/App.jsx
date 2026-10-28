@@ -5,7 +5,8 @@
 // page reload — e.g. the address bar, or back/forward) still navigates.
 function navFromHash(hash) {
   if (hash === "#cohorts") return "cohorts";
-  return "studies";
+  else if (hash === "#studies") return "studies";
+  return "home";
 }
 
 const App = () => {
@@ -56,7 +57,7 @@ const App = () => {
   }, []);
 
   // Build crumbs
-  let crumbs = [{ label: "Oncology — preclinical" }];
+  let crumbs = [];
   if (nav === "studies" && !openStudy) crumbs.push({ label: "Studies" });
   if (openStudy) crumbs.push({ label: "Studies", to: "studies" }, { label: openStudy.id });
   if (nav === "cohorts") crumbs = [{ label: "Cohort Browser" }];
@@ -73,13 +74,8 @@ const App = () => {
       height: "100vh", display: "flex",
       background: "var(--pixi-paper)", position: "relative", overflow: "hidden",
     }}>
-      <Sidebar active={nav} onNavigate={onNavigate} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, position: "relative" }}>
-        <Topbar
-          crumbs={crumbs}
-          showCrumbs={t.showCrumbs}
-          onNavigate={(c) => { if (c.to) { setOpenStudy(null); setNav(c.to); } }}
-        />
+        <TopNav />
         <main style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
           {view}
         </main>
@@ -184,13 +180,6 @@ const DiseaseAreaChart = ({ studies }) => {
             </div>
           );
         })}
-      </div>
-
-      <div style={{
-        fontSize: 12, color: "var(--fg-3)", lineHeight: 1.5,
-        paddingTop: 14, borderTop: "1px solid var(--border-subtle)",
-      }}>
-        Bar length reflects the number of subjects studied within each disease area.
       </div>
     </div>
   );
@@ -330,10 +319,10 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
     const institutions = new Set(studies.map(s => s.institution).filter(Boolean));
     const sum = (key) => studies.reduce((total, s) => total + (Number(s[key]) || 0), 0);
     return {
+      institutions: institutions.size,
       datasets: studies.length,
       subjects: sum("subjects"),
       scans: sum("scans"),
-      institutions: institutions.size,
     };
   }, [studies]);
 
@@ -346,7 +335,6 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
 
   return (
     <div style={{ padding: "24px 32px", fontFamily: "var(--font-sans)", maxWidth: 1100 }}>
-      <Eyebrow>Workspace · Oncology — preclinical</Eyebrow>
       <h1 style={{ margin: "6px 0 24px", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
         Site Dashboard
       </h1>
@@ -356,10 +344,10 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
           {[
+            ["Institutions", stats.institutions],
             ["Datasets", stats.datasets],
             ["Subjects", stats.subjects],
             ["Scans", stats.scans],
-            ["Institutions", stats.institutions],
           ].map(([l, v]) => (
             <div key={l} style={{
               background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
