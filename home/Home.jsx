@@ -2,12 +2,12 @@
 // Uses tokens from /colors_and_type.css and primitives from ui.jsx.
 
 // ---------- Tweakable controls ----------
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+const DISEASE_CHART_DEFAULTS = {
   "barColor": "#1E3C87",
   "barCount": 7,
   "sortByCount": true,
   "showValues": true
-}/*EDITMODE-END*/;
+};
 
 // TopNav and Footer live in site-chrome.jsx, shared with the other pages
 
@@ -47,7 +47,7 @@ const useStudiesData = () => {
   return { studies, error };
 };
 
-const Hero = ({ tweaks }) => {
+const Hero = () => {
   const { studies } = useStudiesData();
   const stats = React.useMemo(() => {
     const institutions = new Set(studies.map(study => study.institution).filter(Boolean));
@@ -120,7 +120,7 @@ const Hero = ({ tweaks }) => {
           ))}
         </div>
       </div>
-      <HeroBarChart tweaks={tweaks} />
+      <HeroBarChart />
     </section>
   );
 };
@@ -128,7 +128,7 @@ const Hero = ({ tweaks }) => {
 // Hero visual: horizontal bar chart of the most-studied areas of disease
 // across the dataset library. Areas come from the unique "area" values in
 // data/studies.json; each bar totals the "subjects" of every study tagged
-// to that area. Driven by the Tweaks panel.
+// to that area.
 
 function summarizeDiseaseAreas(studies) {
   const totals = new Map();
@@ -145,7 +145,8 @@ const useDiseaseAreas = () => {
   return { diseaseAreas, error };
 };
 
-const HeroBarChart = ({ tweaks }) => {
+const HeroBarChart = () => {
+  const { barColor, barCount, sortByCount, showValues } = DISEASE_CHART_DEFAULTS;
   const [mounted, setMounted] = React.useState(false);
   const { diseaseAreas, error } = useDiseaseAreas();
   React.useEffect(() => {
@@ -155,12 +156,12 @@ const HeroBarChart = ({ tweaks }) => {
 
   const sorted = React.useMemo(() => {
     const out = [...diseaseAreas];
-    return tweaks.sortByCount
+    return sortByCount
       ? out.sort((a, b) => b.count - a.count)
       : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [diseaseAreas, tweaks.sortByCount]);
+  }, [diseaseAreas, sortByCount]);
 
-  const rows = sorted.slice(0, Math.max(3, Math.min(8, tweaks.barCount)));
+  const rows = sorted.slice(0, Math.max(3, Math.min(8, barCount)));
   const max = Math.max(1, ...diseaseAreas.map(d => d.count));
 
   return (
@@ -201,7 +202,7 @@ const HeroBarChart = ({ tweaks }) => {
                   color: "var(--fg-1)", lineHeight: 1.2, minWidth: 0,
                   overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                 }}>{area}</span>
-                {tweaks.showValues && (
+                {showValues && (
                   <span style={{
                     fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500,
                     color: "var(--fg-3)", fontVariantNumeric: "tabular-nums", flexShrink: 0,
@@ -212,7 +213,7 @@ const HeroBarChart = ({ tweaks }) => {
                 height: 9, borderRadius: 999, background: "var(--pixi-cloud)", overflow: "hidden",
               }}>
                 <div style={{
-                  height: "100%", borderRadius: 999, background: tweaks.barColor,
+                  height: "100%", borderRadius: 999, background: barColor,
                   width: mounted ? `${pct}%` : "0%",
                   transition: `width 720ms var(--ease-out) ${i * 70}ms`,
                 }} />
@@ -409,28 +410,13 @@ const RecentSection = () => {
 
 // ---------- Page ----------
 const HomePage = () => {
-  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   return (
     <div className="pixi-root" data-screen-label="PIXI Center home">
       <TopNav />
-      <Hero tweaks={tweaks} />
+      <Hero />
       <FindSection />
       <RecentSection />
       <Footer />
-
-      <TweaksPanel>
-        <TweakSection label="Disease-area chart" />
-        <TweakColor label="Bar color" value={tweaks.barColor}
-                    options={["#1E3C87", "#3CB44B", "#D9A300", "#3D3F44"]}
-                    onChange={(v) => setTweak("barColor", v)} />
-        <TweakSlider label="Areas shown" value={tweaks.barCount} min={3} max={8} unit=" rows"
-                     onChange={(v) => setTweak("barCount", v)} />
-        <TweakRadio label="Order" value={tweaks.sortByCount ? "count" : "az"}
-                    options={["count", "az"]}
-                    onChange={(v) => setTweak("sortByCount", v === "count")} />
-        <TweakToggle label="Show counts" value={tweaks.showValues}
-                     onChange={(v) => setTweak("showValues", v)} />
-      </TweaksPanel>
     </div>
   );
 };

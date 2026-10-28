@@ -17,7 +17,6 @@ const App = () => {
   const studiesRef = React.useRef(studies);
   studiesRef.current = studies;
 
-  const [tweaks, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
   const [nav, setNav] = React.useState(
     () => (typeof location !== "undefined") ? navFromHash(location.hash) : "studies"
   );
@@ -87,14 +86,6 @@ const App = () => {
         </main>
         <Inspector subject={openSubject} onClose={() => setOpenSubject(null)} />
       </div>
-      <TweaksPanel>
-        <TweakSection label="Top bar" />
-        <TweakToggle
-          label="Show breadcrumbs"
-          value={tweaks.showCrumbs}
-          onChange={(v) => setTweak("showCrumbs", v)}
-        />
-      </TweaksPanel>
     </div>
   );
 };
@@ -104,8 +95,7 @@ const App = () => {
 // Disease-area bar chart — a copy of home/Home.jsx's HeroBarChart (same
 // summarizeDiseaseAreas() aggregation and the same visual treatment), adapted
 // to read the `studies` this page already has via useStudies() instead of
-// fetching its own copy, and to run with the public page's tweak defaults
-// baked in (see Home.jsx's TWEAK_DEFAULTS) rather than a live Tweaks panel.
+// fetching its own copy.
 function summarizeDiseaseAreas(studies) {
   const totals = new Map();
   for (const s of studies) {
