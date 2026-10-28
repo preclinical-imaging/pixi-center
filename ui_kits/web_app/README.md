@@ -13,8 +13,6 @@ A high-fidelity, click-thru recreation of the PIXI Center collaborative web app 
 | File | What |
 |---|---|
 | `App.jsx` | Top-level shell — sidebar + topbar + routed view |
-| `Sidebar.jsx` | Left nav, with logo, sections, user footer |
-| `Topbar.jsx` | Search, "+ New", notifications, avatar |
 | `Studies.jsx` | Study library (cards + table view toggle) |
 | `StudyDetail.jsx` | Single-study page (subjects table, sidebar tabs) |
 | `Inspector.jsx` | Right drawer panel for subject metadata |

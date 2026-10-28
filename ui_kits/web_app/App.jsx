@@ -1,4 +1,4 @@
-// App shell — wires sidebar + topbar + view + inspector
+// App shell — wires view and inspector
 
 const STUDY_HASH = /^#studies\/(.+)$/;
 
@@ -40,7 +40,7 @@ const App = () => {
     const match = typeof location !== "undefined" && location.hash.match(/^#studies\/(.+)$/);
     if (!match || !studies.length) return;
     const study = studies.find(s => s.id === decodeURIComponent(match[1]));
-    if (study) onOpenStudy(study);
+    if (study) showView("studies", study);
   }, [studies]);
 
   // A #hash-only change (address bar edit, back/forward, an in-page link)
@@ -117,23 +117,22 @@ function summarizeDiseaseAreas(studies) {
 
 const DISEASE_CHART_DEFAULTS = { barColor: "#1E3C87", barCount: 7, sortByCount: true, showValues: true };
 
-const DiseaseAreaChart = ({ studies }) => {
+const DiseaseAreaChart = ({ diseaseAreas }) => {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const areas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
   const sorted = React.useMemo(() => {
-    const out = [...areas];
+    const out = [...diseaseAreas];
     return DISEASE_CHART_DEFAULTS.sortByCount
       ? out.sort((a, b) => b.count - a.count)
       : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [areas]);
+  }, [diseaseAreas]);
 
   const rows = sorted.slice(0, Math.max(3, Math.min(8, DISEASE_CHART_DEFAULTS.barCount)));
-  const max = Math.max(1, ...areas.map(d => d.count));
+  const max = Math.max(1, ...diseaseAreas.map(d => d.count));
 
   return (
     <div style={{
@@ -145,7 +144,6 @@ const DiseaseAreaChart = ({ studies }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <Eyebrow mono>Across {areas.length} disease areas</Eyebrow>
         <h3 style={{
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
@@ -229,18 +227,18 @@ function donutSlicePath(cx, cy, rOuter, rInner, startAngle, endAngle) {
   ].join(" ");
 }
 
-const ScansByModalityChart = ({ studies }) => {
+const ScansByModalityChart = ({ modalities }) => {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, []);
 
-  const slices = React.useMemo(() => {
-    const totals = summarizeScansByModality(studies).sort((a, b) => b.count - a.count);
-    const total = totals.reduce((sum, d) => sum + d.count, 0) || 1;
+  const pieChartSlices = React.useMemo(() => {
+    const sortedModalities = [...modalities].sort((a, b) => b.count - a.count);
+    const total = sortedModalities.reduce((sum, d) => sum + d.count, 0) || 1;
     let angle = 0;
-    return totals.map(({ modality, count }) => {
+    return sortedModalities.map(({ modality, count }) => {
       const startAngle = angle;
       angle += (count / total) * 360;
       return {
@@ -249,9 +247,9 @@ const ScansByModalityChart = ({ studies }) => {
         color: MODALITY_COLORS[modality] || MODALITY_COLOR_FALLBACK,
       };
     });
-  }, [studies]);
+  }, [modalities]);
 
-  const total = slices.reduce((sum, d) => sum + d.count, 0);
+  const total = pieChartSlices.reduce((sum, d) => sum + d.count, 0);
   const size = 200, cx = size / 2, cy = size / 2, rOuter = 92, rInner = 56;
 
   return (
@@ -264,7 +262,6 @@ const ScansByModalityChart = ({ studies }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <Eyebrow mono>Across {slices.length} modalities</Eyebrow>
         <h3 style={{
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
@@ -276,7 +273,7 @@ const ScansByModalityChart = ({ studies }) => {
       <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}
              style={{ flexShrink: 0, opacity: mounted ? 1 : 0, transition: "opacity 480ms var(--ease-out)" }}>
-          {slices.map(s => (
+          {pieChartSlices.map(s => (
             <path key={s.modality} d={donutSlicePath(cx, cy, rOuter, rInner, s.startAngle, s.endAngle)}
                   fill={s.color} stroke="#fff" strokeWidth={2} />
           ))}
@@ -291,7 +288,7 @@ const ScansByModalityChart = ({ studies }) => {
         </svg>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "1 1 140px", minWidth: 140 }}>
-          {slices.map(s => (
+          {pieChartSlices.map(s => (
             <div key={s.modality} style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0 }} />
               <span style={{
@@ -319,6 +316,9 @@ const ScansByModalityChart = ({ studies }) => {
 const HomeView = ({ onOpenStudy, onNavigate }) => {
   const { studies } = useStudies();
 
+  const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
+  const modalities = React.useMemo(() => summarizeScansByModality(studies), [studies]);
+
   // Same counts, computed the same way, as the public home page's hero
   // stats (see home/Home.jsx's Hero component).
   const stats = React.useMemo(() => {
@@ -329,6 +329,8 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
       datasets: studies.length,
       subjects: sum("subjects"),
       scans: sum("scans"),
+      modalities: modalities.length,
+      diseaseAreas: diseaseAreas.length
     };
   }, [studies]);
 
@@ -349,12 +351,14 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
         <section style={{ marginBottom: 40 }}>
           <h2 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Data Snapshot</h2>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 28 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 16, marginBottom: 28 }}>
             {[
               ["Institutions", stats.institutions],
               ["Datasets", stats.datasets],
               ["Subjects", stats.subjects],
               ["Scans", stats.scans],
+              ["Modalities", stats.modalities],
+              ["Disease Areas", stats.diseaseAreas]
             ].map(([l, v]) => (
               <div key={l} style={{
                 background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
@@ -366,8 +370,8 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-            <DiseaseAreaChart studies={studies} />
-            <ScansByModalityChart studies={studies} />
+            <DiseaseAreaChart diseaseAreas={diseaseAreas} />
+            <ScansByModalityChart modalities={modalities} />
           </div>
         </section>
 

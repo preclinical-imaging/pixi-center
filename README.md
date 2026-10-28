@@ -4,7 +4,7 @@ A design system for **PIXI Center** — a collaborative platform for preclinical
 
 This system is built around a calm, monochrome scientific foundation (black, white, and light gray) accented with the three colors lifted directly from the PIXI Center logo: **navy**, **green**, and **yellow**. The result reads as modern lab software — quiet, instrument-grade, trustworthy — with just enough color to mark status, highlight findings, and carry brand recognition.
 
-> **Note on sources.** The only artifact provided was `uploads/pixi-center-logo.png`. There is no codebase, Figma file, or product screenshots to reference, so the visual language, content tone, and UI kit below are inferred from the logo + product description (preclinical research collaboration). **Please review and flag anything that doesn't match the actual product** — see *Caveats* at the bottom.
+> **Note on sources.** The only artifact provided was `uploads/pixi-center-logo.png`. There is no codebase, Figma file, or product screenshots to reference, so the visual language, content tone, and UI kit below are inferred from the logo + product description (preclinical research collaboration). **Please review and flag anything that doesn't match the actual product**
 
 ---
 
@@ -118,9 +118,6 @@ The brand voice should match the audience: **precise, evidence-based, collaborat
 - **Transparency** is used only for: scrim overlays on hero imagery, the modal backdrop (`rgba(10, 10, 11, 0.40)`), and disabled-state opacity.
 - **Backdrop blur** appears only on the modal backdrop and on a sticky table header when content scrolls beneath it. Never used decoratively.
 
-### Iconography
-See **ICONOGRAPHY** below.
-
 ---
 
 ## Iconography
@@ -136,12 +133,6 @@ PIXI Center uses **Lucide** (https://lucide.dev) — open-source, MIT, ~1,400 ic
 - **The PIXI mark itself** (the open "C" enclosing a green crescent and yellow dot) is a brand asset, not an icon — only used for the logo lockup, app launcher tile, and favicon.
 
 > ⚠️ **Substitution flag.** Without seeing the live product, I'm assuming PIXI Center does *not* already have a custom icon font. If it does, please share the SVG sprite or the icon source and I'll replace Lucide with the real set.
-
----
-
-## Caveats & open questions
-
-See *Caveats* at the bottom of this doc and the asks at the end of the chat.
 
 ---
 
