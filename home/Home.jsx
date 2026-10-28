@@ -142,12 +142,12 @@ function summarizeDiseaseAreas(studies) {
 const useDiseaseAreas = () => {
   const { studies, error } = useStudiesData();
   const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
-  return { diseaseAreas: diseaseAreas, error };
+  return { diseaseAreas, error };
 };
 
 const HeroBarChart = ({ tweaks }) => {
   const [mounted, setMounted] = React.useState(false);
-  const { diseaseAreas: diseaseAreas, error } = useDiseaseAreas();
+  const { diseaseAreas, error } = useDiseaseAreas();
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
@@ -344,12 +344,12 @@ const DatasetCard = ({ study }) => {
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 4 }}>Modalities</div>
           <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-            {study.modalities.map(m => (
-              <span key={m} style={{
+            {study.modalities.map(modality => (
+              <span key={modality} style={{
                 fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500,
                 color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
                 borderRadius: 4, padding: "2px 6px", lineHeight: 1.3,
-              }}>{m}</span>
+              }}>{modality}</span>
             ))}
           </div>
         </div>

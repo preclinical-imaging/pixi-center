@@ -17,7 +17,7 @@ const App = () => {
   const studiesRef = React.useRef(studies);
   studiesRef.current = studies;
 
-  const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
+  const [tweaks, setTweak] = useTweaks(window.TWEAK_DEFAULTS || { showCrumbs: true });
   const [nav, setNav] = React.useState(
     () => (typeof location !== "undefined") ? navFromHash(location.hash) : "studies"
   );
@@ -91,7 +91,7 @@ const App = () => {
         <TweakSection label="Top bar" />
         <TweakToggle
           label="Show breadcrumbs"
-          value={t.showCrumbs}
+          value={tweaks.showCrumbs}
           onChange={(v) => setTweak("showCrumbs", v)}
         />
       </TweaksPanel>
