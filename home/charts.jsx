@@ -7,6 +7,43 @@ const DISEASE_CHART_DEFAULTS = {
   "showValues": true
 };
 
+function loadStudies() {
+  if (!_studiesPromise) {
+    _studiesPromise = fetch("/data/studies.json")
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
+        return res.json();
+      })
+      .then(data => (_studiesCache = data));
+  }
+  return _studiesPromise;
+}
+
+const useStudies = () => {
+  const [studies, setStudies] = React.useState(_studiesCache || []);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    if (_studiesCache) return;
+    let cancelled = false;
+    loadStudies()
+      .then(data => { if (!cancelled) setStudies(data); })
+      .catch(err => { if (!cancelled) setError(err); });
+    return () => { cancelled = true; };
+  }, []);
+
+  return { studies, error };
+};
+
+function summarizeDiseaseAreas(studies) {
+  const totals = new Map();
+  for (const study of studies) {
+    if (!study.area) continue;
+    totals.set(study.area, (totals.get(study.area) || 0) + (Number(study.subjects) || 0));
+  }
+  return [...totals.entries()].map(([area, count]) => ({ area, count }));
+}
+
 const DiseaseAreaChart = ({ diseaseAreas }) => {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
@@ -79,4 +116,4 @@ const DiseaseAreaChart = ({ diseaseAreas }) => {
   );
 };
 
-Object.assign(window, { DiseaseAreaChart });
+Object.assign(window, { DiseaseAreaChart, useStudies, summarizeDiseaseAreas});

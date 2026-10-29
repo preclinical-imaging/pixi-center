@@ -8,37 +8,8 @@
 let _studiesCache = null;
 let _studiesPromise = null;
 
-function loadStudiesData() {
-  if (!_studiesPromise) {
-    _studiesPromise = fetch("/data/studies.json")
-      .then(res => {
-        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
-        return res.json();
-      })
-      .then(data => (_studiesCache = data));
-  }
-  return _studiesPromise;
-}
-
-// Fetches once and caches, same pattern as Studies.jsx's useStudies().
-const useStudiesData = () => {
-  const [studies, setStudies] = React.useState(_studiesCache || []);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    if (_studiesCache) return;
-    let cancelled = false;
-    loadStudiesData()
-      .then(data => { if (!cancelled) setStudies(data); })
-      .catch(err => { if (!cancelled) setError(err); });
-    return () => { cancelled = true; };
-  }, []);
-
-  return { studies, error };
-};
-
 const Hero = () => {
-  const { studies } = useStudiesData();
+  const { studies } = useStudies();
   const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
   const stats = React.useMemo(() => {
     const institutions = new Set(studies.map(study => study.institution).filter(Boolean));
@@ -115,20 +86,6 @@ const Hero = () => {
     </section>
   );
 };
-
-// Hero visual: horizontal bar chart of the most-studied areas of disease
-// across the dataset library. Areas come from the unique "area" values in
-// data/studies.json; each bar totals the "subjects" of every study tagged
-// to that area.
-
-function summarizeDiseaseAreas(studies) {
-  const totals = new Map();
-  for (const study of studies) {
-    if (!study.area) continue;
-    totals.set(study.area, (totals.get(study.area) || 0) + (Number(study.subjects) || 0));
-  }
-  return [...totals.entries()].map(([area, count]) => ({ area, count }));
-}
 
 // ---------- Section 1: What can I find ----------
 const FindCard = ({ icon, title, body }) => {
@@ -272,7 +229,7 @@ const DatasetCard = ({ study }) => {
 };
 
 const RecentSection = () => {
-  const { studies } = useStudiesData();
+  const { studies } = useStudies();
   // Most recently updated first — study.updated is an ISO "YYYY-MM-DD"
   // string, so a plain descending string compare sorts it chronologically.
   const recent = React.useMemo(

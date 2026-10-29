@@ -85,19 +85,6 @@ const App = () => {
 
 // ---------- Data Snapshot: summary stats + charts ----------
 
-// Disease-area bar chart — a copy of home/Home.jsx's HeroBarChart (same
-// summarizeDiseaseAreas() aggregation and the same visual treatment), adapted
-// to read the `studies` this page already has via useStudies() instead of
-// fetching its own copy.
-function summarizeDiseaseAreas(studies) {
-  const totals = new Map();
-  for (const s of studies) {
-    if (!s.area) continue;
-    totals.set(s.area, (totals.get(s.area) || 0) + (Number(s.subjects) || 0));
-  }
-  return [...totals.entries()].map(([area, count]) => ({ area, count }));
-}
-
 // Scans-by-modality pie chart — each study's scan count is split evenly
 // across the modalities it lists (data/studies.json has no finer per-scan
 // breakdown), then summed per modality across the library.
@@ -289,4 +276,4 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   );
 };
 
-Object.assign(window, { App, HomeView, DiseaseAreaChart, ScansByModalityChart });
+Object.assign(window, { App, HomeView, ScansByModalityChart });
