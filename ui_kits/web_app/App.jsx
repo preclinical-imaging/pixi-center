@@ -233,7 +233,7 @@ const ScansByModalityChart = ({ modalities }) => {
   }, [modalities]);
 
   const total = pieChartSlices.reduce((sum, d) => sum + d.count, 0);
-  const size = 400, cx = size / 2, cy = size / 2, rOuter = 148, rInner = 86;
+  const size = 200, cx = size / 2, cy = size / 2, rOuter = 92, rInner = 56;
 
   return (
     <div style={{
@@ -253,9 +253,9 @@ const ScansByModalityChart = ({ modalities }) => {
         </h3>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}
-             style={{ flexShrink: 0, opacity: mounted ? 1 : 0, transition: "opacity 480ms var(--ease-out)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 28}}>
+        <svg viewBox={`0 0 ${size} ${size}`}
+          style={{ flex: "1 1 0", minWidth: 120, maxWidth: 340, height: "auto", opacity: mounted ? 1 : 0, transition: "opacity 480ms var(--ease-out)" }}>          
           {pieChartSlices.map(s => (
             <path key={s.modality} d={donutSlicePath(cx, cy, rOuter, rInner, s.startAngle, s.endAngle)}
                   fill={s.color} stroke="#fff" strokeWidth={2} />
@@ -270,7 +270,7 @@ const ScansByModalityChart = ({ modalities }) => {
           }}>Scans</text>
         </svg>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "1 1 64px", minWidth: 64 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "0 0 auto" }}>
           {pieChartSlices.map(s => (
             <div key={s.modality} style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0 }} />
