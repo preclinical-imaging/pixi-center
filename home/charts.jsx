@@ -1,41 +1,10 @@
-//Houses overlapping chart data used in multiple locations
+//Houses chart elements used in multiple locations
 
 const DISEASE_CHART_DEFAULTS = {
   "barColor": "#1E3C87",
   "barCount": 7,
   "sortByCount": true,
   "showValues": true
-};
-
-let _studiesCache = null;
-let _studiesPromise = null;
-
-function loadStudies() {
-  if (!_studiesPromise) {
-    _studiesPromise = fetch("/data/studies.json")
-      .then(res => {
-        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
-        return res.json();
-      })
-      .then(data => (_studiesCache = data));
-  }
-  return _studiesPromise;
-}
-
-const useStudies = () => {
-  const [studies, setStudies] = React.useState(_studiesCache || []);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    if (_studiesCache) return;
-    let cancelled = false;
-    loadStudies()
-      .then(data => { if (!cancelled) setStudies(data); })
-      .catch(err => { if (!cancelled) setError(err); });
-    return () => { cancelled = true; };
-  }, []);
-
-  return { studies, error };
 };
 
 function summarizeDiseaseAreas(studies) {
@@ -119,4 +88,4 @@ const DiseaseAreaChart = ({ diseaseAreas }) => {
   );
 };
 
-Object.assign(window, { DiseaseAreaChart, useStudies, summarizeDiseaseAreas});
+Object.assign(window, { DiseaseAreaChart, summarizeDiseaseAreas});
