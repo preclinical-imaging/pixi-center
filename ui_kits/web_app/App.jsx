@@ -22,6 +22,8 @@ const App = () => {
   );
   const [openStudy, setOpenStudy] = React.useState(null);
   const [openSubject, setOpenSubject] = React.useState(null);
+  
+  const mainRef = React.useRef(null);
 
   const showView = (nav, study = null) => {
     setNav(nav);
@@ -61,6 +63,10 @@ const App = () => {
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
+  React.useLayoutEffect(() => {
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [nav, openStudy]);
+
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
@@ -74,7 +80,7 @@ const App = () => {
     }}>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, position: "relative" }}>
         <TopNav />
-        <main style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
+        <main ref={mainRef} style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
           {view}
         </main>
         <Inspector subject={openSubject} onClose={() => setOpenSubject(null)} />
