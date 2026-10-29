@@ -88,4 +88,4 @@ const DiseaseAreaChart = ({ diseaseAreas }) => {
   );
 };
 
-Object.assign(window, { DiseaseAreaChart, summarizeDiseaseAreas});
+Object.assign(window, { DiseaseAreaChart, summarizeDiseaseAreas });

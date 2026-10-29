@@ -1,7 +1,7 @@
 // CohortBrowser — faceted browse over all available preclinical datasets.
 // Left rail = filter facets; main = selectable results table + selection bar.
 //
-// Rows come from data/studies.json via useStudies() (defined in charts.jsx),
+// Rows come from data/studies.json via useStudies() (defined in studies-data.jsx),
 // the same source the Datasets and home pages use. Facet options are derived
 // from whatever is actually in that file rather than hardcoded, so a facet
 // with no values in the data simply doesn't render.

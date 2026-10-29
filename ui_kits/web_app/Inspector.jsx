@@ -41,38 +41,6 @@ const Inspector = ({ subject, onClose }) => {
           <KV2 label="Last scan" value="2026-04-26 14:21" mono />
           <KV2 label="Tracer activity" value="12,478.06 MBq" mono />
         </Section>
-
-        <Section title="Latest scan" subtitle="PET / CT · day 14">
-          <div style={{
-            aspectRatio: "1 / 1",
-            borderRadius: 8, border: "1px solid var(--border-subtle)",
-            background: "linear-gradient(135deg, #1A1B1E 0%, #3D3F44 100%)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: "var(--pixi-steel)", fontSize: 12,
-            position: "relative", overflow: "hidden",
-          }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-              <Icon name="image" size={24} color="var(--pixi-steel)" />
-              <span>imaging viewer placeholder</span>
-            </div>
-            <div style={{
-              position: "absolute", bottom: 8, left: 10,
-              fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--pixi-steel)",
-            }}>slice 124 / 248 · 0.4 mm</div>
-          </div>
-        </Section>
-
-        <Section title="Notes">
-          <div style={{
-            background: "var(--pixi-paper)", border: "1px solid var(--border-subtle)",
-            borderRadius: 6, padding: 12, fontSize: 13, color: "var(--fg-2)", lineHeight: 1.5,
-          }}>
-            Vehicle cohort. No adverse events at day 14. Slight elevation in baseline activity vs. day 7 — flag for reviewer.
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--fg-3)" }}>
-            <Avatar initials="EH" size={20} /> E. Hoshino · Apr 26
-          </div>
-        </Section>
       </div>
 
       <div style={{
