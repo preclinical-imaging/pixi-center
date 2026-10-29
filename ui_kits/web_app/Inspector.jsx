@@ -42,14 +42,6 @@ const Inspector = ({ subject, onClose }) => {
           <KV2 label="Tracer activity" value="12,478.06 MBq" mono />
         </Section>
       </div>
-
-      <div style={{
-        padding: 12, borderTop: "1px solid var(--border-subtle)",
-        display: "flex", gap: 8, justifyContent: "flex-end",
-      }}>
-        <Button variant="secondary" size="sm">Edit</Button>
-        <Button variant="primary" size="sm" icon="check">Mark reviewed</Button>
-      </div>
     </aside>
   );
 };
