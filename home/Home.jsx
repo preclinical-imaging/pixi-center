@@ -1,16 +1,6 @@
 // Home page for PIXI Center — public-facing.
 // Uses tokens from /colors_and_type.css and primitives from ui.jsx.
-
-// ---------- Tweakable controls ----------
-const DISEASE_CHART_DEFAULTS = {
-  "barColor": "#1E3C87",
-  "barCount": 7,
-  "sortByCount": true,
-  "showValues": true
-};
-
 // TopNav and Footer live in site-chrome.jsx, shared with the other pages
-
 // data/studies.json is the single source of truth for the dataset library —
 // each entry is a "dataset". Fetched once and cached for every section on
 // this page that summarizes it (hero stats, disease-area chart).
@@ -49,6 +39,7 @@ const useStudiesData = () => {
 
 const Hero = () => {
   const { studies } = useStudiesData();
+  const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
   const stats = React.useMemo(() => {
     const institutions = new Set(studies.map(study => study.institution).filter(Boolean));
     const sum = (key) => studies.reduce((total, study) => total + (Number(study[key]) || 0), 0);
@@ -120,7 +111,7 @@ const Hero = () => {
           ))}
         </div>
       </div>
-      <HeroBarChart />
+      <DiseaseAreaChart diseaseAreas={diseaseAreas} />
     </section>
   );
 };
@@ -138,93 +129,6 @@ function summarizeDiseaseAreas(studies) {
   }
   return [...totals.entries()].map(([area, count]) => ({ area, count }));
 }
-
-const useDiseaseAreas = () => {
-  const { studies, error } = useStudiesData();
-  const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
-  return { diseaseAreas, error };
-};
-
-const HeroBarChart = () => {
-  const { barColor, barCount, sortByCount, showValues } = DISEASE_CHART_DEFAULTS;
-  const [mounted, setMounted] = React.useState(false);
-  const { diseaseAreas, error } = useDiseaseAreas();
-  React.useEffect(() => {
-    const id = requestAnimationFrame(() => setMounted(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
-
-  const sorted = React.useMemo(() => {
-    const out = [...diseaseAreas];
-    return sortByCount
-      ? out.sort((a, b) => b.count - a.count)
-      : out.sort((a, b) => a.area.localeCompare(b.area));
-  }, [diseaseAreas, sortByCount]);
-
-  const rows = sorted.slice(0, Math.max(3, Math.min(8, barCount)));
-  const max = Math.max(1, ...diseaseAreas.map(d => d.count));
-
-  return (
-    <div style={{
-      background: "#fff",
-      borderRadius: 12,
-      border: "1px solid var(--border-default)",
-      padding: "28px 28px 24px",
-      boxShadow: "0 24px 60px rgba(16,24,40,.10), 0 8px 20px rgba(16,24,40,.06)",
-      display: "flex", flexDirection: "column", gap: 22,
-    }}>
-      <div>
-        <Eyebrow mono>Across {diseaseAreas.length} disease areas</Eyebrow>
-        <h3 style={{
-          margin: "10px 0 0", fontFamily: "var(--font-display)",
-          fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
-        }}>
-          Most studied areas of disease
-        </h3>
-      </div>
-
-      {error && (
-        <div style={{ fontSize: 13, color: "var(--danger)" }}>
-          Couldn't load disease areas — make sure the local server is running (node ui_kits/web_app/server.js).
-        </div>
-      )}
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {rows.map(({ area, count }, i) => {
-          const pct = (count / max) * 100;
-          return (
-            <div key={area} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{
-                display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12,
-              }}>
-                <span style={{
-                  fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 500,
-                  color: "var(--fg-1)", lineHeight: 1.2, minWidth: 0,
-                  overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-                }}>{area}</span>
-                {showValues && (
-                  <span style={{
-                    fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500,
-                    color: "var(--fg-3)", fontVariantNumeric: "tabular-nums", flexShrink: 0,
-                  }}>{count}</span>
-                )}
-              </div>
-              <div style={{
-                height: 9, borderRadius: 999, background: "var(--pixi-cloud)", overflow: "hidden",
-              }}>
-                <div style={{
-                  height: "100%", borderRadius: 999, background: barColor,
-                  width: mounted ? `${pct}%` : "0%",
-                  transition: `width 720ms var(--ease-out) ${i * 70}ms`,
-                }} />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
 
 // ---------- Section 1: What can I find ----------
 const FindCard = ({ icon, title, body }) => {
