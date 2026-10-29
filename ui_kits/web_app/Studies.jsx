@@ -2,40 +2,6 @@
 // The study list itself lives in /data/studies.json and is loaded at runtime
 // (served by server.js — see `node ui_kits/web_app/server.js`).
 
-let _studiesCache = null;
-let _studiesPromise = null;
-
-function loadStudies() {
-  if (!_studiesPromise) {
-    _studiesPromise = fetch("/data/studies.json")
-      .then(res => {
-        if (!res.ok) throw new Error(`Failed to load /data/studies.json (${res.status})`);
-        return res.json();
-      })
-      .then(data => { _studiesCache = data; return data; });
-  }
-  return _studiesPromise;
-}
-
-// Shared by any component that needs the study list (e.g. App.jsx's home
-// dashboard) — fetches once and caches, re-rendering each subscriber when
-// the data arrives.
-const useStudies = () => {
-  const [studies, setStudies] = React.useState(_studiesCache || []);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    if (_studiesCache) return;
-    let cancelled = false;
-    loadStudies()
-      .then(data => { if (!cancelled) setStudies(data); })
-      .catch(err => { if (!cancelled) setError(err); });
-    return () => { cancelled = true; };
-  }, []);
-
-  return { studies, error, loading: !_studiesCache && !error };
-};
-
 const StudyCard = ({ study, onOpen }) => {
   const [hover, setHover] = React.useState(false);
   return (
@@ -239,4 +205,4 @@ const StudiesList = ({ rows, onOpen }) => (
 
 const tdStyle = { padding: "12px 14px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
-Object.assign(window, { Studies, useStudies });
+Object.assign(window, { Studies });

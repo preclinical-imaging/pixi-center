@@ -7,6 +7,9 @@ const DISEASE_CHART_DEFAULTS = {
   "showValues": true
 };
 
+let _studiesCache = null;
+let _studiesPromise = null;
+
 function loadStudies() {
   if (!_studiesPromise) {
     _studiesPromise = fetch("/data/studies.json")

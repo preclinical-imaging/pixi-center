@@ -5,9 +5,6 @@
 // each entry is a "dataset". Fetched once and cached for every section on
 // this page that summarizes it (hero stats, disease-area chart).
 
-let _studiesCache = null;
-let _studiesPromise = null;
-
 const Hero = () => {
   const { studies } = useStudies();
   const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
