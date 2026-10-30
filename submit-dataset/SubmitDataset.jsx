@@ -1,7 +1,7 @@
 // Submit a Dataset — public dataset proposal form, its own top-level page
 // (previously a tab inside the ui_kits/web_app SPA). Uses the same TopNav/
-// Footer as the other public pages (../home/site-chrome.jsx) and the form
-// primitives from ../home/ui.jsx.
+// Footer as the other public pages (/utils/site-chrome.jsx) and the form
+// primitives from /utils/ui.jsx.
 //
 // POSTs to /api/submissions on the same origin (served by
 // ui_kits/web_app/server.js — see that file's "Static file serving" section;

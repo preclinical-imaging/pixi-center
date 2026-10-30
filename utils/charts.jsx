@@ -47,7 +47,7 @@ const DiseaseAreaChart = ({ diseaseAreas }) => {
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
         }}>
-          Most studied areas of disease
+          Most studied areas of disease by subjects
         </h3>
       </div>
 

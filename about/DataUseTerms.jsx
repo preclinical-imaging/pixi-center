@@ -1,8 +1,8 @@
 // Data Use Terms page for PIXI Center — public-facing.
 // Content sourced from "CIRP-DUA.md" (the CIRP Resource Sharing Policy, provided
 // by the PIXI Center team).
-// Uses tokens from ../colors_and_type.css and primitives from ../home/ui.jsx,
-// with the same TopNav/Footer as the other public pages (../home/site-chrome.jsx).
+// Uses tokens from ../colors_and_type.css and primitives from /utils/ui.jsx,
+// with the same TopNav/Footer as the other public pages (/utils/site-chrome.jsx).
 
 const proseP = {
   margin: "0 0 20px",
