@@ -24,6 +24,7 @@ const App = () => {
   const [openSubject, setOpenSubject] = React.useState(null);
   
   const mainRef = React.useRef(null);
+  const positions = React.useRef({}); 
 
   const showView = (nav, study = null) => {
     setNav(nav);
@@ -67,6 +68,31 @@ const App = () => {
     if (mainRef.current) mainRef.current.scrollTop = 0;
   }, [nav, openStudy]);
 
+  const getUUID = () => {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return Math.random().toString(36).slice(2);
+  };
+
+  const entryKey = () => {
+    if (!history.state || !history.state.key) {
+      history.replaceState({ key: getUUID()}, "");
+    }
+    return history.state.key;
+  };
+
+  const handleScroll = (e) => {
+    positions.current[entryKey()] = e.currentTarget.scrollTop;
+  };
+
+  React.useLayoutEffect(() => {
+    if (!mainRef.current) return;
+    const visitedBefore = !!(history.state && history.state.key);
+    const key = entryKey();
+    mainRef.current.scrollTop = visitedBefore ? (positions.current[key] || 0) : 0;
+  }, [nav, openStudy]);
+
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
@@ -80,7 +106,7 @@ const App = () => {
     }}>
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, position: "relative" }}>
         <TopNav />
-        <main ref={mainRef} style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }}>
+        <main ref={mainRef} style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }} onScroll={handleScroll}>
           {view}
         </main>
         <Inspector subject={openSubject} onClose={() => setOpenSubject(null)} />
