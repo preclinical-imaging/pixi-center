@@ -4,8 +4,6 @@ Front end for **PIXI Center**, a collaborative platform for preclinical imaging 
 
 The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in [`colors_and_type.css`](colors_and_type.css).
 
-> **Status.** The front end currently reads study metadata from `data/studies.json`. This is a placeholder for a formal XNAT backend, and all data access goes through `utils/studies-data.jsx` so the swap happens in one place.
-
 ## Pages
 
 | Path | Source | Purpose |
@@ -26,7 +24,6 @@ The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in
 │                         One folder per page: index.html + a React component
 ├── ui_kits/web_app/      Study browser UI and the Node server (server.js)
 ├── utils/                Shared code: ui.jsx, charts.jsx, site-chrome.jsx, studies-data.jsx
-├── data/studies.json     Study metadata (temporary data source)
 ├── files/                Downloadable files for each study
 ├── assets/               Logos, brand mark, file-type icons
 ├── preview/              Specimen cards for tokens and components

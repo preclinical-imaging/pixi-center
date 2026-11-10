@@ -117,9 +117,8 @@ const App = () => {
 
 // ---------- Data Snapshot: summary stats + charts ----------
 
-// Sessions-by-modality pie chart — each study's scan count is split evenly
-// across the modalities it lists (data/studies.json has no finer per-scan
-// breakdown), then summed per modality across the library.
+// Sessions-by-modality pie chart — each study's session count is split evenly
+// across the modalities it lists then summed per modality across the library.
 function summarizeSessionsByModality(studies) {
   const totals = new Map();
   for (const s of studies) {

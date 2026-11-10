@@ -17,7 +17,7 @@ const FACET_DEFS = [
 // fresh Set on every render for facets nothing is selected in.
 const EMPTY_SET = new Set();
 
-// data/studies.json isn't fully consistent about whether a "multi" field
+// API isn't fully consistent about whether a "multi" field
 // (modalities, scanner) is an array or a bare string — normalize to an
 // array of strings so facet building/matching/rendering can treat every
 // record the same way.
