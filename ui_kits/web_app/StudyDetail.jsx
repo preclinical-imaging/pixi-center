@@ -129,16 +129,10 @@ const OverviewCard = ({ eyebrow, children }) => (
 const Overview = ({ study }) => (
   <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      <OverviewCard eyebrow="Protocol summary">
-        <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)", maxWidth: 560 }}>
-          Three cohorts (vehicle, 5 mg/kg, 15 mg/kg) of female and male C57BL/6 mice (n = 8 per cohort)
-          receive single IV dose of compound. PET/CT imaging at baseline, day 7, and day 14.
-          Endpoint: biodistribution analysis at day 28.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 20, paddingTop: 16, borderTop: "1px solid var(--border-subtle)" }}>
+      <OverviewCard>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16}}>
           <KV label="Species" value="Mus musculus" />
           <KV label="Disease" value={study.area || ""} />
-          <KV label="Location" value={study.location || ""} />
           <KV label="Modalities" value={(study.modalities || []).join(", ")} mono />
           {(study.sequences || []).length > 0 ? (
             <KV label="Sequences" value={study.sequences.join(", ")} mono />
@@ -151,12 +145,7 @@ const Overview = ({ study }) => (
 
       <OverviewCard eyebrow="Abstract">
         <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)" }}>
-          {study.abstract || (
-            "Patient-derived tumor xenograft (PDX) models are widely used to study tumor heterogeneity " +
-            "and treatment response in triple-negative breast cancer. This collection provides longitudinal " +
-            "MR imaging of PDX-bearing mice alongside a deep-learning segmentation pipeline, and evaluates the " +
-            "sensitivity of derived radiomic features to the probability threshold used to define the tumor boundary."
-          )}
+          {study.abstract || ""}
         </p>
       </OverviewCard>
 

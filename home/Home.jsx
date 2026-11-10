@@ -1,8 +1,7 @@
 // Home page for PIXI Center — public-facing.
 // Uses tokens from /colors_and_type.css and primitives from ui.jsx.
 // TopNav and Footer live in site-chrome.jsx, shared with the other pages
-// data/studies.json is the single source of truth for the dataset library —
-// each entry is a "dataset". Fetched once and cached for every section on
+// Data is fetched once and cached for every section on
 // this page that summarizes it (hero stats, disease-area chart).
 
 const Hero = () => {
@@ -154,7 +153,7 @@ const FindSection = () => (
 );
 
 // ---------- Section 2: Recent datasets ----------
-// Cards show the first four datasets listed in data/studies.json.
+// Cards show the first four datasets from API.
 const DatasetCard = ({ study }) => {
   const [hover, setHover] = React.useState(false);
   return (

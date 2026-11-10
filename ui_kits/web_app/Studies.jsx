@@ -1,6 +1,4 @@
 // Studies — library view. Card grid + table toggle.
-// The study list itself lives in /data/studies.json and is loaded at runtime
-// (served by server.js — see `node ui_kits/web_app/server.js`).
 
 const StudyCard = ({ study, onOpen }) => {
   const [hover, setHover] = React.useState(false);
