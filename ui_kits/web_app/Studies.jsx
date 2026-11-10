@@ -28,7 +28,7 @@ const StudyCard = ({ study, onOpen }) => {
             lineHeight: 1.25,
           }}>{study.title}</div>
         </div>
-        <Badge dot>{study.protectionLevel}</Badge>
+        <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
       </div>
       <div style={{
         display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12,
@@ -186,7 +186,7 @@ const StudiesList = ({ rows, onOpen }) => (
               </div>
             </td>
             <td style={{ ...tdStyle, color: "var(--fg-2)" }}>{s.areaOfStudy}</td>
-            <td style={tdStyle}><Badge dot>{s.protectionLevel}</Badge></td>
+            <td style={tdStyle}><Badge tone={s.status} dot>{s.protectionLevel}</Badge></td>
             <td style={{ ...tdStyle, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.subjects}</td>
             <td style={{ ...tdStyle, textAlign: "right", color: "var(--fg-3)" }}>{s.updated}</td>
             <td style={tdStyle}><span style={{

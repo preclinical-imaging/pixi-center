@@ -111,12 +111,9 @@ const Button = ({ children, variant = "secondary", size = "md", icon, onClick, t
 // --- Badge / status pill ---
 const Badge = ({ children, tone = "neutral", dot }) => {
   const tones = {
-    success: { bg: "var(--pixi-green-soft)", color: "var(--pixi-green-deep)", dot: "var(--pixi-green)" },
-    warn:    { bg: "var(--pixi-yellow-soft)", color: "#8C6A00", dot: "var(--pixi-yellow)" },
-    info:    { bg: "var(--pixi-navy-soft)", color: "var(--pixi-navy)", dot: "var(--pixi-navy)" },
-    danger:  { bg: "var(--danger-bg)", color: "var(--danger)", dot: "var(--danger)" },
-    neutral: { bg: "var(--pixi-cloud)", color: "var(--pixi-graphite)", dot: "var(--pixi-steel)" },
-    outline: { bg: "#fff", color: "var(--fg-2)", dot: "var(--pixi-steel)", border: "var(--border-default)" },
+    public: { bg: "var(--pixi-green-soft)", color: "var(--pixi-green-deep)", dot: "var(--pixi-green)" },
+    protected:    { bg: "var(--pixi-yellow-soft)", color: "#8C6A00", dot: "var(--pixi-yellow)" },
+    draft:    { bg: "var(--pixi-navy-soft)", color: "var(--pixi-navy)", dot: "var(--pixi-navy)" }
   };
   const t = tones[tone] || tones.neutral;
   return (

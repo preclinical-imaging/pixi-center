@@ -1,14 +1,14 @@
 // StudyDetail — single study page. Header + tabs + subjects table.
 
 const SUBJECTS = [
-  { id: "M-014", cohort: "03 — vehicle", status: "success", statusLabel: "Scanned", mass: 22.4, day: 14, sex: "F" },
-  { id: "M-015", cohort: "03 — vehicle", status: "success", statusLabel: "Scanned", mass: 23.1, day: 14, sex: "F" },
-  { id: "M-016", cohort: "03 — vehicle", status: "warn", statusLabel: "Queued", mass: 21.8, day: 14, sex: "F" },
-  { id: "M-017", cohort: "04 — 5 mg/kg", status: "info", statusLabel: "Reviewing", mass: 22.0, day: 14, sex: "M" },
-  { id: "M-018", cohort: "04 — 5 mg/kg", status: "success", statusLabel: "Scanned", mass: 22.7, day: 14, sex: "M" },
-  { id: "M-019", cohort: "04 — 5 mg/kg", status: "warn", statusLabel: "Queued", mass: 22.5, day: 14, sex: "M" },
-  { id: "M-020", cohort: "05 — 15 mg/kg", status: "danger", statusLabel: "Failed QC", mass: 21.2, day: 14, sex: "F" },
-  { id: "M-021", cohort: "05 — 15 mg/kg", status: "success", statusLabel: "Scanned", mass: 23.4, day: 14, sex: "F" },
+  { id: "M-014", cohort: "03 — vehicle", protectionLevel: "public", mass: 22.4, day: 14, sex: "F" },
+  { id: "M-015", cohort: "03 — vehicle", protectionLevel: "public", mass: 23.1, day: 14, sex: "F" },
+  { id: "M-016", cohort: "03 — vehicle", protectionLevel: "public", mass: 21.8, day: 14, sex: "F" },
+  { id: "M-017", cohort: "04 — 5 mg/kg", protectionLevel: "draft", mass: 22.0, day: 14, sex: "M" },
+  { id: "M-018", cohort: "04 — 5 mg/kg", protectionLevel: "public", mass: 22.7, day: 14, sex: "M" },
+  { id: "M-019", cohort: "04 — 5 mg/kg", protectionLevel: "protected", mass: 22.5, day: 14, sex: "M" },
+  { id: "M-020", cohort: "05 — 15 mg/kg", protectionLevel: "protected", mass: 21.2, day: 14, sex: "F" },
+  { id: "M-021", cohort: "05 — 15 mg/kg", protectionLevel: "public", mass: 23.4, day: 14, sex: "F" },
 ];
 
 const Tab = ({ children, active, onClick, count }) => (
@@ -42,7 +42,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
               <Eyebrow mono>{study.id}</Eyebrow>
               <span style={{ color: "var(--fg-4)" }}>·</span>
               <Eyebrow>{study.areaOfStudy}</Eyebrow>
-              <Badge tone={study.status} dot>{study.statusLabel}</Badge>
+              <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
             </div>
             <h1 style={{
               margin: 0, fontFamily: "var(--font-display)",
