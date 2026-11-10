@@ -269,7 +269,7 @@ const SubjectsTable = ({ rows, onOpen }) => (
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
             <td style={{ ...tdStyle2, fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--fg-1)" }}>{s.id}</td>
             <td style={{ ...tdStyle2, color: "var(--fg-2)" }}>{s.cohort}</td>
-            <td style={tdStyle2}><Badge tone={s.status} dot>{s.statusLabel}</Badge></td>
+            <td style={tdStyle2}><Badge tone={s.protectionLevel} dot>{s.protectionLevel}</Badge></td>
             <td style={{ ...tdStyle2, textAlign: "center", color: "var(--fg-2)" }}>{s.sex}</td>
             <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{s.mass.toFixed(1)}</td>
             <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.day}</td>

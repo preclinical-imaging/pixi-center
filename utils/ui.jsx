@@ -109,13 +109,13 @@ const Button = ({ children, variant = "secondary", size = "md", icon, onClick, t
 };
 
 // --- Badge / status pill ---
-const Badge = ({ children, tone = "neutral", dot }) => {
+const Badge = ({ children, tone = "protected", dot }) => {
   const tones = {
     public: { bg: "var(--pixi-green-soft)", color: "var(--pixi-green-deep)", dot: "var(--pixi-green)" },
     protected:    { bg: "var(--pixi-yellow-soft)", color: "#8C6A00", dot: "var(--pixi-yellow)" },
     draft:    { bg: "var(--pixi-navy-soft)", color: "var(--pixi-navy)", dot: "var(--pixi-navy)" }
   };
-  const t = tones[tone] || tones.neutral;
+  const t = tones[tone] || tones.protected;
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 6,

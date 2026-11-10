@@ -172,7 +172,7 @@ const DatasetCard = ({ study }) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
           <Eyebrow mono>{study.id}</Eyebrow>
-          <Badge tone={study.status} dot>{study.protectionLevel}</Badge>
+          <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
         </div>
         <div>
           <div style={{
