@@ -43,7 +43,7 @@ const EMPTY_FORM = {
   contactName: "", contactEmail: "", contactPhone: "",
   title: "", authors: "", identifier: "", institutions: "", abstract: "", doi: "",
   histologicDiagnoses: [], modalities: [], format: "",
-  subjects: "", scans: "", diskSpace: "",
+  subjects: "", sessions: "", diskSpace: "",
 };
 
 const SubmitDatasetForm = ({ onSubmitted }) => {
@@ -132,7 +132,7 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
           </Row>
           <Row cols={3}>
             <Field label="Number of Subjects" type="number" value={form.subjects} onChange={set("subjects")} placeholder="e.g. 40" />
-            <Field label="Number of Scans" type="number" value={form.scans} onChange={set("scans")} placeholder="e.g. 80" />
+            <Field label="Number of Sessions" type="number" value={form.sessions} onChange={set("sessions")} placeholder="e.g. 80" />
             <Field label="Required Disk Space" value={form.diskSpace} onChange={set("diskSpace")} placeholder="e.g. 12 GB" />
           </Row>
         </FormSection>

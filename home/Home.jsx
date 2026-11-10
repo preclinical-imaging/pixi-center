@@ -14,7 +14,7 @@ const Hero = () => {
       institutions: institutions.size,
       datasets: studies.length,
       subjects: sum("subjects"),
-      scans: sum("scans"),
+      sessions: sum("sessions"),
     };
   }, [studies]);
 
@@ -62,7 +62,7 @@ const Hero = () => {
             ["Institutions", stats.institutions],
             ["Datasets", stats.datasets],
             ["Subjects", stats.subjects],
-            ["Scans", stats.scans],
+            ["Sessions", stats.sessions],
           ].map(([l, v]) => (
             <div key={l}>
               <div style={{
@@ -194,9 +194,9 @@ const DatasetCard = ({ study }) => {
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Scans</div>
+            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
-            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.scans}</div>
+            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.sessions}</div>
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",

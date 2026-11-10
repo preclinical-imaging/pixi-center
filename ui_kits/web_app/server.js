@@ -59,7 +59,7 @@ db.exec(`
     modalities TEXT,
     format TEXT,
     subjects TEXT,
-    scans TEXT,
+    sessions TEXT,
     diskSpace TEXT
   )
 `);
@@ -68,7 +68,7 @@ const FORM_FIELDS = [
   "contactName", "contactEmail", "contactPhone",
   "title", "authors", "identifier", "institutions", "abstract", "doi",
   "histologicDiagnoses", "modalities", "format",
-  "subjects", "scans", "diskSpace",
+  "subjects", "sessions", "diskSpace",
 ];
 const ARRAY_FIELDS = new Set(["histologicDiagnoses", "modalities"]);
 
@@ -130,7 +130,7 @@ const FIELD_LABELS = {
   modalities: "Imaging Modalities",
   format: "Imaging Format",
   subjects: "Number of Subjects",
-  scans: "Number of Scans",
+  sessions: "Number of Sessions",
   diskSpace: "Required Disk Space",
 };
 

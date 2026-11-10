@@ -65,7 +65,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24, padding: "12px 0" }}>
           {[
             ["Subjects", study.subjects],
-            ["Scans", study.scans],
+            ["Sessions", study.sessions],
             ["Lead", study.lead],
           ].map(([l, v]) => (
             <div key={l}>
@@ -94,7 +94,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
         <div style={{ display: "flex", gap: 4, borderBottom: "1px solid transparent" }}>
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
           <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab>
-          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.scans || ""}>Imaging</Tab>
+          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.sessions || ""}>Imaging</Tab>
           <Tab active={tab === "terms"} onClick={() => setTab("terms")}>Data Use Agreement</Tab>
         </div>
       </div>

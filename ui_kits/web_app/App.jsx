@@ -117,14 +117,14 @@ const App = () => {
 
 // ---------- Data Snapshot: summary stats + charts ----------
 
-// Scans-by-modality pie chart — each study's scan count is split evenly
+// Sessions-by-modality pie chart — each study's scan count is split evenly
 // across the modalities it lists (data/studies.json has no finer per-scan
 // breakdown), then summed per modality across the library.
-function summarizeScansByModality(studies) {
+function summarizeSessionsByModality(studies) {
   const totals = new Map();
   for (const s of studies) {
     if (!s.modalities || !s.modalities.length) continue;
-    const share = (Number(s.scans) || 0) / s.modalities.length;
+    const share = (Number(s.sessions) || 0) / s.modalities.length;
     for (const m of s.modalities) totals.set(m, (totals.get(m) || 0) + share);
   }
   return [...totals.entries()].map(([modality, count]) => ({ modality, count }));
@@ -155,7 +155,7 @@ function donutSlicePath(cx, cy, rOuter, rInner, startAngle, endAngle) {
   ].join(" ");
 }
 
-const ScansByModalityChart = ({ modalities }) => {
+const SessionsByModalityChart = ({ modalities }) => {
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
@@ -194,7 +194,7 @@ const ScansByModalityChart = ({ modalities }) => {
           margin: "10px 0 0", fontFamily: "var(--font-display)",
           fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
         }}>
-          Scans by modality
+          Sessions by modality
         </h3>
       </div>
 
@@ -212,7 +212,7 @@ const ScansByModalityChart = ({ modalities }) => {
           <text x={cx} y={cy + 14} textAnchor="middle" style={{
             fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600,
             letterSpacing: "0.08em", textTransform: "uppercase", fill: "var(--fg-3)",
-          }}>Scans</text>
+          }}>Sessions</text>
         </svg>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, flex: "0 0 auto" }}>
@@ -238,7 +238,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   const { studies } = useStudies();
 
   const diseaseAreas = React.useMemo(() => summarizeDiseaseAreas(studies), [studies]);
-  const modalities = React.useMemo(() => summarizeScansByModality(studies), [studies]);
+  const modalities = React.useMemo(() => summarizeSessionsByModality(studies), [studies]);
 
   // Same counts, computed the same way, as the public home page's hero
   // stats (see home/Home.jsx's Hero component).
@@ -249,7 +249,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
       institutions: institutions.size,
       datasets: studies.length,
       subjects: sum("subjects"),
-      scans: sum("scans"),
+      sessions: sum("sessions"),
       modalities: modalities.length,
       diseaseAreas: diseaseAreas.length
     };
@@ -276,7 +276,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
               ["Institutions", stats.institutions],
               ["Datasets", stats.datasets],
               ["Subjects", stats.subjects],
-              ["Scans", stats.scans],
+              ["Sessions", stats.sessions],
               ["Modalities", stats.modalities],
               ["Disease Areas", stats.diseaseAreas]
             ].map(([l, v]) => (
@@ -291,7 +291,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <DiseaseAreaChart diseaseAreas={diseaseAreas} />
-            <ScansByModalityChart modalities={modalities} />
+            <SessionsByModalityChart modalities={modalities} />
           </div>
         </section>
 
@@ -308,4 +308,4 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   );
 };
 
-Object.assign(window, { App, HomeView, ScansByModalityChart });
+Object.assign(window, { App, HomeView, SessionsByModalityChart });

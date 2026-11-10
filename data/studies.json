@@ -5,7 +5,7 @@
     "areaOfStudy": "Breast Cancer",
     "protectionLevel": "public",
     "subjects": 40,
-    "scans": 80,
+    "sessions": 80,
     "scanner": ["MR Solutions 7T"],
     "modalities": [
       "MR"
@@ -42,7 +42,7 @@
     "areaOfStudy": "Breast Cancer",
     "protectionLevel": "protected",
     "subjects": 69,
-    "scans": 138,
+    "sessions": 138,
     "scanner": ["microPET Focus 220","Inveon"],
     "modalities": [
       "PET",
@@ -81,7 +81,7 @@
     "areaOfStudy": "Breast Cancer",
     "protectionLevel": "protected",
     "subjects": 30,
-    "scans": 60,
+    "sessions": 60,
     "scanner": ["MR Solutions 7T"],
     "modalities": [
       "PET",
@@ -114,7 +114,7 @@
     "areaOfStudy": "Breast Cancer",
     "protectionLevel": "protected",
     "subjects": 13,
-    "scans": 26,
+    "sessions": 26,
     "scanner": ["Agilent/Varian"],
     "modalities": [
       "MR"
@@ -134,7 +134,7 @@
     "areaOfStudy": "Brain Cancer / Glioma",
     "protectionLevel": "public",
     "subjects": 48,
-    "scans": 284,
+    "sessions": 284,
     "scanner": ["Philips Intera Achieva"],
     "modalities": [
       "MR"
@@ -161,7 +161,7 @@
     "areaOfStudy": "Breast Cancer",
     "protectionLevel": "public",
     "subjects": 32,
-    "scans": 205,
+    "sessions": 205,
     "scanner": ["Philips Intera Achieva"],
     "modalities": [
       "MR"
@@ -188,7 +188,7 @@
     "areaOfStudy": "Pancreatic Cancer",
     "protectionLevel": "public",
     "subjects": 19,
-    "scans": 154,
+    "sessions": 154,
     "scanner": ["Phillips MR"],
     "lead": "",
     "updated": "2020-03-23",
@@ -215,7 +215,7 @@
     "areaOfStudy": "Skin Cancer",
     "protectionLevel": "public",
     "subjects": 20,
-    "scans": 190,
+    "sessions": 190,
     "scanner": ["Phillips MR"],
     "lead": "",
     "updated": "2021-02-17",
@@ -237,7 +237,7 @@
     "areaOfStudy": "Pancreatic Cancer",
     "protectionLevel": "public",
     "subjects": 20,
-    "scans": 264,
+    "sessions": 264,
     "scanner": [],
     "sequences": [],
     "lead": "",
@@ -259,7 +259,7 @@
     "areaOfStudy": "Pancreatic Cancer",
     "protectionLevel": "public",
     "subjects": 20,
-    "scans": 264,
+    "sessions": 264,
     "scanner": [],
     "lead": "",
     "updated": "2010-10-05",
@@ -280,7 +280,7 @@
     "areaOfStudy": "Colon Cancer",
     "protectionLevel": "public",
     "subjects": 20,
-    "scans": 264,
+    "sessions": 264,
     "scanner": ["Phillips MR"],
     "lead": "",
     "updated": "2020-05-22",
@@ -302,7 +302,7 @@
     "areaOfStudy": "Bladder Cancer",
     "protectionLevel": "public",
     "subjects": 19,
-    "scans": 131,
+    "sessions": 131,
     "scanner": ["Phillips MR Scanner"],
     "sequences": ["T1w","T2w","T2wTSE"],
     "lead": "",
@@ -324,7 +324,7 @@
     "areaOfStudy": "Lung Cancer",
     "protectionLevel": "protected",
     "subjects": 51,
-    "scans": 125,
+    "sessions": 125,
     "scanner": "micro-CT",
     "lead": "",
     "updated": "2021-07-23",

@@ -42,9 +42,9 @@ const StudyCard = ({ study, onOpen }) => {
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 3 }}>Scans</div>
+            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 3 }}>Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
-            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.scans}</div>
+            letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.sessions}</div>
         </div>
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
