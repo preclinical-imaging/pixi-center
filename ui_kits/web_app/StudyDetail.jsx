@@ -41,7 +41,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
               <Eyebrow mono>{study.id}</Eyebrow>
               <span style={{ color: "var(--fg-4)" }}>·</span>
-              <Eyebrow>{study.area}</Eyebrow>
+              <Eyebrow>{study.areaOfStudy}</Eyebrow>
               <Badge tone={study.status} dot>{study.statusLabel}</Badge>
             </div>
             <h1 style={{
@@ -57,7 +57,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <a href={study.url} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in XNAT</Button></a>
+            <a href={"/xnat/data/projects/" + study.id} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in XNAT</Button></a>
           </div>
         </div>
 
@@ -133,14 +133,14 @@ const Overview = ({ study }) => (
       <OverviewCard>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16}}>
           <KV label="Species" value="Mus musculus" />
-          <KV label="Disease" value={study.area || ""} />
+          <KV label="Disease" value={study.areaOfStudy || ""} />
           <KV label="Modalities" value={(study.modalities || []).join(", ")} mono />
           {(study.sequences || []).length > 0 ? (
             <KV label="Sequences" value={study.sequences.join(", ")} mono />
           ) : (
             <KV label="Tracer" value={study.tracer || ""} mono />
           )}
-          <KV label="Total Data" value={study.size || ""} mono />
+          <KV label="Total Data" value={study.totalSize || ""} mono />
         </div>
       </OverviewCard>
 

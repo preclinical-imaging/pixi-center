@@ -8,7 +8,7 @@
 
 const FACET_DEFS = [
   { key: "modalities",  label: "Modality", multi: true },
-  { key: "area",        label: "Disease Area" },
+  { key: "areaOfStudy",        label: "Disease Area" },
   { key: "scanner",     label: "Scanner", multi: true },
   { key: "institution", label: "Institution" },
 ];
@@ -246,7 +246,7 @@ const CohortBrowser = () => {
                           <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{c.title}</span>
                         </div>
                       </td>
-                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.area}</td>
+                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
                       <td style={cbCellStyle}><ModTags mods={asList(c.modalities)} /></td>
                       <td style={{ ...cbCellStyle, color: asList(c.scanner).length ? "var(--fg-2)" : "var(--fg-4)" }}>
                         {asList(c.scanner).join(", ") || "—"}

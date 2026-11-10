@@ -10,8 +10,8 @@ const DISEASE_CHART_DEFAULTS = {
 function summarizeDiseaseAreas(studies) {
   const totals = new Map();
   for (const study of studies) {
-    if (!study.area) continue;
-    totals.set(study.area, (totals.get(study.area) || 0) + (Number(study.subjects) || 0));
+    if (!study.areaOfStudy) continue;
+    totals.set(study.areaOfStudy, (totals.get(study.areaOfStudy) || 0) + (Number(study.subjects) || 0));
   }
   return [...totals.entries()].map(([area, count]) => ({ area, count }));
 }
