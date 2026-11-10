@@ -34,25 +34,23 @@ function cleanText(s) {
 }
 
 function normalizeStudy(raw) {
-  const id = raw.id ?? "";
   return {
     ...raw,
-    id: raw.projectId,
+    id: raw.projectId ?? "",
     title: raw.projectTitle ?? "",
     areaOfStudy: raw.areaOfStudy ?? "",
     protectionLevel: String(raw.protectionLevel ?? "").trim().toLowerCase(),
     subjects: Number(raw.numberSubjects) || 0,
     sessions: Number(raw.numberSessions) || 0,
-    scanners: raw.scanner ?? [],
+    scanners: raw.scanners ?? [],
     modalities: raw.modalities ?? [],
     sequences: raw.sequences ?? [],
     totalSize: raw.totalSize ?? "",
-    lead: raw.lead ?? "",
+    lead: raw.leadInvestigator ?? "",
     institution: raw.institution ?? "",
     updated: toIsoDate(raw.lastUpdated),
     abstract: cleanText(raw.studyAbstract) ?? "",
     dataCitation: raw.dataCitation ?? "",
-    lead: raw.leadInvestigator ?? "",
     doi: raw.doi ?? "",
     resources: raw.resources ?? [],
   };
