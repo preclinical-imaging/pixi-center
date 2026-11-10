@@ -25,8 +25,6 @@ const Inspector = ({ subject, onClose }) => {
       </div>
 
       <div style={{ flex: 1, overflow: "auto", padding: 16, display: "flex", flexDirection: "column", gap: 18 }}>
-        <Badge tone={subject.protectionLevel} dot>{subject.protectionLevel}</Badge>
-
         <Section title="Identity">
           <KV2 label="Subject ID" value={subject.id} mono />
           <KV2 label="Cohort" value={subject.cohort} />

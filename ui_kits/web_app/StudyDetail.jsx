@@ -42,6 +42,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
               <Eyebrow mono>{study.id}</Eyebrow>
               <span style={{ color: "var(--fg-4)" }}>·</span>
               <Eyebrow>{study.areaOfStudy}</Eyebrow>
+              <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
             </div>
             <h1 style={{
               margin: 0, fontFamily: "var(--font-display)",
