@@ -4,8 +4,6 @@ A design system for **PIXI Center** — a collaborative platform for preclinical
 
 This system is built around a calm, monochrome scientific foundation (black, white, and light gray) accented with the three colors lifted directly from the PIXI Center logo: **navy**, **green**, and **yellow**. The result reads as modern lab software — quiet, instrument-grade, trustworthy — with just enough color to mark status, highlight findings, and carry brand recognition.
 
-> **Note on sources.** The only artifact provided was `uploads/pixi-center-logo.png`. There is no codebase, Figma file, or product screenshots to reference, so the visual language, content tone, and UI kit below are inferred from the logo + product description (preclinical research collaboration). **Please review and flag anything that doesn't match the actual product**
-
 ---
 
 ## Index
@@ -18,7 +16,6 @@ This system is built around a calm, monochrome scientific foundation (black, whi
 ├── assets/                    ← logos & brand marks
 │   ├── pixi-center-logo.png   ← full color, on light bg
 │   └── pixi-mark.svg          ← isolated "C" mark
-├── fonts/                     ← (Google Fonts via CDN — see Type)
 ├── preview/                   ← cards rendered in the Design System tab
 └── ui_kits/
     └── web_app/               ← PIXI Center collaboration web app
@@ -83,8 +80,6 @@ The brand voice should match the audience: **precise, evidence-based, collaborat
 - **Scale is modular** (12 / 13 / 14 / 16 / 18 / 20 / 24 / 30 / 38 / 48 / 64). Never invent a one-off size.
 - **Tracking** is tightened on display sizes (`-0.02em`) and widened on uppercase eyebrows (`+0.12em`).
 
-> ⚠️ **Font substitution flag.** No font files were provided. *Inter Tight*, *Inter*, and *JetBrains Mono* (all Google Fonts) are used as a strong default for "modern scientific software." If PIXI Center has licensed a different family (e.g., GT America, Söhne, Founders Grotesk, IBM Plex), please supply the files and I'll swap them in.
-
 ### Spacing & layout
 - **4 px grid.** All spacing is a multiple of 4 (`--sp-1` … `--sp-24`).
 - **Generous whitespace** around data tables and headers; tight whitespace inside dense lists and sidebars.
@@ -131,8 +126,6 @@ PIXI Center uses **Lucide** (https://lucide.dev) — open-source, MIT, ~1,400 ic
 - **No emoji.** No unicode pictographs. No inline PNG icons. Use Lucide via the CDN or the Lucide React package.
 - **Status dots:** a 6 px solid circle in `--success` / `--warning` / `--info` / `--danger` is the canonical status indicator — used in lists, tables, and headers. They are *not* icons.
 - **The PIXI mark itself** (the open "C" enclosing a green crescent and yellow dot) is a brand asset, not an icon — only used for the logo lockup, app launcher tile, and favicon.
-
-> ⚠️ **Substitution flag.** Without seeing the live product, I'm assuming PIXI Center does *not* already have a custom icon font. If it does, please share the SVG sprite or the icon source and I'll replace Lucide with the real set.
 
 ---
 
