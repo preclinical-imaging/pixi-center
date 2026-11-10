@@ -1,14 +1,14 @@
 // StudyDetail — single study page. Header + tabs + subjects table.
 
 const SUBJECTS = [
-  { id: "M-014", cohort: "03 — vehicle", protectionLevel: "public", mass: 22.4, day: 14, sex: "F" },
-  { id: "M-015", cohort: "03 — vehicle", protectionLevel: "public", mass: 23.1, day: 14, sex: "F" },
-  { id: "M-016", cohort: "03 — vehicle", protectionLevel: "public", mass: 21.8, day: 14, sex: "F" },
-  { id: "M-017", cohort: "04 — 5 mg/kg", protectionLevel: "draft", mass: 22.0, day: 14, sex: "M" },
-  { id: "M-018", cohort: "04 — 5 mg/kg", protectionLevel: "public", mass: 22.7, day: 14, sex: "M" },
-  { id: "M-019", cohort: "04 — 5 mg/kg", protectionLevel: "protected", mass: 22.5, day: 14, sex: "M" },
-  { id: "M-020", cohort: "05 — 15 mg/kg", protectionLevel: "protected", mass: 21.2, day: 14, sex: "F" },
-  { id: "M-021", cohort: "05 — 15 mg/kg", protectionLevel: "public", mass: 23.4, day: 14, sex: "F" },
+  { id: "M-014", cohort: "03 — vehicle", mass: 22.4, day: 14, sex: "F" },
+  { id: "M-015", cohort: "03 — vehicle", mass: 23.1, day: 14, sex: "F" },
+  { id: "M-016", cohort: "03 — vehicle", mass: 21.8, day: 14, sex: "F" },
+  { id: "M-017", cohort: "04 — 5 mg/kg", mass: 22.0, day: 14, sex: "M" },
+  { id: "M-018", cohort: "04 — 5 mg/kg", mass: 22.7, day: 14, sex: "M" },
+  { id: "M-019", cohort: "04 — 5 mg/kg", mass: 22.5, day: 14, sex: "M" },
+  { id: "M-020", cohort: "05 — 15 mg/kg", mass: 21.2, day: 14, sex: "F" },
+  { id: "M-021", cohort: "05 — 15 mg/kg", mass: 23.4, day: 14, sex: "F" },
 ];
 
 const Tab = ({ children, active, onClick, count }) => (
@@ -42,7 +42,6 @@ const StudyDetail = ({ study, onOpenSubject }) => {
               <Eyebrow mono>{study.id}</Eyebrow>
               <span style={{ color: "var(--fg-4)" }}>·</span>
               <Eyebrow>{study.areaOfStudy}</Eyebrow>
-              <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
             </div>
             <h1 style={{
               margin: 0, fontFamily: "var(--font-display)",
@@ -251,7 +250,7 @@ const SubjectsTable = ({ rows, onOpen }) => (
     <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-sans)", fontSize: 13 }}>
       <thead>
         <tr>
-          {[["Subject","l"],["Cohort","l"],["Status","l"],["Sex","c"],["Mass (g)","r"],["Day","r"],["",""]].map(([h, a], i) => (
+          {[["Subject","l"],["Cohort","l"],["Sex","c"],["Mass (g)","r"],["Day","r"],["",""]].map(([h, a], i) => (
             <th key={i} style={{
               textAlign: a === "r" ? "right" : a === "c" ? "center" : "left",
               padding: "10px 16px",
@@ -269,7 +268,6 @@ const SubjectsTable = ({ rows, onOpen }) => (
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
             <td style={{ ...tdStyle2, fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--fg-1)" }}>{s.id}</td>
             <td style={{ ...tdStyle2, color: "var(--fg-2)" }}>{s.cohort}</td>
-            <td style={tdStyle2}><Badge tone={s.protectionLevel} dot>{s.protectionLevel}</Badge></td>
             <td style={{ ...tdStyle2, textAlign: "center", color: "var(--fg-2)" }}>{s.sex}</td>
             <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{s.mass.toFixed(1)}</td>
             <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.day}</td>
