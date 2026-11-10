@@ -88,7 +88,7 @@ const Studies = ({ onOpenStudy }) => {
   const [view, setView] = React.useState("grid");
   const { studies, error } = useStudies();
 
-  const filters = ["All", "Public", "Protected", "Draft"];
+  const filters = ["All", "public", "protected", "draft"];
   const filtered = filter === "All" ? studies :
     studies.filter(s => s.protectionLevel === filter);
 
@@ -112,7 +112,9 @@ const Studies = ({ onOpenStudy }) => {
         }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {filters.map(f => (
-              <FilterChip key={f} active={filter === f} onClick={() => setFilter(f)}>{f}</FilterChip>
+              <FilterChip key={f} active={filter === f} onClick={() => setFilter(f)}>
+                <span style={{ textTransform: "capitalize" }}>{f}</span>
+              </FilterChip>
             ))}
           </div>
           <div style={{ display: "flex", gap: 8 }}>

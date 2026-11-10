@@ -121,6 +121,7 @@ const Badge = ({ children, tone = "protected", dot }) => {
       display: "inline-flex", alignItems: "center", gap: 6,
       height: 22, padding: "0 10px",
       fontSize: 12, fontWeight: 600,
+      textTransform: "capitalize",
       borderRadius: 999, background: t.bg, color: t.color,
       border: t.border ? `1px solid ${t.border}` : "1px solid transparent",
       whiteSpace: "nowrap",
