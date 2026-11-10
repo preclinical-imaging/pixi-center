@@ -115,6 +115,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };
