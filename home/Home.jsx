@@ -250,9 +250,6 @@ const RecentSection = () => {
             color: "var(--fg-1)", whiteSpace: "nowrap",
           }}>Recent datasets</h2>
         </div>
-        <div style={{ fontSize: 14, color: "var(--fg-3)", maxWidth: 380, flex: "0 1 380px" }}>
-          A live slice of the Studies library. Sign in to see datasets shared with your institution.
-        </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
