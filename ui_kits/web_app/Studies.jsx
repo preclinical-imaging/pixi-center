@@ -192,11 +192,11 @@ const StudiesList = ({ rows, onOpen }) => (
             <td style={tdStyle}><Badge tone={s.protectionLevel} dot>{s.protectionLevel}</Badge></td>
             <td style={{ ...tdStyle, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.subjects}</td>
             <td style={{ ...tdStyle, textAlign: "right", color: "var(--fg-3)" }}>{s.updated}</td>
-            <td style={tdStyle}><span style={{
+            <td style={tdStyle}>{s.institution && (<span style={{
               display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
               fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
               color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-            }}>{s.institution}</span></td>
+            }}>{s.institution}</span>)}</td>
           </tr>
         ))}
       </tbody>
