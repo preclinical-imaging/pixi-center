@@ -8,8 +8,8 @@
 
 const FACET_DEFS = [
   { key: "modalities",  label: "Modality", multi: true },
-  { key: "areaOfStudy",        label: "Disease Area" },
-  { key: "scanner",     label: "Scanner", multi: true },
+  { key: "areaOfStudy", label: "Disease Area" },
+  { key: "scanners",     label: "Scanners", multi: true },
   { key: "institution", label: "Institution" },
 ];
 
@@ -18,7 +18,7 @@ const FACET_DEFS = [
 const EMPTY_SET = new Set();
 
 // API isn't fully consistent about whether a "multi" field
-// (modalities, scanner) is an array or a bare string — normalize to an
+// (modalities, scanners) is an array or a bare string — normalize to an
 // array of strings so facet building/matching/rendering can treat every
 // record the same way.
 const asList = (v) => Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []);
@@ -184,7 +184,7 @@ const CohortBrowser = () => {
             Cohort Browser
           </h1>
           <p style={{ margin: "8px 0 0", fontSize: 14, color: "var(--fg-2)", maxWidth: 620, lineHeight: 1.5 }}>
-            Filter the preclinical library by modality, disease area, scanner, and institution, then select the datasets you want to pull into a working set.
+            Filter the preclinical library by modality, disease area, scanners, and institution, then select the datasets you want to pull into a working set.
           </p>
 
           {/* Result toolbar + active chips */}
@@ -225,7 +225,7 @@ const CohortBrowser = () => {
                       <Check checked={allShownPicked} indeterminate={someShownPicked && !allShownPicked} />
                     </button>
                   </th>
-                  {["Dataset","Disease area","Modalities","Scanner","Institution","Subjects"].map((h, i) => (
+                  {["Dataset","Disease area","Modalities","Scanners","Institution","Subjects"].map((h, i) => (
                     <th key={h} style={{ ...cbHeadStyle, textAlign: i === 5 ? "right" : "left", paddingRight: i === 5 ? 16 : 14 }}>{h}</th>
                   ))}
                 </tr>
@@ -248,15 +248,17 @@ const CohortBrowser = () => {
                       </td>
                       <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
                       <td style={cbCellStyle}><ModTags mods={asList(c.modalities)} /></td>
-                      <td style={{ ...cbCellStyle, color: asList(c.scanner).length ? "var(--fg-2)" : "var(--fg-4)" }}>
-                        {asList(c.scanner).join(", ") || "—"}
+                      <td style={{ ...cbCellStyle, color: asList(c.scanners).length ? "var(--fg-2)" : "var(--fg-4)" }}>
+                        {asList(c.scanners).join(", ") || "—"}
                       </td>
                       <td style={cbCellStyle}>
-                        <span style={{
-                          display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
-                          fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
-                          color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-                        }}>{c.institution}</span>
+                        {c.institution && (
+                          <span style={{
+                            display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
+                            fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
+                            color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
+                          }}>{c.institution}</span>
+                        )}
                       </td>
                       <td style={{ ...cbCellStyle, textAlign: "right", paddingRight: 16, fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{c.subjects}</td>
                     </tr>
