@@ -84,9 +84,7 @@ const FilterChip = ({ children, active, onClick }) => (
   }}>{children}</button>
 );
 
-const Studies = ({ onOpenStudy }) => {
-  const [filter, setFilter] = React.useState("All");
-  const [view, setView] = React.useState("grid");
+const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) => {
   const { studies, error } = useStudies();
 
   const filters = ["All", "public", "protected", "draft"];
@@ -113,7 +111,7 @@ const Studies = ({ onOpenStudy }) => {
         }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {filters.map(f => (
-              <FilterChip key={f} active={filter === f} onClick={() => setFilter(f)}>
+              <FilterChip key={f} active={filter === f} onClick={() => onFilterChange(f)}>
                 <span style={{ textTransform: "capitalize" }}>{f}</span>
               </FilterChip>
             ))}
@@ -123,13 +121,13 @@ const Studies = ({ onOpenStudy }) => {
               display: "inline-flex", borderRadius: 6,
               border: "1px solid var(--border-subtle)", overflow: "hidden",
             }}>
-              <button onClick={() => setView("grid")} style={{
+              <button onClick={() => onViewChange("grid")} style={{
                 width: 32, height: 28, border: "none", cursor: "pointer",
                 background: view === "grid" ? "var(--pixi-cloud)" : "#fff",
                 color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
               }}><Icon name="grid" size={14} /></button>
-              <button onClick={() => setView("list")} style={{
+              <button onClick={() => onViewChange("list")} style={{
                 width: 32, height: 28, border: "none", cursor: "pointer",
                 borderLeft: "1px solid var(--border-subtle)",
                 background: view === "list" ? "var(--pixi-cloud)" : "#fff",

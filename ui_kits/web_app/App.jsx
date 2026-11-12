@@ -1,6 +1,9 @@
 // App shell — wires view and inspector
 
 const STUDY_HASH = /^#studies\/(.+)$/;
+const PIXI_SS = { view: "pixi.studiesView", filter: "pixi.studiesFilter", scroll: "pixi.scrollPositions" };
+const pixiSsGet = (k) => { try { return sessionStorage.getItem(k); } catch { return null; } };
+const pixiSsSet = (k, v) => { try { sessionStorage.setItem(k, v); } catch {} };
 
 // Maps a #hash to a nav section — shared by the initial page load and the
 // hashchange listener below, so a link that only changes the hash (no full
@@ -22,9 +25,22 @@ const App = () => {
   );
   const [openStudy, setOpenStudy] = React.useState(null);
   const [openSubject, setOpenSubject] = React.useState(null);
+  const [studiesView, setStudiesView] = React.useState(
+    () => (pixiSsGet(PIXI_SS.view) === "list" ? "list" : "grid")
+  );
+  const [studiesFilter, setStudiesFilter] = React.useState(() => {
+    const f = pixiSsGet(PIXI_SS.filter);
+    return ["All", "public", "protected", "draft"].includes(f) ? f : "All";
+  });
   
   const mainRef = React.useRef(null);
-  const positions = React.useRef({}); 
+  const positions = React.useRef(null);
+  if (positions.current === null) {
+    try { positions.current = JSON.parse(pixiSsGet(PIXI_SS.scroll) || "{}"); }
+    catch { positions.current = {}; }
+  }
+  const saveTimer = React.useRef(null);
+  const savePositions = () => pixiSsSet(PIXI_SS.scroll, JSON.stringify(positions.current));
 
   const showView = (nav, study = null) => {
     setNav(nav);
@@ -35,6 +51,9 @@ const App = () => {
   const onNavigate  = (n) => { history.pushState(null, "", n === "home" ? location.pathname : "#" + n); showView(n); };
   const onOpenStudy = (s) => { history.pushState(null, "", "#studies/" + encodeURIComponent(s.id)); showView("studies", s); };
 
+  React.useEffect(() => pixiSsSet(PIXI_SS.view, studiesView), [studiesView]);
+  React.useEffect(() => pixiSsSet(PIXI_SS.filter, studiesFilter), [studiesFilter]); 
+  
   // Deep-link support: the public Home page's "Recent datasets" cards link
   // here as index.html#study/<id> — open that study's detail view once the
   // study list has loaded.
@@ -64,9 +83,17 @@ const App = () => {
     return () => window.removeEventListener("hashchange", onHashChange);
   }, []);
 
+  React.useEffect(() => {
+    window.addEventListener("pagehide", savePositions);
+    return () => window.removeEventListener("pagehide", savePositions);
+  }, []);
+
   React.useLayoutEffect(() => {
-    if (mainRef.current) mainRef.current.scrollTop = 0;
-  }, [nav, openStudy]);
+    if (!mainRef.current) return;
+    const visitedBefore = !!(history.state && history.state.key);
+    const key = entryKey();
+    mainRef.current.scrollTop = visitedBefore ? (positions.current[key] || 0) : 0;
+  }, [nav, openStudy, studies.length]);
 
   const getUUID = () => {
     if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -84,6 +111,8 @@ const App = () => {
 
   const handleScroll = (e) => {
     positions.current[entryKey()] = e.currentTarget.scrollTop;
+    clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(savePositions, 200);
   };
 
   React.useLayoutEffect(() => {
@@ -96,7 +125,13 @@ const App = () => {
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
   else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
-  else if (nav === "studies") view = <Studies onOpenStudy={onOpenStudy} />;
+  else if (nav === "studies") view = (
+    <Studies
+      onOpenStudy={onOpenStudy}
+      view={studiesView} onViewChange={setStudiesView}
+      filter={studiesFilter} onFilterChange={setStudiesFilter}
+    /> 
+  );
   else view = <HomeView onOpenStudy={onOpenStudy} onNavigate={onNavigate} />;
 
   return (
