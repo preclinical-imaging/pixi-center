@@ -48,7 +48,6 @@ db.exec(`
     url TEXT,
     contactName TEXT,
     contactEmail TEXT,
-    contactPhone TEXT,
     title TEXT,
     authors TEXT,
     identifier TEXT,
@@ -65,7 +64,7 @@ db.exec(`
 `);
 
 const FORM_FIELDS = [
-  "contactName", "contactEmail", "contactPhone",
+  "contactName", "contactEmail",
   "title", "authors", "identifier", "institutions", "abstract", "doi",
   "histologicDiagnoses", "modalities", "format",
   "subjects", "sessions", "diskSpace",
@@ -119,7 +118,6 @@ const CONTACT_TO = process.env.CONTACT_TO || "info@pixi.org";
 const FIELD_LABELS = {
   contactName: "Contact Name",
   contactEmail: "Contact Email",
-  contactPhone: "Contact Phone",
   title: "Dataset Title",
   authors: "Authors",
   identifier: "Dataset Identifier",

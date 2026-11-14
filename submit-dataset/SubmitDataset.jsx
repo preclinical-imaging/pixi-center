@@ -40,7 +40,7 @@ const IMAGING_MODALITY_OPTIONS = ["MR", "PET", "CT", "Ultrasound", "Mammogram", 
 const IMAGING_FORMAT_OPTIONS = ["NIFTI", "DICOM", "Inveon", "BLI", "Other"];
 
 const EMPTY_FORM = {
-  contactName: "", contactEmail: "", contactPhone: "",
+  contactName: "", contactEmail: "", 
   title: "", authors: "", identifier: "", institutions: "", abstract: "", doi: "",
   histologicDiagnoses: [], modalities: [], format: "",
   subjects: "", sessions: "", diskSpace: "",
@@ -86,10 +86,9 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <FormSection title="Contact">
-          <Row cols={3}>
+          <Row cols={2}>
             <Field label="Contact Name" required value={form.contactName} onChange={set("contactName")} placeholder="Jane Doe" />
             <Field label="Contact Email" required type="email" value={form.contactEmail} onChange={set("contactEmail")} placeholder="jane.doe@example.edu" />
-            <Field label="Contact Phone" required type="tel" value={form.contactPhone} onChange={set("contactPhone")} placeholder="+1-555-555-5555" />
           </Row>
         </FormSection>
 
