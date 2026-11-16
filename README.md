@@ -11,7 +11,7 @@ The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in
 | `/home` | `home/Home.jsx` | Public landing page (`/` redirects here) |
 | `/about` | `about/About.jsx` | About PIXI Center |
 | `/about/data-use-terms.html` | `about/DataUseTerms.jsx` | Data use terms (CIRP Resource Sharing Policy) |
-| `/contact` | `contact/Contact.jsx` | Contact form with captcha |
+| `/contact` | `contact/Contact.jsx` | Contact form  |
 | `/submit-dataset` | `submit-dataset/SubmitDataset.jsx` | Dataset proposal form |
 | `/ui_kits/web_app/` | `ui_kits/web_app/` | Study library, study detail, subject inspector |
 
@@ -36,16 +36,6 @@ The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in
 ## How it's built
 
 There is no build step or package manager. Each page's `index.html` loads React 18 and Babel Standalone from unpkg (pinned, with integrity hashes), then loads the shared `utils/*.jsx` files and the page component as `text/babel` scripts. Scripts use root-absolute paths such as `/utils/ui.jsx`, so pages must be served from the repo root rather than opened from disk.
-
-### Configuration
-
-All settings are optional environment variables.
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `EMAIL_FROM` | `no-reply@pixi-center.local` | Sender address |
-| `SUBMISSION_CC` | `info@pixi.org` | CC on dataset submissions |
-| `CONTACT_TO` | `info@pixi.org` | Recipient of contact form messages |
 
 ## Linting
 
