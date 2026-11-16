@@ -2,7 +2,7 @@
 // Everything else (Home, Studies, etc.) reads studies through useStudies()
 
 // GET returns a JSON array of study descriptions.
-const STUDIES_ENDPOINT = "/xnat/xapi/pixiCenter/";
+const STUDIES_ENDPOINT = "/xnat/xapi/pixiCenter/project";
 
 let _studiesCache = null;
 let _studiesPromise = null;
