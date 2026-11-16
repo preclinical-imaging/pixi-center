@@ -17,7 +17,6 @@ const DataUseTermsHeader = () => (
     padding: "72px 40px 8px",
     maxWidth: 760, margin: "0 auto",
   }}>
-    <Eyebrow mono>Data sharing</Eyebrow>
     <h1 style={{
       margin: "14px 0 22px",
       fontFamily: "var(--font-display)",

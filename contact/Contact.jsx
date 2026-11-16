@@ -79,7 +79,6 @@ const ContactForm = ({ onSent }) => {
 
   return (
     <section style={{ padding: "40px 40px 96px", maxWidth: 720, margin: "0 auto" }}>
-      <Eyebrow mono>Get in touch</Eyebrow>
       <h1 style={{
         margin: "14px 0 8px", fontFamily: "var(--font-display)",
         fontSize: 36, fontWeight: 600, letterSpacing: "-0.02em",
