@@ -26,18 +26,28 @@ const ContactForm = ({ onSent }) => {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/xnat/xapi/pixiCenter/contactPixi", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({
           ...form,
           company,
         }),
       });
-      const result = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        throw new Error(result.error || `Server responded ${res.status}`);
+        const text = await res.text();
+        let message = text;
+        try {
+          const data = JSON.parse(text);
+          message = data.message || data.error || text;
+        } catch {
+          // Body wasn't JSON; use the raw text
+        }
+        throw new Error(message || `Server responded ${res.status}`);
       }
+
       onSent?.();
     } catch (err) {
       setSubmitError(err.message);

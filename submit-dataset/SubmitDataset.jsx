@@ -54,7 +54,7 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await fetch("/xnat/xapi/pixiCenter/contactPixi", {
+      const res = await fetch("/xnat/xapi/pixiCenter/submitDataset", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
