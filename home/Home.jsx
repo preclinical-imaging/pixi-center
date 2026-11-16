@@ -1,8 +1,5 @@
-// Home page for PIXI Center — public-facing.
-// Uses tokens from /colors_and_type.css and primitives from ui.jsx.
-// TopNav and Footer live in site-chrome.jsx, shared with the other pages
-// Data is fetched once and cached for every section on
-// this page that summarizes it (hero stats, disease-area chart).
+// Home page for PIXI Center.
+// Data is fetched once and cached for every section on this page.
 
 const Hero = () => {
   const { studies } = useStudies();
@@ -263,7 +260,6 @@ const RecentSection = () => {
   );
 };
 
-// ---------- Page ----------
 const HomePage = () => {
   return (
     <div className="pixi-root" data-screen-label="PIXI Center home">

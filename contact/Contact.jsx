@@ -1,7 +1,4 @@
-// Contact — public contact form, its own top-level page (same pattern as
-// ../submit-dataset/SubmitDataset.jsx and ../about/About.jsx). Uses the same
-// TopNav/Footer (/utils/site-chrome.jsx) and form primitives
-// (/utils/ui.jsx).
+// Contact — public contact form,
 //
 // POSTs to /api/contact on the same origin (served by
 // ui_kits/web_app/server.js — see that file's "Server" section; ROOT there

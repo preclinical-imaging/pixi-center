@@ -1,7 +1,4 @@
-// About page for PIXI Center — public-facing.
-// Content sourced from "About PIXI Center.md" (provided by the PIXI Center team).
-// Uses tokens from ../colors_and_type.css and primitives from /utils/ui.jsx,
-// with the same TopNav/Footer as the home page (/utils/site-chrome.jsx).
+// About page for PIXI Center
 
 const proseP = {
   margin: "0 0 20px",
