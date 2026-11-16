@@ -22,7 +22,7 @@ The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in
 ├── colors_and_type.css   Design tokens (color, type, spacing, radii, shadows, motion)
 ├── home/ about/ contact/ submit-dataset/
 │                         One folder per page: index.html + a React component
-├── ui_kits/web_app/      Study browser UI and the Node server (server.js)
+├── ui_kits/web_app/      Study browser UI
 ├── utils/                Shared code: ui.jsx, charts.jsx, site-chrome.jsx, studies-data.jsx
 ├── files/                Downloadable files for each study
 ├── assets/               Logos, brand mark, file-type icons
@@ -37,31 +37,12 @@ The visual language is documented in [`DESIGN.md`](DESIGN.md) and implemented in
 
 There is no build step or package manager. Each page's `index.html` loads React 18 and Babel Standalone from unpkg (pinned, with integrity hashes), then loads the shared `utils/*.jsx` files and the page component as `text/babel` scripts. Scripts use root-absolute paths such as `/utils/ui.jsx`, so pages must be served from the repo root rather than opened from disk.
 
-## Running locally
-
-Requires **Node 22.5 or later** (for the built-in `node:sqlite` module). No `npm install` needed.
-
-```
-node ui_kits/web_app/server.js
-```
-
-Then open `http://localhost:8787/`. The server serves the repo root as static files and provides the API below.
-
-| Endpoint | Purpose |
-|---|---|
-| `POST /api/submissions` | Stores a dataset proposal in `ui_kits/web_app/submissions.db` (SQLite, git-ignored) and sends notification email |
-| `GET /api/captcha` | Issues a captcha challenge for the contact form |
-| `POST /api/contact` | Validates the captcha and emails the contact form |
-
 ### Configuration
 
 All settings are optional environment variables.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `PORT` | `8787` | HTTP port |
-| `SMTP_HOST` | `localhost` | SMTP relay (plain, unauthenticated, no TLS) |
-| `SMTP_PORT` | `25` | SMTP port |
 | `EMAIL_FROM` | `no-reply@pixi-center.local` | Sender address |
 | `SUBMISSION_CC` | `info@pixi.org` | CC on dataset submissions |
 | `CONTACT_TO` | `info@pixi.org` | Recipient of contact form messages |
