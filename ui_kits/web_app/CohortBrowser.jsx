@@ -268,7 +268,7 @@ const CohortBrowser = () => {
                   <tr><td colSpan={7} style={{ padding: 48, textAlign: "center", color: "var(--fg-3)" }}>
                     {error ? (
                       <div style={{ fontWeight: 600, color: "var(--danger)" }}>
-                        Couldn't load datasets — make sure the local server is running (node ui_kits/web_app/server.js).
+                        Couldn't load datasets from PIXI backend.
                       </div>
                     ) : (
                       <React.Fragment>

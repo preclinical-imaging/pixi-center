@@ -141,7 +141,7 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
 
         {error ? (
           <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
-            Couldn't load studies — make sure the local server is running (node ui_kits/web_app/server.js).
+            Couldn't load studies from PIXI backend.
           </div>
         ) : view === "grid" ? (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
