@@ -54,16 +54,28 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await fetch("/api/submissions", {
+      const res = await fetch("/xnat/xapi/pixiCenter/contactPixi", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error(`Server responded ${res.status}`);
-      const result = await res.json();
-      onSubmitted?.(form, result);
+
+      if (!res.ok) {
+        const text = await res.text();
+        let message = text;
+        try {
+          const data = JSON.parse(text);
+          message = data.message || data.error || text;
+        } catch {
+          // Body wasn't JSON; use the raw text
+        }
+        throw new Error(message || `Server responded ${res.status}`);
+      }
+
+      onSubmitted?.(form);
     } catch (err) {
-      setSubmitError("Couldn't save this submission — make sure the local server is running (node ui_kits/web_app/server.js).");
+      setSubmitError(err.message);
     } finally {
       setSubmitting(false);
     }
@@ -76,7 +88,7 @@ const SubmitDatasetForm = ({ onSubmitted }) => {
         fontSize: 36, fontWeight: 600, letterSpacing: "-0.02em",
         color: "var(--fg-1)",
       }}>Submit a dataset</h1>
-      <p style={{ margin: "0 0 28px", fontSize: 15, color: "var(--fg-2)", lineHeight: 1.55, maxWidth: 620 }}>
+      <p style={{ margin: "0 0 28px", fontSize: 15, color: "var(--fg-2)", lineHeight: 1.55}}>
         Propose a new dataset for inclusion in the PIXI Center library. Fields marked with an asterisk (*) are required.
       </p>
 
