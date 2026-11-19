@@ -57,7 +57,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <a href={"/xnat/data/projects/" + study.id} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in XNAT</Button></a>
+            <a href={"/xnat/data/projects/" + study.id} title="Open Project in XNAT" target="_xnat"><Button variant="primary" icon="folder">View in PIXI</Button></a>
           </div>
         </div>
 

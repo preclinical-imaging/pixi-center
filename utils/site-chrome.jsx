@@ -65,7 +65,7 @@ const TopNav = () => {
           }}
         />
       </form>
-      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to PIXI</Button></a>
+      <a href="/xnat/app/template/Login.vm" target="_xnat"><Button variant="secondary" size="sm">Log in to PIXI Center</Button></a>
     </header>
   );
 };
