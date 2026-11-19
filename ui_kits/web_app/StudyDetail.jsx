@@ -17,7 +17,7 @@ const Tab = ({ children, active, onClick, count }) => (
   </button>
 );
 
-const StudyDetail = ({ study, onOpenSubject }) => {
+const StudyDetail = ({ study }) => {
   const [tab, setTab] = React.useState("overview");
 
   return (
@@ -90,7 +90,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
       {/* Body */}
       <div style={{ padding: "20px 32px" }}>
         {tab === "overview" && <Overview study={study} />}
-        {/* {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />} */}
+        {/* {tab === "subjects" && <SubjectsTable rows={SUBJECTS}/>} */}
         {tab === "terms" && <Terms study={study} />}
         {tab !== "subjects" && tab !== "overview" && tab !== "terms" && (
           <div style={{

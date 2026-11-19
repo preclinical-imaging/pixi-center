@@ -15,5 +15,4 @@ A high-fidelity, click-thru recreation of the PIXI Center collaborative web app 
 | `App.jsx` | Top-level shell — sidebar + topbar + routed view |
 | `Studies.jsx` | Study library (cards + table view toggle) |
 | `StudyDetail.jsx` | Single-study page (subjects table, sidebar tabs) |
-| `Inspector.jsx` | Right drawer panel for subject metadata |
 | `SubmitDataset.jsx` | Dataset proposal form (Contact / Publication Details / Data Collection Details) |

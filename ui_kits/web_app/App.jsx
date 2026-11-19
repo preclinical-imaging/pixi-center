@@ -24,7 +24,6 @@ const App = () => {
     () => (typeof location !== "undefined") ? navFromHash(location.hash) : "studies"
   );
   const [openStudy, setOpenStudy] = React.useState(null);
-  const [openSubject, setOpenSubject] = React.useState(null);
   const [studiesView, setStudiesView] = React.useState(
     () => (pixiSsGet(PIXI_SS.view) === "list" ? "list" : "grid")
   );
@@ -45,7 +44,6 @@ const App = () => {
   const showView = (nav, study = null) => {
     setNav(nav);
     setOpenStudy(study);
-    setOpenSubject(null);
   };
 
   const onNavigate  = (n) => { history.pushState(null, "", n === "home" ? location.pathname : "#" + n); showView(n); };
@@ -76,7 +74,6 @@ const App = () => {
         return;
       }
       setOpenStudy(null);
-      setOpenSubject(null);
       setNav(navFromHash(location.hash));
     };
     window.addEventListener("hashchange", onHashChange);
@@ -124,7 +121,7 @@ const App = () => {
 
   let view;
   if (nav === "cohorts") view = <CohortBrowser />;
-  else if (openStudy) view = <StudyDetail study={openStudy} onOpenSubject={setOpenSubject} />;
+  else if (openStudy) view = <StudyDetail study={openStudy}/>;
   else if (nav === "studies") view = (
     <Studies
       onOpenStudy={onOpenStudy}
