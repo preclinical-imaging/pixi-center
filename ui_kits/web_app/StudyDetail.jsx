@@ -53,7 +53,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
                 {study.institution}
               </span>
               <span>·</span>
-              <span>Created Apr 02, 2026</span>
+              <span>Last Updated {study.updated}</span>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
@@ -212,9 +212,9 @@ const Terms = ({ study }) => (
             label="DOI"
             mono
             value={
-              <a href={`https://doi.org/${study.doi || "10.7937/pixi.2021.example"}`} target="_blank" rel="noreferrer"
+              <a href={`https://doi.org/${study.doi}`} target="_blank" rel="noreferrer"
                   style={{ color: "var(--pixi-navy)", textDecoration: "none" }}>
-                {study.doi || "10.7937/pixi.2021.example"}
+                {study.doi}
               </a>
             }
           />
