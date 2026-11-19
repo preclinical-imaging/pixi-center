@@ -1,16 +1,4 @@
 // StudyDetail — single study page. Header + tabs + subjects table.
-
-const SUBJECTS = [
-  { id: "M-014", cohort: "03 — vehicle", mass: 22.4, day: 14, sex: "F" },
-  { id: "M-015", cohort: "03 — vehicle", mass: 23.1, day: 14, sex: "F" },
-  { id: "M-016", cohort: "03 — vehicle", mass: 21.8, day: 14, sex: "F" },
-  { id: "M-017", cohort: "04 — 5 mg/kg", mass: 22.0, day: 14, sex: "M" },
-  { id: "M-018", cohort: "04 — 5 mg/kg", mass: 22.7, day: 14, sex: "M" },
-  { id: "M-019", cohort: "04 — 5 mg/kg", mass: 22.5, day: 14, sex: "M" },
-  { id: "M-020", cohort: "05 — 15 mg/kg", mass: 21.2, day: 14, sex: "F" },
-  { id: "M-021", cohort: "05 — 15 mg/kg", mass: 23.4, day: 14, sex: "F" },
-];
-
 const Tab = ({ children, active, onClick, count }) => (
   <button onClick={onClick} style={{
     height: 38, padding: "0 14px",
@@ -93,8 +81,8 @@ const StudyDetail = ({ study, onOpenSubject }) => {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, borderBottom: "1px solid transparent" }}>
           <Tab active={tab === "overview"} onClick={() => setTab("overview")}>Overview</Tab>
-          <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab>
-          <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.sessions || ""}>Imaging</Tab>
+          {/* <Tab active={tab === "subjects"} onClick={() => setTab("subjects")} count={study.subjects || ""}>Subjects</Tab> */}
+          {/* <Tab active={tab === "imaging"} onClick={() => setTab("imaging")} count={study.sessions || ""}>Imaging</Tab> */}
           <Tab active={tab === "terms"} onClick={() => setTab("terms")}>Data Use Agreement</Tab>
         </div>
       </div>
@@ -102,7 +90,7 @@ const StudyDetail = ({ study, onOpenSubject }) => {
       {/* Body */}
       <div style={{ padding: "20px 32px" }}>
         {tab === "overview" && <Overview study={study} />}
-        {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />}
+        {/* {tab === "subjects" && <SubjectsTable rows={SUBJECTS} onOpen={onOpenSubject} />} */}
         {tab === "terms" && <Terms study={study} />}
         {tab !== "subjects" && tab !== "overview" && tab !== "terms" && (
           <div style={{
@@ -278,4 +266,4 @@ const SubjectsTable = ({ rows, onOpen }) => (
 
 const tdStyle2 = { padding: "12px 16px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
-Object.assign(window, { StudyDetail, SUBJECTS });
+Object.assign(window, { StudyDetail});
