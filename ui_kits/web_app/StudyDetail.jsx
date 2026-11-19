@@ -146,25 +146,22 @@ const Overview = ({ study }) => (
 
       <OverviewCard eyebrow="Abstract">
         <p style={{ margin: "10px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--fg-2)" }}>
-          {study.abstract || ""}
+          {study.abstract}
         </p>
       </OverviewCard>
 
       <OverviewCard eyebrow="Data Citation">
         <p style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.6, color: "var(--fg-2)", fontStyle: "italic" }}>
-          {study.dataCitation || `${study.lead || "Author, A."} (2021) ${study.title} [Data set]. PIXI Center. `}
-          {!study.dataCitation && (
-            <span style={{ fontFamily: "var(--font-mono)", fontStyle: "normal" }}>{study.doi || "10.7937/pixi.2021.example"}</span>
-          )}
+          {study.dataCitation}
         </p>
         <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)" }}>
           <KV
             label="DOI"
             mono
             value={
-              <a href={`https://doi.org/${study.doi || "10.7937/pixi.2021.example"}`} target="_blank" rel="noreferrer"
+              <a href={`https://doi.org/${study.doi}`} target="_blank" rel="noreferrer"
                  style={{ color: "var(--pixi-navy)", textDecoration: "none" }}>
-                {study.doi || "10.7937/pixi.2021.example"}
+                {study.doi}
               </a>
             }
           />
@@ -208,10 +205,7 @@ const Terms = ({ study }) => (
       </OverviewCard>
       <OverviewCard eyebrow="Data Citation">
         <p style={{ margin: "10px 0 0", fontSize: 13, lineHeight: 1.6, color: "var(--fg-2)", fontStyle: "italic" }}>
-          {study.dataCitation || `${study.lead || "Author, A."} (2021) ${study.title} [Data set]. PIXI Center. `}
-          {!study.dataCitation && (
-            <span style={{ fontFamily: "var(--font-mono)", fontStyle: "normal" }}>{study.doi || "10.7937/pixi.2021.example"}</span>
-          )}
+          {study.dataCitation}
         </p>
         <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border-subtle)" }}>
           <KV
