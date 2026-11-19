@@ -6,7 +6,6 @@ A high-fidelity, click-thru recreation of the PIXI Center collaborative web app 
 
 - **Studies** — list / library of all studies the user has access to (default landing).
 - **Study detail** — a single study with cohorts, subjects, sessions, files, collaborators.
-- **Inspector / drawer** — right-hand panel for subject metadata (opens in-context).
 
 ## Components
 
