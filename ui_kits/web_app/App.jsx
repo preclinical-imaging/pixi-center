@@ -1,4 +1,4 @@
-// App shell — wires view and inspector
+// App shell — wires views
 
 const STUDY_HASH = /^#studies\/(.+)$/;
 const PIXI_SS = { view: "pixi.studiesView", filter: "pixi.studiesFilter", scroll: "pixi.scrollPositions" };
@@ -144,7 +144,6 @@ const App = () => {
         <main ref={mainRef} style={{ flex: 1, overflow: "auto", background: "var(--pixi-paper)" }} onScroll={handleScroll}>
           {view}
         </main>
-        <Inspector subject={openSubject} onClose={() => setOpenSubject(null)} />
       </div>
     </div>
   );
