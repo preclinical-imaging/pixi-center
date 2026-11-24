@@ -1,5 +1,8 @@
 // Studies — library view. Card grid + table toggle.
 
+const NAV_HEIGHT = 64;
+const FILTER_DRAWER_WIDTH = 280;
+
 const FACET_DEFS = [
   { key: "protectionLevel", label: "Access" },
   { key: "modalities",  label: "Modality", multi: true },
@@ -175,6 +178,15 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
   const [showFilters, setShowFilters] = React.useState(() => Object.keys(loadFacetSelection()).length > 0);
   React.useEffect(() => saveFacetSelection(selection), [selection]);
 
+  React.useEffect(() => {
+    if (!showFilters) return;
+    const onKeyDown = (event) => { 
+      if (event.key === "Escape") setShowFilters(false); 
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showFilters]);
+
   const facets = React.useMemo(() => buildFacets(studies), [studies]);
   const selectionFor = (key) => selection[key] || EMPTY_SET;
 
@@ -218,69 +230,16 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
         </div>
 
         <div style={{
-          display: "flex", alignItems: "center", justifyContent: "flex-end",
-          gap: 12, padding: "16px 0", borderBottom: "1px solid var(--border-subtle)",
-          marginBottom: 20,
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          gap: 12, padding: "8px 0", marginBottom: 8,
         }}>
-          <div style={{ display: "flex", gap: 8 }}>
-            <div style={{
-              display: "inline-flex", borderRadius: 6,
-              border: "1px solid var(--border-subtle)", overflow: "hidden",
-            }}>
-              <button onClick={() => onViewChange("grid")} style={{
-                width: 32, height: 28, border: "none", cursor: "pointer",
-                background: view === "grid" ? "var(--pixi-cloud)" : "#fff",
-                color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
-                display: "inline-flex", alignItems: "center", justifyContent: "center",
-              }}><Icon name="grid" size={14} /></button>
-              <button onClick={() => onViewChange("list")} style={{
-                width: 32, height: 28, border: "none", cursor: "pointer",
-                borderLeft: "1px solid var(--border-subtle)",
-                background: view === "list" ? "var(--pixi-cloud)" : "#fff",
-                color: view === "list" ? "var(--pixi-ink)" : "var(--fg-3)",
-                display: "inline-flex", alignItems: "center", justifyContent: "center",
-              }}><Icon name="list" size={14} /></button>
-            </div>
-            <Button variant="secondary" icon="sliders" size="md" onClick={() => setShowFilters(isOpen => !isOpen)}>{activeCount ? `Filters (${activeCount})` : "Filters"}</Button>
-          </div>
-        </div>
 
-        {showFilters && facets.length > 0 && (
-          <div style={{
-            background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8,
-            padding: "16px 18px", marginBottom: 20,
-          }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>Filters</span>
-              <button onClick={clearFacets} disabled={activeCount === 0} style={{
-                background: "transparent", border: "none", cursor: activeCount ? "pointer" : "default",
-                fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 500,
-                color: activeCount ? "var(--pixi-navy)" : "var(--fg-4)",
-              }}>Clear all</button>
-            </div>
-            <div style={{
-              display: "grid", gap: 24,
-              gridTemplateColumns: `repeat(${facets.length}, minmax(0, 1fr))`,
-              maxHeight: 280, overflow: "auto",
-            }}>
-              {facets.map(facet => (
-                <FacetSection key={facet.key} facet={facet} selected={selectionFor(facet.key)} onToggle={toggleFacet} counts={counts} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {error ? (
-          <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
-            Couldn't load studies from PIXI backend.
-          </div>
-        ) : (
-          <React.Fragment>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>
-                {filtered.length} dataset{filtered.length === 1 ? "" : "s"}
-              </span>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            {!error && (
+              <React.Fragment>
+                <span style={{ fontSize: 16, fontWeight: 600 }}>
+                  {filtered.length} dataset{filtered.length === 1 ? "" : "s"}
+                </span>
                 {facets.flatMap(facet => [...selectionFor(facet.key)].map(option => (
                   <button key={facet.key + option} onClick={() => toggleFacet(facet.key, option)} style={{
                     display: "inline-flex", alignItems: "center", gap: 6, height: 24, padding: "0 6px 0 10px",
@@ -293,23 +252,82 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
                     <Icon name="close" size={12} />
                   </button>
                 )))}
+              </React.Fragment>
+            )}
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <div style={{
+              display: "inline-flex", borderRadius: 6,
+              border: "1px solid var(--border-subtle)", overflow: "hidden",
+            }}>
+              <button onClick={() => onViewChange("grid")} style={{
+                width: 36, border: "none", cursor: "pointer",
+                background: view === "grid" ? "var(--pixi-cloud)" : "#fff",
+                color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+              }}><Icon name="grid" size={14} /></button>
+              <button onClick={() => onViewChange("list")} style={{
+                width: 36, border: "none", cursor: "pointer",
+                borderLeft: "1px solid var(--border-subtle)",
+                background: view === "list" ? "var(--pixi-cloud)" : "#fff",
+                color: view === "list" ? "var(--pixi-ink)" : "var(--fg-3)",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+              }}><Icon name="list" size={14} /></button>
+            </div>
+            <Button variant="secondary" icon="sliders" size="md" onClick={() => setShowFilters(isOpen => !isOpen)}>{activeCount ? `Filters (${activeCount})` : "Filters"}</Button>
+          </div>
+        </div>
+
+        {facets.length > 0 && (
+          <aside aria-hidden={!showFilters} style={{
+            position: "fixed", top: NAV_HEIGHT, right: 0, bottom: 0, width: FILTER_DRAWER_WIDTH,
+            zIndex: 20, background: "#fff", borderLeft: "1px solid var(--border-subtle)",
+            boxShadow: showFilters ? "var(--shadow-sm)" : "none",
+            display: "flex", flexDirection: "column",
+            transform: showFilters ? "translateX(0)" : "translateX(100%)",
+            visibility: showFilters ? "visible" : "hidden",
+            transition: `transform 200ms ease, box-shadow 200ms ease, visibility 0s linear ${showFilters ? "0s" : "200ms"}`,
+          }}>
+            <div style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "14px 16px", borderBottom: "1px solid var(--border-subtle)",
+            }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>Filters</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <button onClick={clearFacets} disabled={activeCount === 0} style={{
+                  background: "transparent", border: "none", cursor: activeCount ? "pointer" : "default",
+                  fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 500,
+                  color: activeCount ? "var(--pixi-navy)" : "var(--fg-4)",
+                }}>Clear all</button>
+                <button onClick={() => setShowFilters(false)} aria-label="Close filters" style={{
+                  background: "transparent", border: "none", cursor: "pointer", display: "inline-flex", padding: 0,
+                }}><Icon name="close" size={16} /></button>
               </div>
             </div>
+            <div style={{ flex: 1, overflow: "auto", padding: "16px 14px", display: "flex", flexDirection: "column", gap: 22 }}>
+              {facets.map(facet => (
+                <FacetSection key={facet.key} facet={facet} selected={selectionFor(facet.key)} onToggle={toggleFacet} counts={counts} />
+              ))}
+            </div>
+          </aside>
+        )}
 
-            {filtered.length === 0 ? (
-              <div style={{ padding: 48, textAlign: "center", color: "var(--fg-3)" }}>
-                <Icon name="search" size={24} color="var(--pixi-mist)" />
-                <div style={{ marginTop: 10, fontWeight: 600, color: "var(--fg-2)" }}>No datasets match these filters</div>
-                <div style={{ fontSize: 13, marginTop: 4 }}>Remove a filter to widen the search.</div>
-              </div>
-            ) : view === "grid" ? (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-                {filtered.map(study => <StudyCard key={study.id} study={study} onOpen={onOpenStudy} />)}
-              </div>
-            ) : (
-              <StudiesList rows={filtered} onOpen={onOpenStudy} />
-            )}
-          </React.Fragment>
+        {error ? (
+          <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
+            Couldn't load studies from PIXI backend.
+          </div>
+        ) : filtered.length === 0 ? (
+          <div style={{ padding: 48, textAlign: "center", color: "var(--fg-3)" }}>
+            <Icon name="search" size={24} color="var(--pixi-mist)" />
+            <div style={{ marginTop: 10, fontWeight: 600, color: "var(--fg-2)" }}>No datasets match these filters</div>
+            <div style={{ fontSize: 13, marginTop: 4 }}>Remove a filter to widen the search.</div>
+          </div>
+        ) : view === "grid" ? (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+            {filtered.map(study => <StudyCard key={study.id} study={study} onOpen={onOpenStudy} />)}
+          </div>
+        ) : (
+          <StudiesList rows={filtered} onOpen={onOpenStudy} />
         )}
       </div>
       <Footer />
