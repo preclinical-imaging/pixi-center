@@ -241,12 +241,12 @@ const SubjectsTable = ({ rows, onOpen }) => (
           <tr key={s.id} onClick={() => onOpen(s)} style={{ cursor: "pointer" }}
               onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
-            <td style={{ ...tdStyle2, fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--fg-1)" }}>{s.id}</td>
-            <td style={{ ...tdStyle2, color: "var(--fg-2)" }}>{s.cohort}</td>
-            <td style={{ ...tdStyle2, textAlign: "center", color: "var(--fg-2)" }}>{s.sex}</td>
-            <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{s.mass.toFixed(1)}</td>
-            <td style={{ ...tdStyle2, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.day}</td>
-            <td style={{ ...tdStyle2, width: 32 }}>
+            <td className="pixi-td" style={{ fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--fg-1)" }}>{s.id}</td>
+            <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{s.cohort}</td>
+            <td className="pixi-td" style={{ textAlign: "center", color: "var(--fg-2)" }}>{s.sex}</td>
+            <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{s.mass.toFixed(1)}</td>
+            <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.day}</td>
+            <td className="pixi-td" style={{ width: 32 }}>
               <Icon name="chevronRight" size={16} color="var(--fg-4)" />
             </td>
           </tr>
@@ -255,7 +255,5 @@ const SubjectsTable = ({ rows, onOpen }) => (
     </table>
   </div>
 );
-
-const tdStyle2 = { padding: "12px 16px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
 Object.assign(window, { StudyDetail});

@@ -225,21 +225,21 @@ const CohortBrowser = () => {
                     <tr key={c.id} onClick={() => togglePick(c.id)} style={{ cursor: "pointer", background: on ? "var(--pixi-navy-soft)" : "#fff" }}
                         onMouseEnter={e => { if (!on) e.currentTarget.style.background = "var(--pixi-paper)"; }}
                         onMouseLeave={e => { e.currentTarget.style.background = on ? "var(--pixi-navy-soft)" : "#fff"; }}>
-                      <td style={{ ...cbCellStyle, paddingLeft: 16 }}>
+                      <td className="pixi-td" style={{ paddingLeft: 16 }}>
                         <span style={{ display: "inline-flex" }}><Check checked={on} /></span>
                       </td>
-                      <td style={cbCellStyle}>
+                      <td className="pixi-td">
                         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                           <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{c.id}</span>
                           <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{c.title}</span>
                         </div>
                       </td>
-                      <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
-                      <td style={cbCellStyle}><ModalitiesTag modalities={c.modalities} size = "small" /></td>
-                      <td style={{ ...cbCellStyle, color: asList(c.scanners).length ? "var(--fg-2)" : "var(--fg-4)" }}>
+                      <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
+                      <td className="pixi-td"><ModalitiesTag modalities={c.modalities} size = "small" /></td>
+                      <td className="pixi-td" style={{ color: asList(c.scanners).length ? "var(--fg-2)" : "var(--fg-4)" }}>
                         {asList(c.scanners).join(", ") || "—"}
                       </td>
-                      <td style={cbCellStyle}>
+                      <td className="pixi-td">
                         {c.institution && (
                           <span style={{
                             display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
@@ -248,7 +248,7 @@ const CohortBrowser = () => {
                           }}>{c.institution}</span>
                         )}
                       </td>
-                      <td style={{ ...cbCellStyle, textAlign: "right", paddingRight: 16, fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{c.subjects}</td>
+                      <td className="pixi-td" style={{ textAlign: "right", paddingRight: 16, fontVariantNumeric: "tabular-nums", fontFamily: "var(--font-display)", fontWeight: 500 }}>{c.subjects}</td>
                     </tr>
                   );
                 })}
@@ -314,6 +314,5 @@ const cbHeadStyle = {
   color: "var(--fg-3)", background: "var(--pixi-paper)",
   borderBottom: "1px solid var(--border-subtle)", position: "sticky", top: 0, zIndex: 1,
 };
-const cbCellStyle = { padding: "12px 14px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
 Object.assign(window, { CohortBrowser });

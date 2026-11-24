@@ -351,17 +351,17 @@ const StudiesList = ({ rows, onOpen }) => (
           <tr key={study.id} onClick={() => onOpen(study)} style={{ cursor: "pointer" }}
               onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
-            <td style={tdStyle}>
+            <td className="pixi-td">
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{study.id}</span>
                 <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{study.title}</span>
               </div>
             </td>
-            <td style={{ ...tdStyle, color: "var(--fg-2)" }}>{study.areaOfStudy}</td>
-            <td style={tdStyle}><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
-            <td style={{ ...tdStyle, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
-            <td style={{ ...tdStyle, textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
-            <td style={tdStyle}>{study.institution && (<span style={{
+            <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{study.areaOfStudy}</td>
+            <td className="pixi-td"><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
+            <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
+            <td style={{ textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
+            <td className="pixi-td">{study.institution && (<span style={{
               display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
               fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
               color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
@@ -373,6 +373,5 @@ const StudiesList = ({ rows, onOpen }) => (
   </div>
 );
 
-const tdStyle = { padding: "12px 14px", borderBottom: "1px solid var(--border-subtle)", verticalAlign: "middle" };
 
 Object.assign(window, { Studies });

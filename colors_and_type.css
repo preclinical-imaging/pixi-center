@@ -256,3 +256,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.pixi-td {
+  padding: 12px 14px; 
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
