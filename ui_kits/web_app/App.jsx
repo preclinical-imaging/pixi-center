@@ -1,7 +1,7 @@
 // App shell — wires views
 
 const STUDY_HASH = /^#studies\/(.+)$/;
-const PIXI_SS = { view: "pixi.studiesView", filter: "pixi.studiesFilter", scroll: "pixi.scrollPositions" };
+const PIXI_SS = { view: "pixi.studiesView", scroll: "pixi.scrollPositions" };
 const pixiSsGet = (k) => { try { return sessionStorage.getItem(k); } catch { return null; } };
 const pixiSsSet = (k, v) => { try { sessionStorage.setItem(k, v); } catch {} };
 
@@ -27,11 +27,7 @@ const App = () => {
   const [studiesView, setStudiesView] = React.useState(
     () => (pixiSsGet(PIXI_SS.view) === "list" ? "list" : "grid")
   );
-  const [studiesFilter, setStudiesFilter] = React.useState(() => {
-    const f = pixiSsGet(PIXI_SS.filter);
-    return ["All", "public", "protected"].includes(f) ? f : "All";
-  });
-  
+
   const mainRef = React.useRef(null);
   const positions = React.useRef(null);
   if (positions.current === null) {
@@ -50,7 +46,6 @@ const App = () => {
   const onOpenStudy = (s) => { history.pushState(null, "", "#studies/" + encodeURIComponent(s.id)); showView("studies", s); };
 
   React.useEffect(() => pixiSsSet(PIXI_SS.view, studiesView), [studiesView]);
-  React.useEffect(() => pixiSsSet(PIXI_SS.filter, studiesFilter), [studiesFilter]); 
   
   // Deep-link support: the public Home page's "Recent datasets" cards link
   // here as index.html#study/<id> — open that study's detail view once the
@@ -126,7 +121,6 @@ const App = () => {
     <Studies
       onOpenStudy={onOpenStudy}
       view={studiesView} onViewChange={setStudiesView}
-      filter={studiesFilter} onFilterChange={setStudiesFilter}
     /> 
   );
   else view = <HomeView onOpenStudy={onOpenStudy} onNavigate={onNavigate} />;

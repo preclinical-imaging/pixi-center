@@ -1,6 +1,7 @@
 // Studies — library view. Card grid + table toggle.
 
 const FACET_DEFS = [
+  { key: "protectionLevel", label: "Access" },
   { key: "modalities",  label: "Modality", multi: true },
   { key: "areaOfStudy", label: "Disease Area" },
   { key: "scanners",     label: "Scanners", multi: true },
@@ -128,17 +129,6 @@ const StudyCard = ({ study, onOpen }) => {
   );
 };
 
-const FilterChip = ({ children, active, onClick }) => (
-  <button onClick={onClick} style={{
-    height: 28, padding: "0 12px", borderRadius: 999,
-    border: `1px solid ${active ? "var(--pixi-navy)" : "var(--border-default)"}`,
-    background: active ? "var(--pixi-navy-soft)" : "#fff",
-    color: active ? "var(--pixi-navy)" : "var(--fg-2)",
-    fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: active ? 600 : 500,
-    cursor: "pointer",
-  }}>{children}</button>
-);
-
 const Check = ({ checked }) => (
   <span style={{
     width: 16, height: 16, borderRadius: 4, flexShrink: 0,
@@ -170,7 +160,7 @@ const FacetSection = ({ facet, selected, onToggle, counts }) => (
           onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-cloud)"}
           onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
           <Check checked={isSelected} />
-          <span style={{ flex: 1, fontSize: 13, color: isSelected ? "var(--fg-1)" : "var(--fg-2)", fontWeight: isSelected ? 600 : 400 }}>{option}</span>
+          <span style={{ flex: 1, fontSize: 13, color: isSelected ? "var(--fg-1)" : "var(--fg-2)", fontWeight: isSelected ? 600 : 400, textTransform: facet.key === "protectionLevel" ? "capitalize" : "none"}}>{option}</span>
           <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--fg-3)" }}>{counts[facet.key + "\u0000" + option] || 0}</span>
         </button>
       );
@@ -178,10 +168,8 @@ const FacetSection = ({ facet, selected, onToggle, counts }) => (
   </div>
 );
 
-const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) => {
+const Studies = ({ onOpenStudy, view, onViewChange }) => {
   const { studies, error } = useStudies();
-
-  const filters = ["All", "public", "protected"];
 
   const [selection, setSelection] = React.useState(loadFacetSelection);
   const [showFilters, setShowFilters] = React.useState(() => Object.keys(loadFacetSelection()).length > 0);
@@ -199,9 +187,7 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
   const clearFacets = () => setSelection({});
   const activeCount = facets.reduce((total, facet) => total + selectionFor(facet.key).size, 0);
 
-  //filter for both protection level (hard coded) and cohort browsing elements (based on what is retrieved from api)
   const filtered = studies.filter(study =>
-    (filter === "All" || study.protectionLevel === filter) &&
     facets.every(facet => {
       const chosen = selectionFor(facet.key);
       if (chosen.size === 0) return true;
@@ -232,17 +218,10 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
         </div>
 
         <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
+          display: "flex", alignItems: "center", justifyContent: "flex-end",
           gap: 12, padding: "16px 0", borderBottom: "1px solid var(--border-subtle)",
           marginBottom: 20,
         }}>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {filters.map(protectionLevel => (
-              <FilterChip key={protectionLevel} active={filter === protectionLevel} onClick={() => onFilterChange(protectionLevel)}>
-                <span style={{ textTransform: "capitalize" }}>{protectionLevel}</span>
-              </FilterChip>
-            ))}
-          </div>
           <div style={{ display: "flex", gap: 8 }}>
             <div style={{
               display: "inline-flex", borderRadius: 6,
@@ -308,6 +287,7 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
                     borderRadius: 999, border: "1px solid var(--pixi-navy-line)",
                     background: "var(--pixi-navy-soft)", color: "var(--pixi-navy)",
                     fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                    textTransform: facet.key === "protectionLevel" ? "capitalize" : "none"
                   }}>
                     {option}
                     <Icon name="close" size={12} />
