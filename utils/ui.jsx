@@ -415,24 +415,23 @@ const Row = ({ children, cols = 2}) => (
   <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
 );
 
-const ModalityTag = ({ mods, size }) => {
+const ModalitiesTag = ({ modalities, size }) => {
   const MODALITY_SIZES = {
-    // sm — card tags, CohortBrowser table (Home.jsx, Studies.jsx, CohortBrowser.jsx)
-    sm: { fontSize: 11, pading: "2px 6px", radius: 4},
-    md: { fontSize: 13, pading: "3px 9px", radius: 5},
+    small: { fontSize: 11, pading: "2px 6px", radius: 4},
+    large: { fontSize: 13, pading: "3px 9px", radius: 5},
   };
   const modalitySize = MODALITY_SIZES[size];
   return (
     <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-      {mods.map(m => (
-        <span key={m} style={{
+      {modalities.map(modality => (
+        <span key={modality} style={{
           fontFamily: "var(--font-mono)", fontSize: modalitySize.fontSize, fontWeight: 500,
           color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
           borderRadius: modalitySize.radius, padding: "2px 6px", lineHeight: 1.4,
-        }}>{m}</span>
+        }}>{modality}</span>
       ))}
     </div>
   )
 };
 
-Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow, FormSection, Row, ModalityTag});
+Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow, FormSection, Row, ModalitiesTag});

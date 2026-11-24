@@ -66,7 +66,7 @@ const StudyDetail = ({ study }) => {
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
               textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 7 }}>Modalities</div>
-            <td><ModalityTag mods={study.modalities} size = "md" /></td>
+            <td><ModalitiesTag modalities={study.modalities} size = "large" /></td>
           </div>
         </div>
 

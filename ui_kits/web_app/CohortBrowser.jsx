@@ -235,7 +235,7 @@ const CohortBrowser = () => {
                         </div>
                       </td>
                       <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
-                      <td style={cbCellStyle}><ModalityTag mods={asList(c.modalities)} /></td>
+                      <td style={cbCellStyle}><ModalitiesTag modalities={c.modalities} size = "small" /></td>
                       <td style={{ ...cbCellStyle, color: asList(c.scanners).length ? "var(--fg-2)" : "var(--fg-4)" }}>
                         {asList(c.scanners).join(", ") || "—"}
                       </td>

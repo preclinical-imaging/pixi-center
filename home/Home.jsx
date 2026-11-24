@@ -198,7 +198,7 @@ const DatasetCard = ({ study }) => {
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 4 }}>Modalities</div>
-          <td><ModalityTag mods={study.modalities} size = "sm" /></td>
+          <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
