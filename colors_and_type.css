@@ -71,21 +71,20 @@
   --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* ---------- Type scale (modular, scientific) ---------- */
+  --fs-10: 0.625rem;    /* stat labels */
+  --fs-11: 0.6875rem;   /* eyebrows */
   --fs-12: 0.75rem;     /* labels, micro */
   --fs-13: 0.8125rem;   /* meta, captions */
   --fs-14: 0.875rem;    /* secondary body */
-  --fs-15: 0.9375rem;
   --fs-16: 1rem;        /* body */
-  --fs-18: 1.125rem;    /* lead */
-  --fs-20: 1.25rem;     /* h5 */
-  --fs-24: 1.5rem;      /* h4 */
-  --fs-30: 1.875rem;    /* h3 */
-  --fs-38: 2.375rem;    /* h2 */
-  --fs-48: 3rem;        /* h1 */
-  --fs-64: 4rem;        /* display */
+  --fs-18: 1.125rem;    /* panel title, lead */
+  --fs-22: 1.375rem;    /* card title */
+  --fs-30: 1.875rem;    /* app title */
+  --fs-38: 2.375rem;    /* section title */
+  --fs-56: 3.5rem;      /* display */
 
   /* ---------- Line heights ---------- */
-  --lh-tight:  1.1;
+  --lh-tight:  1.05;
   --lh-snug:   1.25;
   --lh-normal: 1.5;
   --lh-loose:  1.65;
@@ -140,61 +139,43 @@
    ============================================================ */
 
 .pixi-display,
-.pixi-h1,
-.pixi-h2,
-.pixi-h3,
-.pixi-h4,
-.pixi-h5,
+.pixi-section-title,
+.pixi-app-title,
+.pixi-card-title,
 .pixi-eyebrow {
   font-family: var(--font-display);
   color: var(--fg-1);
   margin: 0;
+  font-weight: 600;
 }
 
 .pixi-display {
-  font-size: var(--fs-64);
+  font-size: var(--fs-56);
   line-height: var(--lh-tight);
   letter-spacing: var(--tr-tight);
-  font-weight: 600;
 }
 
-.pixi-h1 {
-  font-size: var(--fs-48);
-  line-height: var(--lh-tight);
-  letter-spacing: var(--tr-tight);
-  font-weight: 600;
-}
-
-.pixi-h2 {
+.pixi-section-title {
   font-size: var(--fs-38);
   line-height: var(--lh-snug);
   letter-spacing: var(--tr-snug);
-  font-weight: 600;
 }
 
-.pixi-h3 {
+.pixi-app-title {
   font-size: var(--fs-30);
   line-height: var(--lh-snug);
   letter-spacing: var(--tr-snug);
-  font-weight: 600;
 }
 
-.pixi-h4 {
-  font-size: var(--fs-24);
+.pixi-card-title {
+  font-size: var(--fs-22);
   line-height: var(--lh-snug);
-  font-weight: 600;
-}
-
-.pixi-h5 {
-  font-size: var(--fs-20);
-  line-height: var(--lh-snug);
-  font-weight: 600;
+  letter-spacing: var(--tr-snug);
 }
 
 .pixi-eyebrow {
   font-family: var(--font-sans);
-  font-size: var(--fs-12);
-  font-weight: 600;
+  font-size: var(--fs-11);
   letter-spacing: var(--tr-eyebrow);
   text-transform: uppercase;
   color: var(--fg-3);
@@ -262,3 +243,13 @@
   border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
 }
+
+.pixi-stat-label {
+  font-size: 10px; 
+  font-weight: 600; 
+  letter-spacing: 0.08em;
+  text-transform: uppercase; 
+  color: var(--fg-3);
+}
+.pixi-stat-label--num  { margin-bottom: 2px; }
+.pixi-stat-label--tags { margin-bottom: 4px; }

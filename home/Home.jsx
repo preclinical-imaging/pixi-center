@@ -26,13 +26,7 @@ const Hero = () => {
     }}>
       <div>
         <Eyebrow mono>Preclinical research · open data</Eyebrow>
-        <h1 style={{
-          margin: "14px 0 18px",
-          fontFamily: "var(--font-display)",
-          fontSize: 56, fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.05,
-          color: "var(--fg-1)",
-          textWrap: "balance",
-        }}>
+        <h1 className = "pixi-display" style={{ marginTop: 14, marginBottom: 18}}>
           A shared workbench for <span style={{color:"var(--pixi-navy)"}}>preclinical</span> imaging research.
         </h1>
         <p style={{
@@ -118,11 +112,7 @@ const FindSection = () => (
   <section style={{ padding: "72px 40px 32px", maxWidth: 1320, margin: "0 auto" }}>
     <div style={{ marginBottom: 32 }}>
       <Eyebrow>Overview</Eyebrow>
-      <h2 style={{
-        margin: "8px 0 0", fontFamily: "var(--font-display)",
-        fontSize: 38, fontWeight: 600, letterSpacing: "-0.015em",
-        color: "var(--fg-1)", textWrap: "balance",
-      }}>
+      <h2 className="pixi-section-title" style={{ marginTop: 8, textWrap: "balance" }}>
         What can I find in PIXI Center?
       </h2>
     </div>
@@ -184,20 +174,17 @@ const DatasetCard = ({ study }) => {
         paddingTop: 10, borderTop: "1px solid var(--border-subtle)",
       }}>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Subjects</div>
+          <div className=".pixi-stat-label--num">Subjects</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 2 }}>Sessions</div>
+          <div className=".pixi-stat-label--num">Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.sessions}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 4 }}>Modalities</div>
+          <div className=".pixi-stat-label--tags">Modalities</div>
           <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
@@ -233,11 +220,9 @@ const RecentSection = () => {
       }}>
         <div style={{ flex: "1 1 auto", minWidth: 0 }}>
           <Eyebrow>Studies · recent</Eyebrow>
-          <h2 style={{
-            margin: "8px 0 0", fontFamily: "var(--font-display)",
-            fontSize: 38, fontWeight: 600, letterSpacing: "-0.015em",
-            color: "var(--fg-1)", whiteSpace: "nowrap",
-          }}>Recent datasets</h2>
+          <h2 className="pixi-section-title" style={{ marginTop: 8, whiteSpace: "nowrap" }}>
+            Recent datasets
+          </h2>
         </div>
       </div>
 

@@ -94,20 +94,17 @@ const StudyCard = ({ study, onOpen }) => {
         paddingTop: 12, borderTop: "1px solid var(--border-subtle)",
       }}>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 3 }}>Subjects</div>
+          <div className=".pixi-stat-label--num">Subjects</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.subjects}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 3 }}>Sessions</div>
+          <div className=".pixi-stat-label--num">Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.sessions}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
-            textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 5 }}>Modalities</div>
+          <div className=".pixi-stat-label--tags">Modalities</div>
           <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
@@ -213,11 +210,7 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
       <div style={{ padding: "24px 32px"}}>
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
           <div>
-            <h1 style={{
-              margin: "6px 0 0",
-              fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600,
-              letterSpacing: "-0.01em",
-            }}>Datasets</h1>
+            <h1 className="pixi-app-title" style={{ marginTop: 6}}>Datasets</h1>
           </div>
         </div>
 

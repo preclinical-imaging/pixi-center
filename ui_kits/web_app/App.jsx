@@ -214,12 +214,7 @@ const SessionsByModalityChart = ({ modalities }) => {
       display: "flex", flexDirection: "column", gap: 22,
     }}>
       <div>
-        <h3 style={{
-          margin: "10px 0 0", fontFamily: "var(--font-display)",
-          fontSize: 22, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg-1)",
-        }}>
-          Sessions by modality
-        </h3>
+        <h3 className="pixi-card-title" style={{ marginTop: 10}}>Sessions by modality</h3>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 28}}>
@@ -288,9 +283,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
   return (
     <div style={{ fontFamily: "var(--font-sans)" }}>
       <div style={{ padding: "24px 40px", maxWidth: 1320, margin: "0 auto" }}>
-        <h1 style={{ margin: "6px 0 24px", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
-          Site Dashboard
-        </h1>
+        <h1 className="pixi-app-title" style={{ marginTop: 6, marginBottom: 24}}>Site Dashboard</h1>
 
         <section style={{ marginBottom: 40 }}>
           <h2 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600 }}>Data Snapshot</h2>

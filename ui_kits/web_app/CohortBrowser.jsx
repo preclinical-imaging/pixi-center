@@ -168,9 +168,7 @@ const CohortBrowser = () => {
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, position: "relative" }}>
         <div style={{ padding: "20px 32px 0" }}>
           <Eyebrow>Browse · all available data</Eyebrow>
-          <h1 style={{ margin: "6px 0 0", fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em" }}>
-            Cohort Browser
-          </h1>
+          <h1 className="pixi-app-title" style={{ marginTop: 6}}>Cohort Browser</h1>
           <p style={{ margin: "8px 0 0", fontSize: 14, color: "var(--fg-2)", maxWidth: 620, lineHeight: 1.5 }}>
             Filter the preclinical library by modality, disease area, scanners, and institution, then select the datasets you want to pull into a working set.
           </p>

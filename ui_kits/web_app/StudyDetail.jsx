@@ -32,10 +32,7 @@ const StudyDetail = ({ study }) => {
               <Eyebrow>{study.areaOfStudy}</Eyebrow>
               <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
             </div>
-            <h1 style={{
-              margin: 0, fontFamily: "var(--font-display)",
-              fontSize: 30, fontWeight: 600, letterSpacing: "-0.01em",
-            }}>{study.title}</h1>
+            <h1 className = "pixi-app-title">{study.title}</h1>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10, color: "var(--fg-3)", fontSize: 13 }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
                 {study.institution}
