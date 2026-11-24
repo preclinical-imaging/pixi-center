@@ -1,5 +1,5 @@
 /* Shared base for all preview cards. Each card is ~700×<varies> px. */
-@import url('../colors_and_type.css');
+@import url('/colors_and_type.css');
 
 * { box-sizing: border-box; }
 html, body {
