@@ -40,18 +40,6 @@ function buildFacets(studies) {
   }).filter(f => f.options.length > 0);
 }
 
-const ModTags = ({ mods }) => (
-  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-    {mods.map(m => (
-      <span key={m} style={{
-        fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500,
-        color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
-        borderRadius: 4, padding: "2px 6px", lineHeight: 1.4,
-      }}>{m}</span>
-    ))}
-  </div>
-);
-
 const Check = ({ checked, indeterminate }) => (
   <span style={{
     width: 16, height: 16, borderRadius: 4, flexShrink: 0,
@@ -247,7 +235,7 @@ const CohortBrowser = () => {
                         </div>
                       </td>
                       <td style={{ ...cbCellStyle, color: "var(--fg-2)" }}>{c.areaOfStudy}</td>
-                      <td style={cbCellStyle}><ModTags mods={asList(c.modalities)} /></td>
+                      <td style={cbCellStyle}><ModalityTag mods={asList(c.modalities)} /></td>
                       <td style={{ ...cbCellStyle, color: asList(c.scanners).length ? "var(--fg-2)" : "var(--fg-4)" }}>
                         {asList(c.scanners).join(", ") || "—"}
                       </td>

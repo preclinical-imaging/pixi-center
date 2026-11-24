@@ -66,15 +66,7 @@ const StudyDetail = ({ study }) => {
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
               textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 7 }}>Modalities</div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              {(study.modalities || []).map(m => (
-                <span key={m} style={{
-                  fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 500,
-                  color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
-                  borderRadius: 5, padding: "3px 9px", lineHeight: 1.4,
-                }}>{m}</span>
-              ))}
-            </div>
+            <td><ModalityTag mods={study.modalities} size = "md" /></td>
           </div>
         </div>
 

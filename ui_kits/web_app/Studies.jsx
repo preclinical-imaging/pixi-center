@@ -108,15 +108,7 @@ const StudyCard = ({ study, onOpen }) => {
         <div>
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 5 }}>Modalities</div>
-          <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-            {study.modalities.map(modality => (
-              <span key={modality} style={{
-                fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500,
-                color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
-                borderRadius: 4, padding: "2px 6px", lineHeight: 1.4,
-              }}>{modality}</span>
-            ))}
-          </div>
+          <td><ModalityTag mods={study.modalities} size = "sm" /></td>
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
