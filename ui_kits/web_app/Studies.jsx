@@ -1,5 +1,60 @@
 // Studies — library view. Card grid + table toggle.
 
+const FACET_DEFS = [
+  { key: "modalities",  label: "Modality", multi: true },
+  { key: "areaOfStudy", label: "Disease Area" },
+  { key: "scanners",     label: "Scanners", multi: true },
+  { key: "institution", label: "Institution" },
+];
+
+const FACETS_STORAGE_KEY = "pixi.studiesFacets";
+const EMPTY_SET = new Set();
+
+const studyHas = (study, facet, option) =>
+  facet.multi ? study[facet.key].includes(option) : study[facet.key] === option;
+
+function buildFacets(studies) {
+  return FACET_DEFS.map(facetDef => {
+    const filterOptions = new Set();
+    for (const study of studies) {
+      const facetValue = study[facetDef.key];
+      if (facetDef.multi) {
+        facetValue.forEach(option => filterOptions.add(option));
+      }
+      else if (facetValue) {
+        filterOptions.add(facetValue);
+      }
+    }
+    return { ...facetDef, options: [...filterOptions].sort((a, b) => a.localeCompare(b)) };
+  }).filter(facet => facet.options.length > 0);
+}
+
+// sessionStorage <-> { facetKey: Set } so filters survive opening a study
+// and coming back (Studies unmounts when a study is open).
+function loadFacetSelection() {
+  try {
+    const storedSelection = JSON.parse(sessionStorage.getItem(FACETS_STORAGE_KEY) || "{}");
+    const result = {};
+    for (const facetKey of Object.keys(storedSelection)) {
+      if (Array.isArray(storedSelection[facetKey])) {
+        result[facetKey] = new Set(storedSelection[facetKey]);
+      }
+    }
+    return result;
+  } catch { return {}; }
+}
+function saveFacetSelection(selection) {
+  try {
+    const storedSelection = {};
+    for (const facetKey of Object.keys(selection)) {
+      if (selection[facetKey].size) {
+        storedSelection[facetKey] = [...selection[facetKey]];
+      }
+    }
+    sessionStorage.setItem(FACETS_STORAGE_KEY, JSON.stringify(storedSelection));
+  } catch {}
+}
+
 const StudyCard = ({ study, onOpen }) => {
   const [hover, setHover] = React.useState(false);
   return (
@@ -50,12 +105,12 @@ const StudyCard = ({ study, onOpen }) => {
           <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
             textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 5 }}>Modalities</div>
           <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-            {study.modalities.map(m => (
-              <span key={m} style={{
+            {study.modalities.map(modality => (
+              <span key={modality} style={{
                 fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500,
                 color: "var(--pixi-navy)", background: "var(--pixi-navy-soft)",
                 borderRadius: 4, padding: "2px 6px", lineHeight: 1.4,
-              }}>{m}</span>
+              }}>{modality}</span>
             ))}
           </div>
         </div>
@@ -84,12 +139,84 @@ const FilterChip = ({ children, active, onClick }) => (
   }}>{children}</button>
 );
 
+const Check = ({ checked }) => (
+  <span style={{
+    width: 16, height: 16, borderRadius: 4, flexShrink: 0,
+    border: `1.5px solid ${checked ? "var(--pixi-navy)" : "var(--border-strong)"}`,
+    background: checked ? "var(--pixi-navy)" : "#fff",
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    transition: "background 120ms, border-color 120ms",
+  }}>
+    {checked && <Icon name="check" size={12} color="#fff" />}
+  </span>
+);
+
+const FacetSection = ({ facet, selected, onToggle, counts }) => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+    <div style={{
+      fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+      color: "var(--fg-3)", padding: "0 4px 6px",
+    }}>{facet.label}</div>
+    {facet.options.map(option => {
+      const isSelected = selected.has(option);
+      return (
+        <button key={option} onClick={() => onToggle(facet.key, option)}
+          style={{
+            display: "flex", alignItems: "center", gap: 9,
+            padding: "6px 4px", border: "none", background: "transparent",
+            cursor: "pointer", textAlign: "left", borderRadius: 5,
+            fontFamily: "var(--font-sans)",
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-cloud)"}
+          onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+          <Check checked={isSelected} />
+          <span style={{ flex: 1, fontSize: 13, color: isSelected ? "var(--fg-1)" : "var(--fg-2)", fontWeight: isSelected ? 600 : 400 }}>{option}</span>
+          <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--fg-3)" }}>{counts[facet.key + "\u0000" + option] || 0}</span>
+        </button>
+      );
+    })}
+  </div>
+);
+
 const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) => {
   const { studies, error } = useStudies();
 
-  const filters = ["All", "public", "protected", "draft"];
-  const filtered = filter === "All" ? studies :
-    studies.filter(s => s.protectionLevel === filter);
+  const filters = ["All", "public", "protected"];
+
+  const [selection, setSelection] = React.useState(loadFacetSelection);
+  const [showFilters, setShowFilters] = React.useState(() => Object.keys(loadFacetSelection()).length > 0);
+  React.useEffect(() => saveFacetSelection(selection), [selection]);
+
+  const facets = React.useMemo(() => buildFacets(studies), [studies]);
+  const selectionFor = (key) => selection[key] || EMPTY_SET;
+
+  const toggleFacet = (key, option) => setSelection(prevState => {
+    const nextState = { ...prevState, [key]: new Set(prevState[key] || []) };
+    nextState[key].has(option) ? nextState[key].delete(option) : nextState[key].add(option);
+    return nextState;
+  });
+
+  const clearFacets = () => setSelection({});
+  const activeCount = facets.reduce((total, facet) => total + selectionFor(facet.key).size, 0);
+
+  //filter for both protection level (hard coded) and cohort browsing elements (based on what is retrieved from api)
+  const filtered = studies.filter(study =>
+    (filter === "All" || study.protectionLevel === filter) &&
+    facets.every(facet => {
+      const chosen = selectionFor(facet.key);
+      if (chosen.size === 0) return true;
+      return [...chosen].some(option => studyHas(study, facet, option));
+    })
+  );
+
+  // Counts are performed over the full study list (they don't shrink as you filter).
+  const counts = React.useMemo(() => {
+    const countsByOption = {};
+    facets.forEach(facet => facet.options.forEach(option => {
+      countsByOption[facet.key + "\u0000" + option] = studies.filter(study => studyHas(study, facet, option)).length;
+    }));
+    return countsByOption;
+  }, [studies, facets]);
 
   return (
     <div style={{ fontFamily: "var(--font-sans)" }}>
@@ -110,9 +237,9 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
           marginBottom: 20,
         }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {filters.map(f => (
-              <FilterChip key={f} active={filter === f} onClick={() => onFilterChange(f)}>
-                <span style={{ textTransform: "capitalize" }}>{f}</span>
+            {filters.map(protectionLevel => (
+              <FilterChip key={protectionLevel} active={filter === protectionLevel} onClick={() => onFilterChange(protectionLevel)}>
+                <span style={{ textTransform: "capitalize" }}>{protectionLevel}</span>
               </FilterChip>
             ))}
           </div>
@@ -135,20 +262,74 @@ const Studies = ({ onOpenStudy, view, onViewChange, filter, onFilterChange }) =>
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
               }}><Icon name="list" size={14} /></button>
             </div>
-            <Button variant="secondary" icon="sliders" size="md">Filters</Button>
+            <Button variant="secondary" icon="sliders" size="md" onClick={() => setShowFilters(isOpen => !isOpen)}>{activeCount ? `Filters (${activeCount})` : "Filters"}</Button>
           </div>
         </div>
+
+        {showFilters && facets.length > 0 && (
+          <div style={{
+            background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8,
+            padding: "16px 18px", marginBottom: 20,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>Filters</span>
+              <button onClick={clearFacets} disabled={activeCount === 0} style={{
+                background: "transparent", border: "none", cursor: activeCount ? "pointer" : "default",
+                fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 500,
+                color: activeCount ? "var(--pixi-navy)" : "var(--fg-4)",
+              }}>Clear all</button>
+            </div>
+            <div style={{
+              display: "grid", gap: 24,
+              gridTemplateColumns: `repeat(${facets.length}, minmax(0, 1fr))`,
+              maxHeight: 280, overflow: "auto",
+            }}>
+              {facets.map(facet => (
+                <FacetSection key={facet.key} facet={facet} selected={selectionFor(facet.key)} onToggle={toggleFacet} counts={counts} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {error ? (
           <div style={{ padding: 24, color: "var(--danger)", fontSize: 14 }}>
             Couldn't load studies from PIXI backend.
           </div>
-        ) : view === "grid" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-            {filtered.map(s => <StudyCard key={s.id} study={s} onOpen={onOpenStudy} />)}
-          </div>
         ) : (
-          <StudiesList rows={filtered} onOpen={onOpenStudy} />
+          <React.Fragment>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>
+                {filtered.length} dataset{filtered.length === 1 ? "" : "s"}
+              </span>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {facets.flatMap(facet => [...selectionFor(facet.key)].map(option => (
+                  <button key={facet.key + option} onClick={() => toggleFacet(facet.key, option)} style={{
+                    display: "inline-flex", alignItems: "center", gap: 6, height: 24, padding: "0 6px 0 10px",
+                    borderRadius: 999, border: "1px solid var(--pixi-navy-line)",
+                    background: "var(--pixi-navy-soft)", color: "var(--pixi-navy)",
+                    fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600, cursor: "pointer",
+                  }}>
+                    {option}
+                    <Icon name="close" size={12} />
+                  </button>
+                )))}
+              </div>
+            </div>
+
+            {filtered.length === 0 ? (
+              <div style={{ padding: 48, textAlign: "center", color: "var(--fg-3)" }}>
+                <Icon name="search" size={24} color="var(--pixi-mist)" />
+                <div style={{ marginTop: 10, fontWeight: 600, color: "var(--fg-2)" }}>No datasets match these filters</div>
+                <div style={{ fontSize: 13, marginTop: 4 }}>Remove a filter to widen the search.</div>
+              </div>
+            ) : view === "grid" ? (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+                {filtered.map(study => <StudyCard key={study.id} study={study} onOpen={onOpenStudy} />)}
+              </div>
+            ) : (
+              <StudiesList rows={filtered} onOpen={onOpenStudy} />
+            )}
+          </React.Fragment>
         )}
       </div>
       <Footer />
@@ -164,37 +345,37 @@ const StudiesList = ({ rows, onOpen }) => (
     <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-sans)", fontSize: 13 }}>
       <thead>
         <tr>
-          {["Study","Area","Status","Subjects","Updated","Institution"].map((h, i) => (
-            <th key={i} style={{
-              textAlign: i >= 3 && i <= 4 ? "right" : "left",
+          {["Study","Area","Status","Subjects","Updated","Institution"].map((header, index) => (
+            <th key={index} style={{
+              textAlign: index >= 3 && index <= 4 ? "right" : "left",
               padding: "10px 14px",
               fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
               color: "var(--fg-3)", background: "var(--pixi-paper)",
               borderBottom: "1px solid var(--border-subtle)",
-            }}>{h}</th>
+            }}>{header}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {rows.map(s => (
-          <tr key={s.id} onClick={() => onOpen(s)} style={{ cursor: "pointer" }}
+        {rows.map(study => (
+          <tr key={study.id} onClick={() => onOpen(study)} style={{ cursor: "pointer" }}
               onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
               onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
             <td style={tdStyle}>
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{s.id}</span>
-                <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{s.title}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{study.id}</span>
+                <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{study.title}</span>
               </div>
             </td>
-            <td style={{ ...tdStyle, color: "var(--fg-2)" }}>{s.areaOfStudy}</td>
-            <td style={tdStyle}><Badge tone={s.protectionLevel} dot>{s.protectionLevel}</Badge></td>
-            <td style={{ ...tdStyle, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{s.subjects}</td>
-            <td style={{ ...tdStyle, textAlign: "right", color: "var(--fg-3)" }}>{s.updated}</td>
-            <td style={tdStyle}>{s.institution && (<span style={{
+            <td style={{ ...tdStyle, color: "var(--fg-2)" }}>{study.areaOfStudy}</td>
+            <td style={tdStyle}><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
+            <td style={{ ...tdStyle, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
+            <td style={{ ...tdStyle, textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
+            <td style={tdStyle}>{study.institution && (<span style={{
               display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
               fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
               color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-            }}>{s.institution}</span>)}</td>
+            }}>{study.institution}</span>)}</td>
           </tr>
         ))}
       </tbody>

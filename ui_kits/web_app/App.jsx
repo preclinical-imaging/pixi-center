@@ -29,7 +29,7 @@ const App = () => {
   );
   const [studiesFilter, setStudiesFilter] = React.useState(() => {
     const f = pixiSsGet(PIXI_SS.filter);
-    return ["All", "public", "protected", "draft"].includes(f) ? f : "All";
+    return ["All", "public", "protected"].includes(f) ? f : "All";
   });
   
   const mainRef = React.useRef(null);
