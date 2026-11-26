@@ -93,10 +93,10 @@ const StudyCard = ({ study, onOpen }) => {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
         <div style={{ minWidth: 0 }}>
-          <Eyebrow mono>{study.id} · {study.areaOfStudy}</Eyebrow>
+          <Eyebrow>{study.id} · {study.areaOfStudy}</Eyebrow>
           <div style={{
             marginTop: 6,
-            fontFamily: "var(--font-display)", fontSize: 17, fontWeight: 600,
+            fontFamily: "var(--font-sans)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", color: "var(--fg-1)",
             lineHeight: 1.25,
           }}>{study.title}</div>
@@ -109,12 +109,12 @@ const StudyCard = ({ study, onOpen }) => {
       }}>
         <div>
           <div className=".pixi-stat-label--num">Subjects</div>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
+          <div style={{ fontFamily: "var(--font-sans)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.subjects}</div>
         </div>
         <div>
           <div className=".pixi-stat-label--num">Sessions</div>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,
+          <div style={{ fontFamily: "var(--font-sans)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.sessions}</div>
         </div>
         <div>

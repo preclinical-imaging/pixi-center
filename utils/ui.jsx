@@ -388,13 +388,8 @@ const Callout = ({ children, tone = "info" }) => {
 };
 
 // --- Eyebrow / label ---
-const Eyebrow = ({ children, mono }) => (
-  <div style={{
-    fontFamily: mono ? "var(--font-mono)" : "var(--font-sans)",
-    fontSize: 11, fontWeight: 600,
-    letterSpacing: "0.12em", textTransform: "uppercase",
-    color: "var(--fg-3)",
-  }}>{children}</div>
+const Eyebrow = ({ children }) => (
+  <div className = ".pixi-eyebrow" >{children}</div>
 );
 
 const FormSection = ({ title, children }) => (

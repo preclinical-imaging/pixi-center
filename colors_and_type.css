@@ -141,8 +141,7 @@
 .pixi-display,
 .pixi-section-title,
 .pixi-app-title,
-.pixi-card-title,
-.pixi-eyebrow {
+.pixi-card-title {
   font-family: var(--font-display);
   color: var(--fg-1);
   margin: 0;
@@ -173,39 +172,43 @@
   letter-spacing: var(--tr-snug);
 }
 
+.pixi-lead,
+.pixi-body-lg,
+.pixi-body-sm,
+.pixi-caption,
 .pixi-eyebrow {
   font-family: var(--font-sans);
-  font-size: var(--fs-11);
-  letter-spacing: var(--tr-eyebrow);
-  text-transform: uppercase;
-  color: var(--fg-3);
+  font-weight: 600;
 }
 
 .pixi-lead {
-  font-family: var(--font-sans);
   font-size: var(--fs-18);
   line-height: var(--lh-loose);
-  color: var(--fg-2);
+  color: var(--fg-1);
 }
 
-.pixi-body {
-  font-family: var(--font-sans);
+.pixi-body-lg {
   font-size: var(--fs-16);
   line-height: var(--lh-normal);
   color: var(--fg-1);
 }
 
 .pixi-body-sm {
-  font-family: var(--font-sans);
   font-size: var(--fs-14);
   line-height: var(--lh-normal);
   color: var(--fg-2);
 }
 
 .pixi-caption {
-  font-family: var(--font-sans);
   font-size: var(--fs-13);
   line-height: var(--lh-normal);
+  color: var(--fg-3);
+}
+
+.pixi-eyebrow {
+  font-size: var(--fs-12);
+  letter-spacing: var(--tr-eyebrow);
+  text-transform: uppercase;
   color: var(--fg-3);
 }
 
@@ -224,20 +227,6 @@
   color: var(--pixi-ink);
 }
 
-/* ============================================================
-   Base reset for prototypes using this system
-   ============================================================ */
-
-.pixi-root {
-  font-family: var(--font-sans);
-  color: var(--fg-1);
-  background: var(--bg-page);
-  font-size: var(--fs-16);
-  line-height: var(--lh-normal);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .pixi-td {
   padding: 12px 14px; 
   border-bottom: 1px solid var(--border-subtle);
@@ -253,3 +242,17 @@
 }
 .pixi-stat-label--num  { margin-bottom: 2px; }
 .pixi-stat-label--tags { margin-bottom: 4px; }
+
+/* ============================================================
+   Base reset for prototypes using this system
+   ============================================================ */
+
+.pixi-root {
+  font-family: var(--font-sans);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  font-size: var(--fs-16);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

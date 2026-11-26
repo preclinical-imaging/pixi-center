@@ -27,7 +27,7 @@ const StudyDetail = ({ study }) => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24, marginBottom: 16 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-              <Eyebrow mono>{study.id}</Eyebrow>
+              <Eyebrow >{study.id}</Eyebrow>
               <span style={{ color: "var(--fg-4)" }}>·</span>
               <Eyebrow>{study.areaOfStudy}</Eyebrow>
               <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>

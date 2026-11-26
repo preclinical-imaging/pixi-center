@@ -25,7 +25,7 @@ const Hero = () => {
       maxWidth: 1320, margin: "0 auto",
     }}>
       <div>
-        <Eyebrow mono>Preclinical research · open data</Eyebrow>
+        <Eyebrow >Preclinical research · open data</Eyebrow>
         <h1 className = "pixi-display" style={{ marginTop: 14, marginBottom: 18}}>
           A shared workbench for <span style={{color:"var(--pixi-navy)"}}>preclinical</span> imaging research.
         </h1>
@@ -158,7 +158,7 @@ const DatasetCard = ({ study }) => {
        }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-          <Eyebrow mono>{study.id}</Eyebrow>
+          <Eyebrow >{study.id}</Eyebrow>
           <Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge>
         </div>
         <div>
