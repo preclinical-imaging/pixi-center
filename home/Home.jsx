@@ -185,16 +185,11 @@ const DatasetCard = ({ study }) => {
         </div>
         <div>
           <div className="pixi-stat-label--tags">Modalities</div>
-          <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
+          <td><Modalities modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        {study.institution && (<span style={{
-            display: "inline-flex", alignItems: "center", height: 22, padding: "0 8px",
-            fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
-            color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-          }}>{study.institution}</span>
-        )}
+        {study.institution && <Institution  institution={study.institution}/>}
         <span style={{ fontSize: 12, color: "var(--fg-3)" }}>updated {study.updated}</span>
       </div>
     </a>

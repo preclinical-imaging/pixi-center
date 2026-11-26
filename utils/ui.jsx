@@ -410,7 +410,7 @@ const Row = ({ children, cols = 2}) => (
   <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 16 }}>{children}</div>
 );
 
-const ModalitiesTag = ({ modalities, size }) => {
+const Modalities = ({ modalities, size }) => {
   const MODALITY_SIZES = {
     small: { fontSize: 11, pading: "2px 6px", radius: 4},
     large: { fontSize: 13, pading: "3px 9px", radius: 5},
@@ -429,4 +429,22 @@ const ModalitiesTag = ({ modalities, size }) => {
   )
 };
 
-Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow, FormSection, Row, ModalitiesTag});
+const Institution = ({ institution }) => {
+  return (
+    (<span style={{
+        display: "inline-flex", 
+        alignItems: "center", 
+        height: 22, 
+        padding: "0 9px",
+        fontSize: 11, 
+        fontWeight: 600, 
+        letterSpacing: "0.04em",
+        color: "var(--fg-2)", 
+        background: "var(--pixi-cloud)", 
+        borderRadius: 4,
+      }}>{institution}</span>
+    )
+  )
+};
+
+Object.assign(window, { PixiMark, Logo, Icon, Button, Badge, Avatar, AvatarStack, Field, TextArea, Select, MultiSelect, Callout, Eyebrow, FormSection, Row, Modalities, Institution});

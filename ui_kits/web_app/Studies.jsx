@@ -119,16 +119,11 @@ const StudyCard = ({ study, onOpen }) => {
         </div>
         <div>
           <div className="pixi-stat-label--tags">Modalities</div>
-          <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
+          <td><Modalities modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-        {study.institution && (<span style={{
-            display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
-            fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
-            color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-          }}>{study.institution}</span>
-        )}
+        {study.institution && <Institution  institution={study.institution}/>}
         <div style={{ fontSize: 12, color: "var(--fg-3)" }}>updated {study.updated}</div>
       </div>
     </button>
@@ -436,11 +431,7 @@ const StudiesList = ({ rows, onOpen, picked, onTogglePick, allPicked, onToggleAl
               <td className="pixi-td"><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
               <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
               <td className="pixi-td" style={{ textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
-              <td className="pixi-td">{study.institution && (<span style={{
-                display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
-                color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-              }}>{study.institution}</span>)}</td>
+              <td className="pixi-td">{study.institution && <Institution  institution={study.institution}/>}</td>
             </tr>
             )
         })}

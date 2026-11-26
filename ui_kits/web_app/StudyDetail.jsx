@@ -34,9 +34,7 @@ const StudyDetail = ({ study }) => {
             </div>
             <h1 className = "pixi-app-title">{study.title}</h1>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 10, color: "var(--fg-3)", fontSize: 13 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                {study.institution}
-              </span>
+              <Institution  institution={study.institution}/>
               <span>·</span>
               <span>Last Updated {study.updated}</span>
             </div>
@@ -63,7 +61,7 @@ const StudyDetail = ({ study }) => {
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
               textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 7 }}>Modalities</div>
-            <td><ModalitiesTag modalities={study.modalities} size = "large" /></td>
+            <td><Modalities modalities={study.modalities} size = "large" /></td>
           </div>
         </div>
 
