@@ -82,7 +82,7 @@ const FindCard = ({ icon, title, body }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        background: "#fff",
+        background: "--pixi-white",
         border: `1px solid ${hover ? "var(--border-default)" : "var(--border-subtle)"}`,
         borderRadius: 10, padding: "26px 24px",
         display: "flex", flexDirection: "column", gap: 14,
@@ -149,7 +149,7 @@ const DatasetCard = ({ study }) => {
        style={{
          textDecoration: "none", color: "inherit",
          display: "flex", flexDirection: "column", gap: 14,
-         padding: 18, background: "#fff",
+         padding: 18, background: "--pixi-white",
          border: `1px solid ${hover ? "var(--border-default)" : "var(--border-subtle)"}`,
          borderRadius: 8,
          boxShadow: hover ? "var(--shadow-sm)" : "none",
@@ -174,17 +174,17 @@ const DatasetCard = ({ study }) => {
         paddingTop: 10, borderTop: "1px solid var(--border-subtle)",
       }}>
         <div>
-          <div className=".pixi-stat-label--num">Subjects</div>
+          <div className="pixi-stat-label--num">Subjects</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</div>
         </div>
         <div>
-          <div className=".pixi-stat-label--num">Sessions</div>
+          <div className="pixi-stat-label--num">Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.sessions}</div>
         </div>
         <div>
-          <div className=".pixi-stat-label--tags">Modalities</div>
+          <div className="pixi-stat-label--tags">Modalities</div>
           <td><ModalitiesTag modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
