@@ -97,10 +97,7 @@ const Footer = () => (
             ["Contribute", [["Submit a dataset", "/submit-dataset/index.html"], ["Documentation", "#"], ["Contact", "/contact/index.html"]]],
           ].map(([title, items]) => (
             <div key={title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-                textTransform: "uppercase", color: "var(--fg-3)",
-              }}>{title}</div>
+              <div className = "pixi-label">{title}</div>
               {items.map(([label, href]) => (
                 <a key={label} href={href} style={{
                   color: "var(--fg-1)", textDecoration: "none", fontSize: 13,

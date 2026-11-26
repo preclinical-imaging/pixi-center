@@ -61,10 +61,7 @@ const Hero = () => {
                 letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums",
                 color: "var(--fg-1)",
               }}>{v.toLocaleString()}</div>
-              <div style={{
-                fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-                textTransform: "uppercase", color: "var(--fg-3)", marginTop: 2,
-              }}>{l}</div>
+              <div className = "pixi-label">{l}</div>
             </div>
           ))}
         </div>

@@ -233,7 +233,9 @@
   vertical-align: middle;
 }
 
-.pixi-label {
+.pixi-label,
+.pixi-label--num, 
+.pixi-label--tags {
   font-weight: 600; 
   letter-spacing: var(--tr-label);
   text-transform: uppercase; 

@@ -9,7 +9,7 @@ const PixiMark = ({ size = 28 }) => (
     <circle cx="36" cy="50" r="14" fill="var(--pixi-green)" />
     <circle cx="40" cy="50" r="10" fill="var(--pixi-white)" />
     {/* Yellow half disc */}
-    <path d="M58 38a12 12 0 0 1 0 24Z" fill="--pixi-yellow" />
+    <path d="M58 38a12 12 0 0 1 0 24Z" fill="var(--pixi-yellow)" />
   </svg>
 );
 
@@ -153,12 +153,12 @@ const AvatarStack = ({ people, max = 4, size = 24 }) => {
   return (
     <span style={{ display: "inline-flex" }}>
       {shown.map((p, i) => (
-        <span key={i} style={{ marginLeft: i ? -8 : 0, border: "2px solid --pixi-white", borderRadius: "50%", display: "inline-flex" }}>
+        <span key={i} style={{ marginLeft: i ? -8 : 0, border: "2px solid var(--pixi-white)", borderRadius: "50%", display: "inline-flex" }}>
           <Avatar initials={p} size={size} />
         </span>
       ))}
       {overflow > 0 && (
-        <span style={{ marginLeft: -8, border: "2px solid --pixi-white", borderRadius: "50%", display: "inline-flex" }}>
+        <span style={{ marginLeft: -8, border: "2px solid var(--pixi-white)", borderRadius: "50%", display: "inline-flex" }}>
           <Avatar initials={`+${overflow}`} size={size} color="#9DA1AA" />
         </span>
       )}

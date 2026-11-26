@@ -144,10 +144,7 @@ const Check = ({ checked }) => (
 
 const FacetSection = ({ facet, selected, onToggle, counts }) => (
   <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
-    <div style={{
-      fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
-      color: "var(--fg-3)", padding: "0 4px 6px",
-    }}>{facet.label}</div>
+    <div className = "pixi-label" style={{padding: "0 4px 6px"}}>{facet.label}</div>
     {facet.options.map(option => {
       const isSelected = selected.has(option);
       return (

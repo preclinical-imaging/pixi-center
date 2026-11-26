@@ -298,7 +298,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
               <div key={l} style={{
                 background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
               }}>
-                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 6 }}>{l}</div>
+                <div className = "pixi-label">{l}</div>
                 <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{v.toLocaleString()}</div>
               </div>
             ))}
