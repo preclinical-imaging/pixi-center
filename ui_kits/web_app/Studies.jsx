@@ -11,7 +11,7 @@ const FACET_DEFS = [
   { key: "institution", label: "Institution" },
 ];
 
-const FACETS_STORAGE_KEY = "pixi.studiesFacets";
+const PIXI_STUDIES_SS = { facet: "pixi.studiesFacets", picked: "pixi.studiesPicked"}
 const EMPTY_SET = new Set();
 
 const studyHas = (study, facet, option) =>
@@ -37,7 +37,7 @@ function buildFacets(studies) {
 // and coming back (Studies unmounts when a study is open).
 function loadFacetSelection() {
   try {
-    const storedSelection = JSON.parse(sessionStorage.getItem(FACETS_STORAGE_KEY) || "{}");
+    const storedSelection = JSON.parse(sessionStorage.getItem(PIXI_STUDIES_SS.facet) || "{}");
     const result = {};
     for (const facetKey of Object.keys(storedSelection)) {
       if (Array.isArray(storedSelection[facetKey])) {
@@ -55,7 +55,21 @@ function saveFacetSelection(selection) {
         storedSelection[facetKey] = [...selection[facetKey]];
       }
     }
-    sessionStorage.setItem(FACETS_STORAGE_KEY, JSON.stringify(storedSelection));
+    sessionStorage.setItem(PIXI_STUDIES_SS.facet, JSON.stringify(storedSelection));
+  } catch {}
+}
+
+function loadPicked() {
+  try {
+    const storedIds = JSON.parse(sessionStorage.getItem(PIXI_STUDIES_SS.picked) || "[]");
+    return new Set(Array.isArray(storedIds) ? storedIds : []);
+  } catch { 
+    return new Set(); 
+  }
+}
+function savePickedData(picked) {
+  try { 
+    sessionStorage.setItem(PIXI_STUDIES_SS.picked, JSON.stringify([...picked])); 
   } catch {}
 }
 
@@ -196,6 +210,27 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
     })
   );
 
+  const [picked, setPicked] = React.useState(loadPicked);
+  React.useEffect(() => savePickedData(picked), [picked]);
+
+  const allShownPicked = filtered.length > 0 && filtered.every(study => picked.has(study.id));
+
+  const toggleAllShown = () => setPicked(prevPicked => {
+    const nextPicked = new Set(prevPicked);
+    if (allShownPicked) filtered.forEach(study => nextPicked.delete(study.id));
+    else filtered.forEach(study => nextPicked.add(study.id));
+    return nextPicked;
+  });
+  const togglePick = (id) => setPicked(prevPicked => {
+    const nextPicked = new Set(prevPicked);
+    nextPicked.has(id) ? nextPicked.delete(id) : nextPicked.add(id);
+    return nextPicked;
+  });
+
+  const pickedStudies = studies.filter(study => picked.has(study.id));
+  const pickedSubjects = pickedStudies.reduce((total, study) => total + (Number(study.subjects) || 0), 0);
+
+
   // Counts are performed over the full study list (they don't shrink as you filter).
   const counts = React.useMemo(() => {
     const countsByOption = {};
@@ -312,15 +347,48 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
             {filtered.map(study => <StudyCard key={study.id} study={study} onOpen={onOpenStudy} />)}
           </div>
         ) : (
-          <StudiesList rows={filtered} onOpen={onOpenStudy} />
+          <StudiesList
+            rows={filtered} onOpen={onOpenStudy}
+            picked={picked} onTogglePick={togglePick}
+            allPicked={allShownPicked} onToggleAll={toggleAllShown}
+          />
         )}
       </div>
       <Footer />
+      {pickedStudies.length > 0 && (
+        <div style={{
+          position: "fixed", left: 32, bottom: 20, zIndex: 30,
+          right: showFilters && facets.length > 0 ? FILTER_DRAWER_WIDTH + 32 : 32,
+          background: "var(--pixi-ink)", color: "#fff", borderRadius: 10,
+          boxShadow: "0 8px 16px rgba(16,24,40,.10), 0 16px 40px rgba(16,24,40,.18)",
+          display: "flex", alignItems: "center", gap: 16, padding: "12px 16px",
+        }}>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>
+            {pickedStudies.length} dataset{pickedStudies.length === 1 ? "" : "s"} selected
+          </span>
+          <span style={{ fontSize: 13, color: "rgba(255,255,255,.6)" }}>· {pickedSubjects} subjects</span>
+          <div style={{ flex: 1 }} />
+          <button onClick={() => setPicked(new Set())} style={{
+            height: 34, padding: "0 14px", borderRadius: 6, cursor: "pointer",
+            background: "transparent", border: "1px solid rgba(255,255,255,.22)", color: "#fff",
+            fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 500,
+          }}>Clear</button>
+          <button onClick={() => alert(`Added ${pickedStudies.length} datasets (${pickedSubjects} subjects) to working set (mock)`)} style={{
+            height: 34, padding: "0 16px", borderRadius: 6, cursor: "pointer",
+            background: "var(--pixi-green)", border: "1px solid transparent", color: "#fff",
+            fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600,
+            display: "inline-flex", alignItems: "center", gap: 8,
+          }}>
+            <Icon name="plus" size={16} /> 
+          </button>
+        </div>
+      )}
+
     </div>
   );
 };
 
-const StudiesList = ({ rows, onOpen }) => (
+const StudiesList = ({ rows, onOpen, picked, onTogglePick, allPicked, onToggleAll}) => (
   <div style={{
     background: "#fff", border: "1px solid var(--border-subtle)", borderRadius: 8,
     overflow: "hidden",
@@ -328,10 +396,18 @@ const StudiesList = ({ rows, onOpen }) => (
     <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-sans)", fontSize: 13 }}>
       <thead>
         <tr>
+          <th style={{
+            width: 44, padding: "10px 14px", textAlign: "left",
+            background: "var(--pixi-paper)", borderBottom: "1px solid var(--border-subtle)",
+          }}>
+            <button onClick={onToggleAll}
+              style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "inline-flex" }}>
+              <Check checked={allPicked} />
+            </button>
+          </th>
           {["Study","Area","Status","Subjects","Updated","Institution"].map((header, index) => (
             <th key={index} style={{
-              textAlign: index >= 3 && index <= 4 ? "right" : "left",
-              padding: "10px 14px",
+              textAlign: index >= 3 && index <= 4 ? "right" : "left", padding: "10px 14px",
               fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
               color: "var(--fg-3)", background: "var(--pixi-paper)",
               borderBottom: "1px solid var(--border-subtle)",
@@ -340,31 +416,37 @@ const StudiesList = ({ rows, onOpen }) => (
         </tr>
       </thead>
       <tbody>
-        {rows.map(study => (
-          <tr key={study.id} onClick={() => onOpen(study)} style={{ cursor: "pointer" }}
-              onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
-              onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
-            <td className="pixi-td">
-              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{study.id}</span>
-                <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{study.title}</span>
-              </div>
-            </td>
-            <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{study.areaOfStudy}</td>
-            <td className="pixi-td"><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
-            <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
-            <td style={{ textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
-            <td className="pixi-td">{study.institution && (<span style={{
-              display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
-              fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
-              color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
-            }}>{study.institution}</span>)}</td>
-          </tr>
-        ))}
+        {rows.map(study => {
+          const isPicked = picked.has(study.id);
+          return (
+            <tr key={study.id} onClick={() => onOpen(study)} style={{ cursor: "pointer" }}
+                onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
+                onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
+              <td className="pixi-td" style={{ paddingLeft: 16 }}
+                  onClick={e => { e.stopPropagation(); onTogglePick(study.id); }}>
+                <span style={{ display: "inline-flex" }}><Check checked={isPicked} /></span>
+              </td>
+              <td className="pixi-td">
+                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-3)" }}>{study.id}</span>
+                  <span style={{ fontWeight: 600, color: "var(--fg-1)" }}>{study.title}</span>
+                </div>
+              </td>
+              <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{study.areaOfStudy}</td>
+              <td className="pixi-td"><Badge tone={study.protectionLevel} dot>{study.protectionLevel}</Badge></td>
+              <td className="pixi-td" style={{ textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</td>
+              <td className="pixi-td" style={{ textAlign: "right", color: "var(--fg-3)" }}>{study.updated}</td>
+              <td className="pixi-td">{study.institution && (<span style={{
+                display: "inline-flex", alignItems: "center", height: 22, padding: "0 9px",
+                fontSize: 11, fontWeight: 600, letterSpacing: "0.04em",
+                color: "var(--fg-2)", background: "var(--pixi-cloud)", borderRadius: 4,
+              }}>{study.institution}</span>)}</td>
+            </tr>
+            )
+        })}
       </tbody>
     </table>
   </div>
 );
-
 
 Object.assign(window, { Studies });

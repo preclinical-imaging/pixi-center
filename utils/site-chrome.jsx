@@ -5,7 +5,7 @@
 const NAV = [
   { label: "Dashboard", href: "/ui_kits/web_app/index.html#"},
   { label: "Datasets", href: "/ui_kits/web_app/index.html#studies" },
-  { label: "Cohort Browser", href: "/ui_kits/web_app/index.html#cohorts" },
+  // { label: "Cohort Browser", href: "/ui_kits/web_app/index.html#cohorts" },
   { label: "About", href: "/about/index.html" },
 ];
 
@@ -58,7 +58,7 @@ const TopNav = () => {
         <Icon name="search" size={16} color="var(--fg-3)" />
         <input
           name="searchValue"
-          placeholder="Search XNAT for studies, subjects, files…"
+          placeholder="Search PIXI for studies, subjects, files…"
           style={{
             flex: 1, border: "none", background: "transparent", outline: "none",
             fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--fg-1)",
