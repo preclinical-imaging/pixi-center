@@ -82,7 +82,7 @@ const FindCard = ({ icon, title, body }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        background: "--pixi-white",
+        background: "var(--pixi-white)",
         border: `1px solid ${hover ? "var(--border-default)" : "var(--border-subtle)"}`,
         borderRadius: 10, padding: "26px 24px",
         display: "flex", flexDirection: "column", gap: 14,
@@ -149,7 +149,7 @@ const DatasetCard = ({ study }) => {
        style={{
          textDecoration: "none", color: "inherit",
          display: "flex", flexDirection: "column", gap: 14,
-         padding: 18, background: "--pixi-white",
+         padding: 18, background: "var(--pixi-white)",
          border: `1px solid ${hover ? "var(--border-default)" : "var(--border-subtle)"}`,
          borderRadius: 8,
          boxShadow: hover ? "var(--shadow-sm)" : "none",

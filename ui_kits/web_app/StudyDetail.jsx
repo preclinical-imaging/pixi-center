@@ -23,7 +23,7 @@ const StudyDetail = ({ study }) => {
   return (
     <div style={{ fontFamily: "var(--font-sans)" }}>
       {/* Header */}
-      <div style={{ padding: "20px 32px 0", background: "--pixi-white", borderBottom: "1px solid var(--border-subtle)" }}>
+      <div style={{ padding: "20px 32px 0", background: "var(--pixi-white)", borderBottom: "1px solid var(--border-subtle)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24, marginBottom: 16 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
@@ -81,7 +81,7 @@ const StudyDetail = ({ study }) => {
         {tab === "terms" && <Terms study={study} />}
         {tab !== "subjects" && tab !== "overview" && tab !== "terms" && (
           <div style={{
-            padding: 60, textAlign: "center", background: "--pixi-white",
+            padding: 60, textAlign: "center", background: "var(--pixi-white)",
             border: "1px solid var(--border-subtle)", borderRadius: 8, color: "var(--fg-3)",
           }}>
             <Icon name="layers" size={32} color="var(--pixi-mist)" />
@@ -96,7 +96,7 @@ const StudyDetail = ({ study }) => {
 };
 
 const OverviewCard = ({ eyebrow, children }) => (
-  <div style={{ background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
+  <div style={{ background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
     <Eyebrow>{eyebrow}</Eyebrow>
     {children}
   </div>
@@ -143,7 +143,7 @@ const Overview = ({ study }) => (
         </div>
       </OverviewCard>
     </div>
-    <div style={{ background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
+    <div style={{ background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 20 }}>
       <Eyebrow>Resource files</Eyebrow>
       <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
         {(study.resources || []).map((file, i) => (
@@ -208,7 +208,7 @@ const KV = ({ label, value, mono }) => (
 );
 
 const SubjectsTable = ({ rows, onOpen }) => (
-  <div style={{ background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, overflow: "hidden" }}>
+  <div style={{ background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, overflow: "hidden" }}>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
       padding: "12px 16px", borderBottom: "1px solid var(--border-subtle)" }}>
       <div style={{ fontSize: 13, fontWeight: 600 }}>{rows.length} subjects</div>
@@ -235,7 +235,7 @@ const SubjectsTable = ({ rows, onOpen }) => (
         {rows.map(s => (
           <tr key={s.id} onClick={() => onOpen(s)} style={{ cursor: "pointer" }}
               onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
-              onMouseLeave={e => e.currentTarget.style.background = "--pixi-white"}>
+              onMouseLeave={e => e.currentTarget.style.background = "var(--pixi-white)"}>
             <td className="pixi-td" style={{ fontFamily: "var(--font-mono)", fontWeight: 500, color: "var(--fg-1)" }}>{s.id}</td>
             <td className="pixi-td" style={{ color: "var(--fg-2)" }}>{s.cohort}</td>
             <td className="pixi-td" style={{ textAlign: "center", color: "var(--fg-2)" }}>{s.sex}</td>

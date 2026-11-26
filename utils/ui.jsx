@@ -6,8 +6,8 @@ const PixiMark = ({ size = 28 }) => (
     {/* Open C ring — navy */}
     <path d="M50 8a42 42 0 1 0 42 42h-12a30 30 0 1 1-30-30Z" fill="#1E3C87" />
     {/* Green crescent inside */}
-    <circle cx="36" cy="50" r="14" fill="--pixi-green" />
-    <circle cx="40" cy="50" r="10" fill="--pixi-white" />
+    <circle cx="36" cy="50" r="14" fill="var(--pixi-green)" />
+    <circle cx="40" cy="50" r="10" fill="var(--pixi-white)" />
     {/* Yellow half disc */}
     <path d="M58 38a12 12 0 0 1 0 24Z" fill="--pixi-yellow" />
   </svg>
@@ -75,10 +75,10 @@ const Button = ({ children, variant = "secondary", size = "md", icon, onClick, t
   };
   const s = sizes[size];
   const variants = {
-    primary: { bg: "var(--pixi-navy)", color: "--pixi-white", border: "transparent", hover: "var(--pixi-navy-deep)" },
-    secondary: { bg: "--pixi-white", color: "var(--pixi-ink)", border: "var(--border-default)", hover: "var(--pixi-cloud)" },
+    primary: { bg: "var(--pixi-navy)", color: "var(--pixi-white)", border: "transparent", hover: "var(--pixi-navy-deep)" },
+    secondary: { bg: "var(--pixi-white)", color: "var(--pixi-ink)", border: "var(--border-default)", hover: "var(--pixi-cloud)" },
     ghost: { bg: "transparent", color: "var(--pixi-ink)", border: "transparent", hover: "var(--pixi-cloud)" },
-    danger: { bg: "--pixi-white", color: "var(--danger)", border: "#F0BBB6", hover: "var(--danger-bg)" },
+    danger: { bg: "var(--pixi-white)", color: "var(--danger)", border: "#F0BBB6", hover: "var(--danger-bg)" },
   };
   const v = variants[variant];
   const [hover, setHover] = React.useState(false);
@@ -139,7 +139,7 @@ const Avatar = ({ initials, size = 28, color }) => {
   return (
     <span style={{
       width: size, height: size, borderRadius: "50%",
-      background: c, color: "--pixi-white",
+      background: c, color: "var(--pixi-white)",
       fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: size * 0.38,
       display: "inline-flex", alignItems: "center", justifyContent: "center",
       flexShrink: 0,
@@ -191,7 +191,7 @@ const Field = ({ label, value, onChange, placeholder, error, type = "text", requ
           height: 36, padding: "0 12px", borderRadius: 6,
           border: `1px solid ${error ? "var(--danger)" : focus ? "var(--pixi-navy)" : "var(--border-default)"}`,
           boxShadow: focus ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
-          background: "--pixi-white",
+          background: "var(--pixi-white)",
           fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--fg-1)",
           outline: "none",
         }}
@@ -219,7 +219,7 @@ const TextArea = ({ label, value, onChange, placeholder, error, required, rows =
           padding: "10px 12px", borderRadius: 6, resize: "vertical",
           border: `1px solid ${error ? "var(--danger)" : focus ? "var(--pixi-navy)" : "var(--border-default)"}`,
           boxShadow: focus ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
-          background: "--pixi-white",
+          background: "var(--pixi-white)",
           fontFamily: "var(--font-sans)", fontSize: 14, color: "var(--fg-1)",
           outline: "none", lineHeight: 1.5,
         }}
@@ -247,7 +247,7 @@ const Select = ({ label, value, onChange, options, placeholder = "Select…", er
             width: "100%", height: 36, padding: "0 32px 0 12px", borderRadius: 6,
             border: `1px solid ${error ? "var(--danger)" : focus ? "var(--pixi-navy)" : "var(--border-default)"}`,
             boxShadow: focus ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
-            background: "--pixi-white", appearance: "none",
+            background: "var(--pixi-white)", appearance: "none",
             fontFamily: "var(--font-sans)", fontSize: 14,
             color: value ? "var(--fg-1)" : "var(--fg-3)",
             outline: "none", cursor: "pointer",
@@ -301,7 +301,7 @@ const MultiSelect = ({ label, value = [], onChange, options, placeholder = "Choo
           minHeight: 36, padding: "5px 8px", borderRadius: 6, cursor: "text",
           border: `1px solid ${error ? "var(--danger)" : open ? "var(--pixi-navy)" : "var(--border-default)"}`,
           boxShadow: open ? "0 0 0 3px rgba(30,60,135,.20)" : "none",
-          background: "--pixi-white",
+          background: "var(--pixi-white)",
         }}
       >
         {value.map(v => (
@@ -341,7 +341,7 @@ const MultiSelect = ({ label, value = [], onChange, options, placeholder = "Choo
       {open && (
         <div style={{
           position: "absolute", top: "100%", left: 0, right: 0, marginTop: 4, zIndex: 20,
-          background: "--pixi-white", border: "1px solid var(--border-default)", borderRadius: 8,
+          background: "var(--pixi-white)", border: "1px solid var(--border-default)", borderRadius: 8,
           boxShadow: "var(--shadow-sm, 0 4px 16px rgba(20,24,32,.12))",
           maxHeight: 260, overflowY: "auto", padding: 4,
         }}>
@@ -393,7 +393,7 @@ const Eyebrow = ({ children }) => (
 );
 
 const FormSection = ({ title, children }) => (
-  <div style={{ background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 24 }}>
+  <div style={{ background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 24 }}>
     {title && (
       <h2 style={{
         margin: "0 0 16px", fontFamily: "var(--font-display)", fontSize: 18, fontWeight: 600,

@@ -108,7 +108,7 @@ const ContactThanks = () => (
   <section style={{ padding: "40px 40px 96px", maxWidth: 720, margin: "0 auto" }}>
     <div style={{
       maxWidth: 560, margin: "64px auto 0", textAlign: "center",
-      background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: "48px 40px",
+      background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: "48px 40px",
     }}>
       <div style={{
         width: 56, height: 56, borderRadius: "50%", background: "var(--pixi-green-soft)",

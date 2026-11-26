@@ -204,7 +204,7 @@ const SessionsByModalityChart = ({ modalities }) => {
 
   return (
     <div style={{
-      background: "--pixi-white",
+      background: "var(--pixi-white)",
       borderRadius: 12,
       border: "1px solid var(--border-default)",
       padding: "28px 28px 24px",
@@ -220,7 +220,7 @@ const SessionsByModalityChart = ({ modalities }) => {
           style={{ flex: "1 1 0", minWidth: 120, maxWidth: 340, height: "auto", opacity: mounted ? 1 : 0, transition: "opacity 480ms var(--ease-out)" }}>          
           {pieChartSlices.map(s => (
             <path key={s.modality} d={donutSlicePath(cx, cy, rOuter, rInner, s.startAngle, s.endAngle)}
-                  fill={s.color} stroke="--pixi-white" strokeWidth={2} />
+                  fill={s.color} stroke="var(--pixi-white)" strokeWidth={2} />
           ))}
           <text x={cx} y={cy - 6} textAnchor="middle" style={{
             fontFamily: "var(--font-display)", fontSize: 22, fontWeight: 600,
@@ -296,7 +296,7 @@ const HomeView = ({ onOpenStudy, onNavigate }) => {
               ["Disease Areas", stats.diseaseAreas]
             ].map(([l, v]) => (
               <div key={l} style={{
-                background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
+                background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 16,
               }}>
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 6 }}>{l}</div>
                 <div style={{ fontFamily: "var(--font-display)", fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em", color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{v.toLocaleString()}</div>

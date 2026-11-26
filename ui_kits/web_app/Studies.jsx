@@ -82,7 +82,7 @@ const StudyCard = ({ study, onOpen }) => {
       onMouseLeave={() => setHover(false)}
       style={{
         textAlign: "left", padding: 18, gap: 14,
-        background: "--pixi-white",
+        background: "var(--pixi-white)",
         border: `1px solid ${hover ? "var(--border-default)" : "var(--border-subtle)"}`,
         borderRadius: 8, cursor: "pointer",
         display: "flex", flexDirection: "column",
@@ -134,11 +134,11 @@ const Check = ({ checked }) => (
   <span style={{
     width: 16, height: 16, borderRadius: 4, flexShrink: 0,
     border: `1.5px solid ${checked ? "var(--pixi-navy)" : "var(--border-strong)"}`,
-    background: checked ? "var(--pixi-navy)" : "--pixi-white",
+    background: checked ? "var(--pixi-navy)" : "var(--pixi-white)",
     display: "inline-flex", alignItems: "center", justifyContent: "center",
     transition: "background 120ms, border-color 120ms",
   }}>
-    {checked && <Icon name="check" size={12} color="--pixi-white" />}
+    {checked && <Icon name="check" size={12} color="var(--pixi-white)" />}
   </span>
 );
 
@@ -277,14 +277,14 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
             }}>
               <button onClick={() => onViewChange("grid")} style={{
                 width: 36, border: "none", cursor: "pointer",
-                background: view === "grid" ? "var(--pixi-cloud)" : "--pixi-white",
+                background: view === "grid" ? "var(--pixi-cloud)" : "var(--pixi-white)",
                 color: view === "grid" ? "var(--pixi-ink)" : "var(--fg-3)",
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
               }}><Icon name="grid" size={14} /></button>
               <button onClick={() => onViewChange("list")} style={{
                 width: 36, border: "none", cursor: "pointer",
                 borderLeft: "1px solid var(--border-subtle)",
-                background: view === "list" ? "var(--pixi-cloud)" : "--pixi-white",
+                background: view === "list" ? "var(--pixi-cloud)" : "var(--pixi-white)",
                 color: view === "list" ? "var(--pixi-ink)" : "var(--fg-3)",
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
               }}><Icon name="list" size={14} /></button>
@@ -296,7 +296,7 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
         {facets.length > 0 && (
           <aside aria-hidden={!showFilters} style={{
             position: "fixed", top: NAV_HEIGHT, right: 0, bottom: 0, width: FILTER_DRAWER_WIDTH,
-            zIndex: 20, background: "--pixi-white", borderLeft: "1px solid var(--border-subtle)",
+            zIndex: 20, background: "var(--pixi-white)", borderLeft: "1px solid var(--border-subtle)",
             boxShadow: showFilters ? "var(--shadow-sm)" : "none",
             display: "flex", flexDirection: "column",
             transform: showFilters ? "translateX(0)" : "translateX(100%)",
@@ -354,7 +354,7 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
         <div style={{
           position: "fixed", left: 32, bottom: 20, zIndex: 30,
           right: showFilters && facets.length > 0 ? FILTER_DRAWER_WIDTH + 32 : 32,
-          background: "var(--pixi-ink)", color: "--pixi-white", borderRadius: 10,
+          background: "var(--pixi-ink)", color: "var(--pixi-white)", borderRadius: 10,
           boxShadow: "0 8px 16px rgba(16,24,40,.10), 0 16px 40px rgba(16,24,40,.18)",
           display: "flex", alignItems: "center", gap: 16, padding: "12px 16px",
         }}>
@@ -365,12 +365,12 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
           <div style={{ flex: 1 }} />
           <button onClick={() => setPicked(new Set())} style={{
             height: 34, padding: "0 14px", borderRadius: 6, cursor: "pointer",
-            background: "transparent", border: "1px solid rgba(255,255,255,.22)", color: "--pixi-white",
+            background: "transparent", border: "1px solid rgba(255,255,255,.22)", color: "var(--pixi-white)",
             fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 500,
           }}>Clear</button>
           <button onClick={() => alert(`Added ${pickedStudies.length} datasets (${pickedSubjects} subjects) to working set (mock)`)} style={{
             height: 34, padding: "0 16px", borderRadius: 6, cursor: "pointer",
-            background: "var(--pixi-green)", border: "1px solid transparent", color: "--pixi-white",
+            background: "var(--pixi-green)", border: "1px solid transparent", color: "var(--pixi-white)",
             fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600,
             display: "inline-flex", alignItems: "center", gap: 8,
           }}>
@@ -385,7 +385,7 @@ const Studies = ({ onOpenStudy, view, onViewChange }) => {
 
 const StudiesList = ({ rows, onOpen, picked, onTogglePick, allPicked, onToggleAll}) => (
   <div style={{
-    background: "--pixi-white", border: "1px solid var(--border-subtle)", borderRadius: 8,
+    background: "var(--pixi-white)", border: "1px solid var(--border-subtle)", borderRadius: 8,
     overflow: "hidden",
   }}>
     <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "var(--font-sans)", fontSize: 13 }}>
@@ -416,7 +416,7 @@ const StudiesList = ({ rows, onOpen, picked, onTogglePick, allPicked, onToggleAl
           return (
             <tr key={study.id} onClick={() => onOpen(study)} style={{ cursor: "pointer" }}
                 onMouseEnter={e => e.currentTarget.style.background = "var(--pixi-paper)"}
-                onMouseLeave={e => e.currentTarget.style.background = "--pixi-white"}>
+                onMouseLeave={e => e.currentTarget.style.background = "var(--pixi-white)"}>
               <td className="pixi-td" style={{ paddingLeft: 16 }}
                   onClick={e => { e.stopPropagation(); onTogglePick(study.id); }}>
                 <span style={{ display: "inline-flex" }}><Check checked={isPicked} /></span>

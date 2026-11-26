@@ -71,7 +71,7 @@ const TopNav = () => {
 
 const Footer = () => (
   <footer style={{
-    background: "--pixi-white",
+    background: "var(--pixi-white)",
     padding: "40px 40px 28px",
     fontFamily: "var(--font-sans)",
   }}>
