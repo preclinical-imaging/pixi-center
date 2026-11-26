@@ -90,11 +90,12 @@
   --lh-loose:  1.65;
 
   /* ---------- Letter spacing ---------- */
-  --tr-tight:  -0.02em;
-  --tr-snug:   -0.01em;
+  --tr-tight: -0.02em;
+  --tr-snug: -0.01em;
   --tr-normal: 0;
-  --tr-wide:   0.04em;
-  --tr-eyebrow: 0.12em;  /* uppercase labels */
+  --tr-wide: 0.04em;
+  --tr-label: 0.08em;
+  --tr-eyebrow: 0.12em;
 
   /* ---------- Spacing (4px base) ---------- */
   --sp-1:  4px;
@@ -232,15 +233,16 @@
   vertical-align: middle;
 }
 
-.pixi-stat-label {
-  font-size: 10px; 
+.pixi-label {
   font-weight: 600; 
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tr-label);
   text-transform: uppercase; 
   color: var(--fg-3);
+  font-size: var(--fs-10);
 }
-.pixi-stat-label--num  { margin-bottom: 2px; }
-.pixi-stat-label--tags { margin-bottom: 4px; }
+
+.pixi-label--num  { margin-bottom: 2px; }
+.pixi-label--tags { margin-bottom: 4px; }
 
 /* ============================================================
    Base reset for prototypes using this system

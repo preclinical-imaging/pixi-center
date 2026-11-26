@@ -52,15 +52,13 @@ const StudyDetail = ({ study }) => {
             ["Lead", study.lead],
           ].map(([l, v]) => (
             <div key={l}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-                textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 4 }}>{l}</div>
+              <div className = "pixi-label">{l}</div>
               <div style={{ fontFamily: "var(--font-display)", fontSize: 22, fontWeight: 600,
                 letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{v}</div>
             </div>
           ))}
           <div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-              textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 7 }}>Modalities</div>
+            <div className = "pixi-label">Modalities</div>
             <td><Modalities modalities={study.modalities} size = "large" /></td>
           </div>
         </div>
@@ -201,8 +199,7 @@ const Terms = ({ study }) => (
 
 const KV = ({ label, value, mono }) => (
   <div>
-    <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
-      textTransform: "uppercase", color: "var(--fg-3)", marginBottom: 3 }}>{label}</div>
+    <div className = "pixi-label">{label}</div>
     <div style={{ fontSize: 14, fontFamily: mono ? "var(--font-mono)" : "var(--font-sans)", color: "var(--fg-1)" }}>{value}</div>
   </div>
 );

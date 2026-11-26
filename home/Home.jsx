@@ -174,17 +174,17 @@ const DatasetCard = ({ study }) => {
         paddingTop: 10, borderTop: "1px solid var(--border-subtle)",
       }}>
         <div>
-          <div className="pixi-stat-label--num">Subjects</div>
+          <div className="pixi-label--num">Subjects</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.subjects}</div>
         </div>
         <div>
-          <div className="pixi-stat-label--num">Sessions</div>
+          <div className="pixi-label--num">Sessions</div>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums" }}>{study.sessions}</div>
         </div>
         <div>
-          <div className="pixi-stat-label--tags">Modalities</div>
+          <div className="pixi-label--tags">Modalities</div>
           <td><Modalities modalities={study.modalities} size = "small" /></td>
         </div>
       </div>

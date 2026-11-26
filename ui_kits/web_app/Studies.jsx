@@ -108,17 +108,17 @@ const StudyCard = ({ study, onOpen }) => {
         paddingTop: 12, borderTop: "1px solid var(--border-subtle)",
       }}>
         <div>
-          <div className="pixi-stat-label--num">Subjects</div>
+          <div className="pixi-label--num">Subjects</div>
           <div style={{ fontFamily: "var(--font-sans)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.subjects}</div>
         </div>
         <div>
-          <div className="pixi-stat-label--num">Sessions</div>
+          <div className="pixi-label--num">Sessions</div>
           <div style={{ fontFamily: "var(--font-sans)", fontSize: 18, fontWeight: 600,
             letterSpacing: "-0.01em", fontVariantNumeric: "tabular-nums", color: "var(--fg-1)" }}>{study.sessions}</div>
         </div>
         <div>
-          <div className="pixi-stat-label--tags">Modalities</div>
+          <div className="pixi-label--tags">Modalities</div>
           <td><Modalities modalities={study.modalities} size = "small" /></td>
         </div>
       </div>
