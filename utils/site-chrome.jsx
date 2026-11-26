@@ -5,7 +5,6 @@
 const NAV = [
   { label: "Dashboard", href: "/ui_kits/web_app/index.html#"},
   { label: "Datasets", href: "/ui_kits/web_app/index.html#studies" },
-  // { label: "Cohort Browser", href: "/ui_kits/web_app/index.html#cohorts" },
   { label: "About", href: "/about/index.html" },
 ];
 

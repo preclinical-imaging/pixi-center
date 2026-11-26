@@ -9,7 +9,6 @@ const pixiSsSet = (k, v) => { try { sessionStorage.setItem(k, v); } catch {} };
 // hashchange listener below, so a link that only changes the hash (no full
 // page reload — e.g. the address bar, or back/forward) still navigates.
 function navFromHash(hash) {
-  if (hash === "#cohorts") return "cohorts";
   if (hash === "#studies" || STUDY_HASH.test(hash)) return "studies";
   return "home";
 }
@@ -115,8 +114,7 @@ const App = () => {
   }, [nav, openStudy]);
 
   let view;
-  if (nav === "cohorts") view = <CohortBrowser />;
-  else if (openStudy) view = <StudyDetail study={openStudy}/>;
+  if (openStudy) view = <StudyDetail study={openStudy}/>;
   else if (nav === "studies") view = (
     <Studies
       onOpenStudy={onOpenStudy}
